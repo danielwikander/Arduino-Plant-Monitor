@@ -1,11 +1,17 @@
+//////////////////////////////
+//  Arduino Plant Monitor   //
+//                          //
+//  Reads sensor values and //
+//  prints to serial port.  // 
+//                          //
+//////////////////////////////
 
 // Imports
 #include <dht11.h>    // Library for DHT11 temperature and airmoisture sensor.
 
 // Variables
-int soilMoistureSensor = A0;  // Soil-moisture sensor on analog pin A0.
-int ledPin = 13;              // Built in arduino LED pin.
-int soilMoistureValue = 0;    // variable to store the value coming from the sensor
+const int soilMoistureSensor = A0;  // Soil-moisture sensor on analog pin A0.
+int soilMoistureValue = 0;          // variable to store the value coming from the sensor
 
 dht11 DHT11;          // Declares the DHT sensor as an object.
 #define DHT11PIN 7    // Declares the pin number for the DHT sensor.
@@ -34,8 +40,8 @@ void loop() {
 
   Serial.print("Air temperature (C):     ");
   Serial.println((float)DHT11.temperature); // Prints air temperature.
+  Serial.println("------------------------------");
 
   // Pause before next reading.
-  Serial.println("------------------------------");
   delay(5000);
 }
