@@ -4,8 +4,8 @@
 
 SoftwareSerial Serial1(6,7);
 
-char ssid[] = "LinnstraNet 1001 (2.4G)";
-char password[] = "Emma_Linnstrand96";
+char ssid[] = "xxx";
+char password[] = "xxx";
 int status = WL_IDLE_STATUS;
 
 void setup() {
