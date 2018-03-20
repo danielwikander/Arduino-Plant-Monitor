@@ -22,11 +22,10 @@ const int soilMoistureSensor = A0; // Soil-moisture sensor on analog pin A0.
 int soilMoistureValue = 0;         // variable to store the value coming from the sensor
 
 dht11 DHT11;       // Declares the DHT sensor as an object.
-#define DHT11PIN 7 // Declares the pin number for the DHT sensor.
+#define DHT11PIN 5 // Declares the pin number for the DHT sensor.
 
 // Main
 void setup() {
-  pinMode(ledPin, OUTPUT); // Declares the arduino LED as an output.
   Serial.begin(9600);      // Sets serial communication datarate to 9600 baud.
 
   //initializes ESP module
@@ -73,7 +72,6 @@ void loop() {
   Serial.println("------------------------------");
 
   // WiFi stuff:
-  //
   WiFiEspClient client = server.available();
 
   if (client) {
@@ -83,8 +81,8 @@ void loop() {
       if (client.available()) {
         client.print("Soil moisture level (%): ");
         client.println(percentageSoilMoistureValue);
-        client.print("Air humidity level (%):  ")
-        client.println(float)DHT11.humidity);
+        client.print("Air humidity level (%):  ");
+        client.println((float)DHT11.humidity);
         client.print("Air temperature (C):     ");
         client.println((float)DHT11.temperature);
       }
@@ -104,8 +102,7 @@ void loop() {
  * prints the ssid of the network, Arduinos IPv4-address
  * and MAC-Address.
  */
-void printWiFiStatus()
-{
+void printWiFiStatus() {
   Serial.print("SSID :");
   Serial.println(WiFi.SSID());
 
