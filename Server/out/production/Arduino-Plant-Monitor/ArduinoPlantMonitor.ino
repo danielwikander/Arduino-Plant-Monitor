@@ -7,22 +7,16 @@
 //////////////////////////////
 
 // Imports
-#include <WiFiEsp.h>
-#include <WiFiEspClient.h>
-#include <WiFiEspServer.h>
-#include <WiFiEspUdp.h>
 #include <SoftwareSerial.h> // Library for serial communication on other ports.
 #include <dht11.h>          // Library for DHT11 temperature and airmoisture sensor.
+#include "WiFiEsp.h"        // Library for ESP8266 wifi module.
 
 // Variables
-const byte rxPin = 7; // Wire this to Tx Pin of ESP8266
-const byte txPin = 6; // Wire this to Rx Pin of ESP8266
-
-SoftwareSerial Serial1(rxPin, txPin); // Sets ports as input / output ports for the wifi module.
-char ssid[] = "v a t t e n";          // Name of the wifi to connect to.
-char password[] = "labiblioteca";     // Passord of above wifi.
-int status = WL_IDLE_STATUS;          // Status of wifi connection.
-WiFiEspServer server(80);             // Creates server on port 80;
+SoftwareSerial Serial1(6, 7);     // Sets ports 6(rx) & 7(tx) as input / output ports for the wifi module.
+char ssid[] = "v a t t e n";      // Name of the wifi to connect to.
+char password[] = "labiblioteca"; // Passord of above wifi.
+int status = WL_IDLE_STATUS;      // Status of wifi connection.
+WiFiEspServer server(80);         // Creates server on port 80;
 
 const int soilMoistureSensor = A0; // Soil-moisture sensor on analog pin A0.
 const int lightSensor = A1;        // Light sensor on analog pin A1
@@ -34,9 +28,10 @@ dht11 DHT11;       // Declares the DHT sensor as an object.
 
 // Main
 void setup() {
-  Serial1.begin(9600);
+  Serial1.begin(115200); 
   Serial.begin(9600); // Sets serial communication datarate to 9600 baud.
-
+  Serial1.write("AT+UART_DEF=9600,8,1,0,0\r\n");
+  
   // Initializes ESP module
   WiFi.init(&Serial1);
 
@@ -45,7 +40,6 @@ void setup() {
     Serial.println("WiFi shield not present");
     delay(1000);
   }
-
   // Attempts to connect to WiFi network
   while (status != WL_CONNECTED) {
     Serial.print("Attempting to connect to ssid: ");
@@ -69,8 +63,8 @@ void loop() {
 
   // Light sensor stuff: (!!! Not calibrated yet !!!)
   lightSensorValue = analogRead(lightSensor); // Reads lightsensor value.
-  int percentageLightSensorValue = map(lightSensorValue, 1023, 200, 0 ,100); // converts to %
-
+  int percentageLightSensorValue = map(lightSensorValue, 1023, 200, 0 ,100); // converts to % 
+  
   // Air temperature and humidity sensor stuff:
   int chk = DHT11.read(DHT11PIN); // Reads the value from the sensor.
 
@@ -89,7 +83,6 @@ void loop() {
   Serial.println("------------------------------");
 
   delay(2000);
-
   // WiFi stuff:
   WiFiEspClient client = server.available();
 
@@ -106,7 +99,6 @@ void loop() {
         client.println((float)DHT11.humidity);
         client.print("Air temperature (C):     ");
         client.println((float)DHT11.temperature);
-        client.flush();
       }
     }
   }
@@ -115,7 +107,7 @@ void loop() {
   long rssi = WiFi.RSSI();
   Serial.print("Signal strength (RSSI): ");
   Serial.println(rssi);
-
+  
   // Pause before the next read/write cycle.
   delay(10000);
 }

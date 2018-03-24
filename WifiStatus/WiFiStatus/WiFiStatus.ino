@@ -4,8 +4,8 @@
 
 SoftwareSerial Serial1(6,7);
 
-char ssid[] = "xxx";
-char password[] = "xxx";
+char ssid[] = "v a t t e n";
+char password[] = "labiblioteca";
 int status = WL_IDLE_STATUS;
 
 void setup() {
