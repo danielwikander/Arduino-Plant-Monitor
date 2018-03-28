@@ -1,3 +1,6 @@
+Server/out
+ArduinoPlantMonitor/ArduinoPlantMonitorDemo/out.production.ArduinoPlantMonitorDemo/*
+
 ### Eclipse ###
 
 .metadata
