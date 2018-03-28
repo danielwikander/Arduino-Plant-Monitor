@@ -1,34 +1,70 @@
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
 
-public class Server {
-
-    private ServerSocket serverSocket;
-    private Socket clientSocket;
+public class Server implements Runnable {
     private int port;
+    private ServerSocket serverSocket;
+    private Socket socket;
+
+    // TODO: Ska vi lagra arduinoklienter tillsammans med användarnamn i samma hashmap?
+    private HashMap<ArduinoClient> arduinoClients;
+    private HashMap<DesktopClient> desktopClients;
+
 
     public Server(int port) {
         this.port = port;
-
         try {
             serverSocket = new ServerSocket(port);
-            while(true) {
-                clientSocket = serverSocket.accept();
-                BufferedReader br = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-
-                while (br.readLine() != null) {
-                    System.out.println(br.readLine());
-                }
-            }
-        } catch (IOException e)  { }
-
+            System.out.println("Server initiated. Listening on:" + port + " IP address: "
+                    + InetAddress.getLocalHost().getHostAddress());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        new Thread(this).start();
     }
 
-    public static void main(String[] args) {
-        Server server = new Server(80);
+    public void run() {
+        while (true) {
+            try {
+                socket = serverSocket.accept();
+                ClientHandler clientHandler = new ClientHandler(socket);
+                clientHandler.start();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public class ClientHandler extends Thread {
+        private Socket socket;
+
+        public ClientHandler(Socket socket) {
+            this.socket = socket;
+        }
+
+        public void run() {
+            try (ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+                    ObjectInputStream ois = new ObjectInputStream(socket.getInputStream())) {
+
+                if (ois.read() == 1) {
+                    arduinoClients.put();
+                }
+
+                while (!socket.isClosed()) {
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void main(String[] args) throws IOException {
 
     }
 }
