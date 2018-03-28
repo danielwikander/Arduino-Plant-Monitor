@@ -1,2 +1,4 @@
-/ArduinoController.class
-/ClientController.class
+/ArduinoController$ClientHandler.class
+/ArduinoController$ArduinoHandler.class
+/ArduinoEmulator.class
+/ArduinoEmulator$Connect.class
