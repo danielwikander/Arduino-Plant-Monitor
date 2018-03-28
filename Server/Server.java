@@ -12,8 +12,8 @@ public class Server implements Runnable {
     private Socket socket;
 
     // TODO: Ska vi lagra arduinoklienter tillsammans med användarnamn i samma hashmap?
-    private HashMap<ArduinoClient> arduinoClients;
-    private HashMap<DesktopClient> desktopClients;
+    private HashMap<String, ClientHandler> arduinoClients;
+    private HashMap<String, ClientHandler> desktopClients;
 
 
     public Server(int port) {
@@ -52,6 +52,8 @@ public class Server implements Runnable {
                     ObjectInputStream ois = new ObjectInputStream(socket.getInputStream())) {
 
                 if (ois.read() == 1) {
+
+                    // TODO: Username, client?
                     arduinoClients.put();
                 }
 
