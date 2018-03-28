@@ -21,11 +21,10 @@ public class Server {
                 clientSocket = serverSocket.accept();
                 BufferedReader br = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
-                while (true) {
-                    String line = br.readLine();
-                    if (line != null) {
-                        System.out.println(line);
-                    }
+                String line = br.readLine();
+                while (line != null) {
+                    System.out.println(line);
+                    line = br.readLine();
                 }
             }
         } catch (IOException e)  { }

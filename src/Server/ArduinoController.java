@@ -1,6 +1,8 @@
 package Server;
-import java.io.DataInputStream;
+
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -59,17 +61,17 @@ public class ArduinoController implements Runnable {
 		}
 
 		public void run() {
-			try (DataInputStream dis = new DataInputStream(socket.getInputStream())) {
+			try (BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
 				
-				macAddress = dis.readUTF();
+				macAddress = br.readLine();
 				System.out.println(macAddress);
-				soilMoistureLevel = dis.readInt();
+				soilMoistureLevel = Integer.parseInt(br.readLine());
 				System.out.println(soilMoistureLevel);
-				lightLevel = dis.readInt();
+				lightLevel = Integer.parseInt(br.readLine());
 				System.out.println(lightLevel);
-				airHumidityLevel = dis.readInt();
+				airHumidityLevel = Integer.parseInt(br.readLine());
 				System.out.println(airHumidityLevel);
-				airTemperature = dis.readInt();
+				airTemperature = Integer.parseInt(br.readLine());
 				System.out.println(airTemperature);
 				timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 				System.out.println(timestamp);
@@ -77,7 +79,7 @@ public class ArduinoController implements Runnable {
 				if(checkMacAddress(macAddress)) {
 					insertValues();
 				}
-				dis.close();
+				br.close();
 				socket.close();
 			} catch (IOException e) {
 				e.printStackTrace();

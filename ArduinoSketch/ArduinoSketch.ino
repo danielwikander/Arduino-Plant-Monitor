@@ -76,12 +76,14 @@ void loop() {
   int percentageLightSensorValue = map(lightSensorValue, 1023, 200, 0 ,100); // converts to %
   // Air temperature and humidity sensor stuff:
   int chk = DHT11.read(DHT11PIN); // Reads the value from the sensor.
-
+  int humidityLevel = DHT11.humidity;
+  int temperature = DHT11.temperature;
+  
   // Prints all values to serial com:
   Serial.print("Soil moisture level (%): ");
   Serial.println(percentageSoilMoistureValue); // Prints the soil moisture level.
   Serial.print("Light level (%):         ");
-  Serial.println(percentageLightSensorValue);    // Prints air temperature.
+  Serial.println(percentageLightSensorValue);  // Prints air temperature.
   Serial.print("Air humidity level (%):  ");
   Serial.println((float)DHT11.humidity);       // Prints air humidity level.
   Serial.print("Air temperature (C):     ");
@@ -100,17 +102,13 @@ void loop() {
     WiFi.macAddress(mac);
     char buf[20];
     sprintf(buf, "%02X:%02X:%02X:%02X:%02X:%02X", mac[5], mac[4], mac[3], mac[2], mac[1], mac[0]);
-    client.println(String("Connected to server."));
-    
+
+    // Prints values to server.
     client.println(buf); // Prints MAC address
-    client.print("Soil moisture level (%): ");
     client.println(percentageSoilMoistureValue);
-    client.print("Light level (%):         ");
     client.println(percentageLightSensorValue);
-    client.print("Air humidity level (%):  ");
-    client.println((float)DHT11.humidity);
-    client.print("Air temperature (C):     ");
-    client.println((float)DHT11.temperature);
+    client.println(humidityLevel);
+    client.println(temperature);
   }
   
   // MAC stuff:
