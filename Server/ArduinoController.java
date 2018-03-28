@@ -81,12 +81,8 @@ public class ArduinoController implements Runnable {
 				if(checkMacAddress(macAddress)) {
 					insertValues();
 				}
-				
-				checkValues();
-				
 				dis.close();
 				socket.close();
-				
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -116,14 +112,6 @@ public class ArduinoController implements Runnable {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}
-		
-		private void checkValues() {
-			int soilMoistureMinThreshold = 30;
-			int soilMoistureMaxThreshold = 30;
-			
-			int lightLevelMinThreshold = 10;
-			int lightLevelMaxThreshold = 90;
 		}
 	}	
 }
