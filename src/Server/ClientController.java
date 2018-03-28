@@ -46,6 +46,7 @@ public class ClientController implements Runnable {
 			}
 		}
 	}
+
 	public class ClientHandler extends Thread{
 		private Socket socket;
 		private String email;
