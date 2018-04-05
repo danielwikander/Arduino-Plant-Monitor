@@ -15,9 +15,6 @@ public class ArduinoController implements Runnable {
 	private ServerSocket serverSocket;
 	private Connection conn;
 
-	// TODO: Ska vi lagra arduinoklienter tillsammans med användarnamn i samma hashmap?
-	private HashMap<String, ArduinoHandler> arduinoClients;
-
 	public ArduinoController(int port) {
 		try {
 			this.conn = DriverManager.getConnection("jdbc:postgresql://35.230.133.109:5432/apmdb1", "postgres", "Passw0rd1234!");
