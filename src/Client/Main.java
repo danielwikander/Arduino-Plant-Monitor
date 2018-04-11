@@ -1,7 +1,5 @@
 package Client;
 
-import java.io.IOException;
-
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -10,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import java.io.IOException;
 
 public class Main extends Application {
 
@@ -17,7 +16,12 @@ public class Main extends Application {
 	private static BorderPane loginLayout;
 	private static BorderPane newUserLayout;
 	private static BorderPane startLayout;
-	
+
+	/**
+	 * Starts applications primary stage and presents the login view.
+	 * @param primaryStage	The primary view to present.
+	 * @throws IOException	Throws exception if the stage is invalid.
+	 */
 	@Override
 	public void start(Stage primaryStage) throws IOException {
 		Main.primaryStage = primaryStage;
@@ -31,7 +35,12 @@ public class Main extends Application {
             }
         });
 	}
-	
+
+	/**
+	 * Presents the login view.
+	 * A window where users can log in.
+	 * @throws IOException	Throws if the loader cannot load the LoginView.
+	 */
 	public static void showLoginView() throws IOException {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(Main.class.getResource("LoginView.fxml"));
@@ -40,7 +49,12 @@ public class Main extends Application {
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
-	
+
+	/**
+	 * Presents the new user view.
+	 * A window where users can create a new account.
+	 * @throws IOException	Throws if the loader cannot load the NewUserView.
+	 */
 	public static void showNewUserView() throws IOException {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(Main.class.getResource("NewUserView.fxml"));
@@ -49,7 +63,11 @@ public class Main extends Application {
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
-	
+
+	/**
+	 * Presents the main view.
+	 * @throws IOException	Throws if the loader cannot load the StartView.
+	 */
 	public static void showMainView() throws IOException {
 		Platform.runLater(() -> {
 			FXMLLoader loader = new FXMLLoader();
@@ -65,6 +83,9 @@ public class Main extends Application {
 		});
 	}
 
+	/**
+	 * Launches the application.
+	 */
 	public static void main(String[] args) {
 		launch(args);
 	}

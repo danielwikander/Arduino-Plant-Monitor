@@ -1,23 +1,24 @@
 package Server;
 
+import SharedResources.Login;
+import SharedResources.NewUser;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
-import SharedResources.Login;
-import SharedResources.NewUser;
+import java.sql.*;
 
 public class ClientController implements Runnable {
 	private ServerSocket serverSocket;
 
+	/**
+	 * Constructor that sets up a serversocket and starts a
+	 * thread listening for clients.
+	 * @param port	The port that the server listens to.
+	 */
 	public ClientController(int port) {
 		try {
 			serverSocket = new ServerSocket(port);
@@ -29,6 +30,10 @@ public class ClientController implements Runnable {
 		new Thread(this).start();
 	}
 
+	/**
+	 * Thread that listens to clients.
+	 * If a client is found, it starts a new ClientHandler.
+	 */
 	public void run() {
 		while (true) {
 			try {
@@ -41,16 +46,29 @@ public class ClientController implements Runnable {
 		}
 	}
 
-	public class ClientHandler extends Thread{
+	/**
+	 * Handles newly connected clients.
+	 * Starts new socket connection with input and output streams.
+	 * Checks if the client wants to log in or create a new user,
+	 * and handles the request accordingly.
+	 */
+	public class ClientHandler extends Thread {
 		private Socket socket;
 		private Login login;
 		private NewUser newUser;
 		private Connection conn;
-		
+
+		/**
+		 * Sets the clients socket.
+		 * @param socket	The clients socket.
+		 */
 		public ClientHandler(Socket socket) {
 			this.socket = socket;
 		}
-		
+
+		/**
+		 * Thread that checks if the connected client wants to log in or create a new user.
+		 */
 		public void run() {
 			try {
 				ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
@@ -70,7 +88,6 @@ public class ClientController implements Runnable {
 						oos.writeObject(newUser);
 						oos.flush();
 					}
-					
 				}
 			} catch (IOException e) {
 				System.out.println("Thread " + Thread.currentThread().getId() + " disconnected");
@@ -78,7 +95,12 @@ public class ClientController implements Runnable {
 				e.printStackTrace();
 			}			
 		}
-		
+
+		/**
+		 * Validates the login information by checking the database.
+		 * @param login	The log in information from the user.
+		 * @return		Returns true if the login is valid, else returns false.
+		 */
 		public boolean validateLogin(Login login) {
 			ResultSet rs = null;
 			try {
@@ -105,7 +127,15 @@ public class ClientController implements Runnable {
 			}			
 			return false;		
 		}
-		
+
+		/**
+		 * Validates new user information by checking the database.
+		 * If the users email is already logged in the database,
+		 * the method returns false and the user is prompted to
+		 * @param newUser	The new user information.
+		 * @return			Returns true if the email is new to the database,
+		 * 					else returns false.
+		 */
 		public boolean validateNewUser(NewUser newUser) {
 			Statement statement = null;
 			try {

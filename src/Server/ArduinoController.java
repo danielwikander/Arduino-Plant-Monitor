@@ -10,10 +10,19 @@ import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Handles arduinos connecting to the server, by setting
+ * up a serversocket and starting an {@link ArduinoHandler}.
+ */
 public class ArduinoController implements Runnable {
 	private ServerSocket serverSocket;
 	private Connection conn;
 
+	/**
+	 * Sets up a connection with the database. Sets up a serversocket for arduinos.
+	 * Starts a thread that listens for connecting arduinos.
+	 * @param port
+	 */
 	public ArduinoController(int port) {
 		try {
 			this.conn = DriverManager.getConnection("jdbc:postgresql://35.230.133.109:5432/apmdb1", "postgres", "Passw0rd1234!");
@@ -31,6 +40,10 @@ public class ArduinoController implements Runnable {
 		new Thread(this).start();
 	}
 
+	/**
+	 * Thread that listens after connecting arduinos, sets up a socket for them,
+	 * and starts an {@link ArduinoHandler}.
+	 */
 	public void run() {
 		while (true) {
 			try {
@@ -43,6 +56,11 @@ public class ArduinoController implements Runnable {
 		}
 	}
 
+	/**
+	 * Thread that handles arduino requests.
+	 * The receives the values from the arduino,
+	 * and stores and handles them accordingly.
+	 */
 	public class ArduinoHandler extends Thread {
 		private Socket socket;
 		private String macAddress;
@@ -52,10 +70,18 @@ public class ArduinoController implements Runnable {
 		private int airTemperature;
 		private String timestamp;
 
+		/**
+		 * Establishes the socket for the arduino connection.
+		 * @param socket
+		 */
 		public ArduinoHandler(Socket socket) {
 			this.socket = socket;
 		}
 
+		/**
+		 * This thread reads the values sent from the arduino,
+		 * sends them to the database and closes the socket.
+		 */
 		public void run() {
 			try (BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
 				
@@ -81,8 +107,10 @@ public class ArduinoController implements Runnable {
 				e.printStackTrace();
 			}
 		}
-		
-		// Check if the Arudino exists in database
+
+		/**
+		 * Checks if the arduino exists in database.
+		 */
 		private boolean checkMacAddress(String mac) {
 			try {
 				Statement stmt = conn.createStatement();
@@ -95,8 +123,10 @@ public class ArduinoController implements Runnable {
 			}
 			return false;
 		}
-		
-		// Inserts new values for the Arduino into database
+
+		/**
+		 * Inserts the retrieved values into the database.
+		 */
 		private void insertValues() {
 			try {
 				Statement stmt = conn.createStatement();

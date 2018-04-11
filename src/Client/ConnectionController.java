@@ -1,14 +1,18 @@
 package Client;
 
+import SharedResources.Login;
+import SharedResources.NewUser;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
 
-import SharedResources.Login;
-import SharedResources.NewUser;
-
+/**
+ * Handles the initial connection to the server.
+ * Sets up a socket and input / output streams.
+ */
 public class ConnectionController {
 	private Socket socket;
 	private ObjectOutputStream oos;
@@ -16,44 +20,66 @@ public class ConnectionController {
 	private LoginViewController loginViewController;
 	private NewUserViewController newUserViewController;
 	private static ConnectionController connectionController;
-	
+
+	/**
+	 * Sets up input / output streams and starts a new {@link ConnectionHandler}
+	 * that handles the incoming responses from the server.
+	 */
 	private ConnectionController() {
 		try {
 			this.socket = new Socket("127.0.0.1", 5483);
 			oos = new ObjectOutputStream(socket.getOutputStream());
 			ois = new ObjectInputStream(socket.getInputStream());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		new ConnectionHandler().start();
 	}
-	
+
+	/**
+	 * Creates a singleton instance of the class.
+	 * @return	Returns instance of the class.
+	 */
 	public static ConnectionController getInstance() {
 		if(connectionController == null) {
 			connectionController = new ConnectionController();
 		}
 		return connectionController;
 	}
-	
+
+	/**
+	 * Sets the loginViewController.
+	 * @param loginViewController The loginViewController to use.
+	 */
 	public void setLoginViewController(LoginViewController loginViewController) {
 		this.loginViewController = loginViewController;
 	}
-	
+
+	/**
+	 * Sets the newUserViewController.
+	 * @param newUserViewController The newUserViewController to use.
+	 */
 	public void setNewUserViewController(NewUserViewController newUserViewController) {
 		this.newUserViewController = newUserViewController;
 	}
-	
+
+	/**
+	 * Sends a login request to the server.
+	 * @param login The login information to send.
+	 */
 	protected void login(Login login) {
 		try {
 			oos.writeObject(login);
 			oos.flush();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
+
+	/**
+	 * Sends a new user request to the server.
+	 * @param newUser The new user information to send.
+	 */
 	protected void newUser(NewUser newUser) {
 		try {
 			oos.writeObject(newUser);
@@ -63,7 +89,10 @@ public class ConnectionController {
 			e.printStackTrace();
 		}
 	}
-	
+
+	/**
+	 * Closes the socket.
+	 */
 	protected void closeSocket() {
 		try {
 			socket.close();
@@ -71,9 +100,13 @@ public class ConnectionController {
 			e.printStackTrace();
 		}
 	}
-	
-	private class ConnectionHandler extends Thread{
-		
+
+	/**
+	 * Handles the incoming connection information.
+	 * Checks if the login or new user information sent is valid.
+	 */
+	private class ConnectionHandler extends Thread {
+
 		public void run() {
 			while(!socket.isClosed()) {
 				Object obj = null;
@@ -97,5 +130,4 @@ public class ConnectionController {
 			}
 		}
 	}
-
 }
