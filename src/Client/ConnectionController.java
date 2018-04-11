@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 
 import SharedResources.Login;
 import SharedResources.NewUser;
@@ -63,6 +64,14 @@ public class ConnectionController {
 		}
 	}
 	
+	protected void closeSocket() {
+		try {
+			socket.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	private class ConnectionHandler extends Thread{
 		
 		public void run() {
@@ -70,8 +79,11 @@ public class ConnectionController {
 				Object obj = null;
 				try {
 					obj = ois.readObject();
-				} catch (ClassNotFoundException | IOException e) {
-					// TODO Auto-generated catch block
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				} catch (SocketException e) {
+					System.out.println("Client socket closed");
+				} catch (IOException e) {
 					e.printStackTrace();
 				}
 				if(obj instanceof Login) {

@@ -9,7 +9,6 @@ import java.net.Socket;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
 
 public class ArduinoController implements Runnable {
 	private ServerSocket serverSocket;

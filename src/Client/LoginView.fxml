@@ -25,12 +25,19 @@
       </VBox>
    </top>
    <bottom>
-      <VBox alignment="CENTER" prefHeight="120.0" prefWidth="300.0" spacing="20.0" BorderPane.alignment="CENTER">
-         <children>
-            <Button fx:id="login" mnemonicParsing="false" onAction="#goLogin" text="Logga in" />
-            <Button fx:id="newUser" mnemonicParsing="false" onAction="#showNewUserView" text="Ny användare" />
-         </children>
-      </VBox>
+      <BorderPane BorderPane.alignment="CENTER">
+         <center>
+            <VBox alignment="CENTER" prefHeight="120.0" prefWidth="300.0" spacing="20.0">
+               <children>
+                  <Button fx:id="login" mnemonicParsing="false" onAction="#goLogin" text="Logga in" />
+                  <Button fx:id="newUser" mnemonicParsing="false" onAction="#showNewUserView" text="Ny användare" />
+               </children>
+            </VBox>
+         </center>
+         <top>
+            <Label fx:id="loginError" text="Fel email eller lösenord" textFill="#ee0707" BorderPane.alignment="CENTER" />
+         </top>
+      </BorderPane>
    </bottom>
    <center>
       <GridPane BorderPane.alignment="CENTER">

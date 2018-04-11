@@ -7,6 +7,7 @@ import SharedResources.Login;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
@@ -16,6 +17,8 @@ public class LoginViewController implements Initializable {
 	private TextField email;
 	@FXML
 	private PasswordField password;
+	@FXML
+	private Label loginError;
 	@FXML
 	private Button login;
 	@FXML
@@ -27,6 +30,7 @@ public class LoginViewController implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		connectionController = ConnectionController.getInstance();
 		connectionController.setLoginViewController(this);
+		loginError.setVisible(false);
 	}
 	
 	public void goLogin() {
@@ -35,7 +39,15 @@ public class LoginViewController implements Initializable {
 	}
 	
 	public void validateLogin(Login login) {
-		System.out.println(login.getLoginStatus());
+		if(!login.getLoginStatus()) {
+			loginError.setVisible(true);
+		} else {
+			try {
+				Main.showMainView();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	public void showNewUserView() throws IOException {
