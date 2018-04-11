@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+
+<BorderPane prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.MainViewController">
+   <left>
+      <BorderPane BorderPane.alignment="CENTER">
+         <center>
+            <ListView fx:id="plantList" prefHeight="200.0" prefWidth="200.0" />
+         </center>
+         <top>
+            <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" spacing="15.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Button fx:id="add" mnemonicParsing="false" onAction="#goAdd" text="Lägg till" />
+                  <Button fx:id="change" mnemonicParsing="false" text="Ändra" />
+                  <Button fx:id="remove" mnemonicParsing="false" text="Ta bort" />
+               </children>
+            </HBox>
+         </top>
+      </BorderPane>
+   </left>
+</BorderPane>

@@ -15,7 +15,7 @@ public class Main extends Application {
 	private static Stage primaryStage;
 	private static BorderPane loginLayout;
 	private static BorderPane newUserLayout;
-	private static BorderPane startLayout;
+	private static BorderPane mainLayout;
 
 	/**
 	 * Starts applications primary stage and presents the login view.
@@ -71,16 +71,51 @@ public class Main extends Application {
 	public static void showMainView() throws IOException {
 		Platform.runLater(() -> {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Main.class.getResource("StartView.fxml"));
+			loader.setLocation(Main.class.getResource("MainView.fxml"));
 			try {
-				startLayout = loader.load();
+				mainLayout = loader.load();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			Scene scene = new Scene(startLayout);
+			Scene scene = new Scene(mainLayout);
 			primaryStage.setScene(scene);
 			primaryStage.show();
+			try {
+				showStartView();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		});
+	}
+	
+	public static void showStartView() throws IOException {
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(Main.class.getResource("StartView.fxml"));
+		BorderPane startLayout = loader.load();
+		mainLayout.setCenter(startLayout);
+	}
+	
+	public static void showAddView() throws IOException {
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(Main.class.getResource("AddView.fxml"));
+		BorderPane addLayout = loader.load();
+		mainLayout.setCenter(addLayout);
+	}
+	
+	public static void showChangeView() throws IOException {
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(Main.class.getResource("ChangeView.fxml"));
+		BorderPane changeLayout = loader.load();
+		mainLayout.setCenter(changeLayout);
+	}
+	
+	public static void showGraphView(Plant plant) throws IOException {
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(Main.class.getResource("GraphView.fxml"));
+		BorderPane graphLayout = loader.load();
+		mainLayout.setCenter(graphLayout);
+		GraphViewController gvc = loader.getController();
+		gvc.initialize(plant);
 	}
 
 	/**
