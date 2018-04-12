@@ -49,7 +49,7 @@ public class Main extends Application {
 	 */
 	public static void showLoginView() throws IOException {
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(Main.class.getResource("LoginView.fxml"));
+		loader.setLocation(Main.class.getResource("views/LoginView.fxml"));
 		BorderPane loginLayout = loader.load();
 		Scene scene = new Scene(loginLayout);
 		primaryStage.setScene(scene);
@@ -63,7 +63,7 @@ public class Main extends Application {
 	 */
 	public static void showNewUserView() throws IOException {
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(Main.class.getResource("NewUserView.fxml"));
+		loader.setLocation(Main.class.getResource("views/NewUserView.fxml"));
 		BorderPane newUserLayout = loader.load();
 		Scene scene = new Scene(newUserLayout);
 		primaryStage.setScene(scene);
@@ -77,7 +77,7 @@ public class Main extends Application {
 	public static void showMainView() {
 		Platform.runLater(() -> {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Main.class.getResource("MainView.fxml"));
+			loader.setLocation(Main.class.getResource("views/MainView.fxml"));
 			try {
 				mainLayout = loader.load();
 			} catch (IOException e) {
@@ -100,7 +100,7 @@ public class Main extends Application {
 	 */
 	public static void showStartView() throws IOException {
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(Main.class.getResource("StartView.fxml"));
+		loader.setLocation(Main.class.getResource("views/StartView.fxml"));
 		BorderPane startLayout = loader.load();
 		mainLayout.setCenter(startLayout);
 	}
@@ -111,7 +111,7 @@ public class Main extends Application {
 	 */
 	public static void showAddView() throws IOException {
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(Main.class.getResource("AddView.fxml"));
+		loader.setLocation(Main.class.getResource("views/AddView.fxml"));
 		BorderPane addLayout = loader.load();
 		mainLayout.setCenter(addLayout);
 	}
@@ -122,7 +122,7 @@ public class Main extends Application {
 	 */
 	public static void showChangeView() throws IOException {
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(Main.class.getResource("ChangeView.fxml"));
+		loader.setLocation(Main.class.getResource("views/ChangeView.fxml"));
 		BorderPane changeLayout = loader.load();
 		mainLayout.setCenter(changeLayout);
 	}
@@ -133,7 +133,7 @@ public class Main extends Application {
 	 */
 	public static void showGraphView(Plant plant) throws IOException {
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(Main.class.getResource("GraphView.fxml"));
+		loader.setLocation(Main.class.getResource("views/GraphView.fxml"));
 		BorderPane graphLayout = loader.load();
 		mainLayout.setCenter(graphLayout);
 		GraphViewController gvc = loader.getController();
