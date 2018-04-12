@@ -6,32 +6,32 @@
 //  and wifi.               
 //
 //  - Imports - 
-#include <WiFiEsp.h>        
+#include <WiFiEsp.h>        // Library for wifi communication
 #include <WiFiEspClient.h>  
 #include <WiFiEspServer.h>  
 #include <WiFiEspUdp.h>     
 #include <SoftwareSerial.h> // Library for serial communication on other ports.
 #include <dht11.h>          // Library for DHT11 temperature and airmoisture sensor.
-//                          
+
 //  - Variables -
                       
 //  - Wifi  -
 const char ssid[] = "Hotspot";          // Name of the wifi to connect to.
-const char password[] = "hotspotpass1"; // Passord of above wifi.
-const char* host = "192.168.43.207";
-const int port = 80;        
+const char password[] = "hotspotpass1"; // Password of above wifi.
+const char* host = "35.204.189.85";
+const int port = 5482;  
 WiFiEspClient client;       
 int status = WL_IDLE_STATUS;            // Status of wifi connection.
 
 //  - Pins  - 
-const byte rxPin = 7;       // Wire this to Tx Pin of ESP8266
-const byte txPin = 6;       // Wire this to Rx Pin of ESP8266
-const int soilMoistureSensor = A0; // Soil-moisture sensor on analog pin A0.
-const int lightSensor = A1; // Light sensor on analog pin A1
-int soilMoistureValue = 0;  // variable for soil-moisture sensor value
-int lightSensorValue = A1;  // variable for the light sensor value
-dht11 DHT11;                // Declares the DHT sensor as an object.
-#define DHT11PIN 5          // Declares the pin number for the DHT sensor.
+const byte rxPin = 7;                 // Wire this to Tx Pin of ESP8266
+const byte txPin = 6;                 // Wire this to Rx Pin of ESP8266
+const int soilMoistureSensor = A0;    // Soil-moisture sensor on analog pin A0.
+const int lightSensor = A1;           // Light sensor on analog pin A1
+int soilMoistureValue = 0;            // variable for soil-moisture sensor value
+int lightSensorValue = A1;            // variable for the light sensor value
+dht11 DHT11;                          // Declares the DHT sensor as an object.
+#define DHT11PIN 5                    // Declares the pin number for the DHT sensor.
 SoftwareSerial Serial1(rxPin, txPin); // Sets ports as input / output ports for the wifi module.
 
 //  - Setup -
@@ -95,9 +95,10 @@ void loop() {
   // WiFi stuff:
   client.connect(host,port);
   if (!client.connected()) {
-    Serial.println("Connection failed...");
+    Serial.println("-     Connection failed      -");
     return;
   } else {
+    Serial.println("-     Success!               -");
     byte mac[6];
     WiFi.macAddress(mac);
     char buf[20];
@@ -116,23 +117,7 @@ void loop() {
   WiFi.macAddress(mac);
   char buf[20];
   sprintf(buf, "%02X:%02X:%02X:%02X:%02X:%02X", mac[5], mac[4], mac[3], mac[2], mac[1], mac[0]);
-  
-// if (client.connected()) {
-//   if (client.available()) {
-//    client.println(buf); // Prints MAC address
-//     client.print("Soil moisture level (%): ");
-//      client.println(percentageSoilMoistureValue);
-//      client.print("Light level (%):         ");
-//      client.println(percentageLightSensorValue);
-//      client.print("Air humidity level (%):  ");
-//      client.println((float)DHT11.humidity);
-//      client.print("Air temperature (C):     ");
-//      client.println((float)DHT11.temperature);
-//      client.flush();
-//    } 
-// } else {
-//    Serial.println("Not connected to server.");
-//  }
+
   client.stop(); 
 
   // Print the received signal strength

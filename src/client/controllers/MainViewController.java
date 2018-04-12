@@ -1,5 +1,7 @@
-package Client;
+package client.controllers;
 
+import client.Main;
+import client.models.Plant;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -32,16 +34,17 @@ public class MainViewController implements Initializable {
 
 	/**
 	 * Initializes the main view.
-	 * @param arg0	TODO: Explain FXML stuff?
-	 * @param arg1
+	 * @param url 	The location of the FXML document to use.
+	 * @param rb 	Resources for the JavaFX view.
 	 */
 	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
+	public void initialize(URL url, ResourceBundle rb) {
 		change.setDisable(true);
 		remove.setDisable(true);
 		initializeListViewListener();
 		
 		plantListData.clear();
+		// Dummy data
 		plantListData.add(new Plant("images/broccoli.png", "Vardagsrum", "Broccoli"));
 		plantListData.add(new Plant("images/carrot.png", "Köket", "Morot"));
 		plantListData.add(new Plant("images/chili.png", "Sovrum", "Chili"));
@@ -67,24 +70,36 @@ public class MainViewController implements Initializable {
 		});
 		plantList.setItems(plantListData);
 	}
-	
+
+	/**
+	 * Presents the add view, where users can add a new plant.
+	 * @throws IOException Throws exception if the add view cannot be found.
+	 */
 	@FXML
 	private void goAdd() throws IOException {
 		add.setDisable(true);
 		Main.showAddView();
 	}
-	
+
+	/**
+	 * Presents the change view, where users can change plant values and information.
+	 * @throws IOException	Throws exception if the change view cannot be found.
+	 */
 	@FXML
 	private void goChange() throws IOException {
 		Main.showChangeView();
 	}
-	
-	public void initializeListViewListener() {
+
+	/**
+	 * Initializes the list so that when users click on a plant,
+	 * they are presented with the graph view for that plant.
+	 */
+	private void initializeListViewListener() {
 		plantList.getSelectionModel().selectedItemProperty().addListener((v) -> {
 			change.setDisable(false);
 			remove.setDisable(false);
+			add.setDisable(false);
 			try {
-				add.setDisable(false);
 				Main.showGraphView(plantList.getSelectionModel().getSelectedItem());
 			} catch (IOException e) {
 				e.printStackTrace();

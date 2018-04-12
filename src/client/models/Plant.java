@@ -1,8 +1,9 @@
-package Client;
+package client.models;
 
 /**
- * This class represents a specific cell in a list of plants.
- * The cell contains the name of the plant, the
+ * This class represents a plant.
+ * The object contains the plants information, such as name, icon etc.
+ * //TODO: Plant should contain values for notifications.
  */
 public class Plant {
 
@@ -11,7 +12,7 @@ public class Plant {
 	private String plantSpecies;
 
 	/**
-	 * Sets the plantCells variables.
+	 * Constructor that sets the plants variables.
 	 * @param plantIconFile	The image file to use as an icon.
 	 * @param plantAlias	The alias for the plant.
 	 * @param plantSpecies	The type of plant.
@@ -23,8 +24,8 @@ public class Plant {
 	}
 
 	/**
-	 * Returns the plants icon file.
-	 * @return	Returns the icon.
+	 * Returns the path to the plants icon file.
+	 * @return	Returns the path to the icon.
 	 */
 	public String getPlantIconFile() {
 		return plantIconFile;
