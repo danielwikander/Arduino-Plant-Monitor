@@ -1,7 +1,7 @@
 package client.controllers;
 
 import client.Main;
-import client.models.Login;
+import models.Login;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;

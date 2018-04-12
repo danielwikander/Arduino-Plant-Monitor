@@ -1,8 +1,7 @@
 package client.controllers;
 
-import client.models.Login;
-import client.models.NewUser;
-
+import models.Login;
+import models.NewUser;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;

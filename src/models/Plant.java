@@ -1,4 +1,4 @@
-package client.models;
+package models;
 
 /**
  * This class represents a plant.

@@ -1,6 +1,6 @@
 package client.controllers;
 
-import client.models.Plant;
+import models.Plant;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 

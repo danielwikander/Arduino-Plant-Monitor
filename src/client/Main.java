@@ -2,7 +2,7 @@ package client;
 
 import client.controllers.ConnectionController;
 import client.controllers.GraphViewController;
-import client.models.Plant;
+import models.Plant;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;

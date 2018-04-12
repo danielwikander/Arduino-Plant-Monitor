@@ -1,7 +1,7 @@
 package client.controllers;
 
 import client.Main;
-import client.models.Plant;
+import models.Plant;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -12,7 +12,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Callback;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -45,9 +44,9 @@ public class MainViewController implements Initializable {
 		
 		plantListData.clear();
 		// Dummy data
-		plantListData.add(new Plant("images/broccoli.png", "Vardagsrum", "Broccoli"));
-		plantListData.add(new Plant("images/carrot.png", "Köket", "Morot"));
-		plantListData.add(new Plant("images/chili.png", "Sovrum", "Chili"));
+		plantListData.add(new Plant("client/images/broccoli.png", "Vardagsrum", "Broccoli"));
+		plantListData.add(new Plant("client/images/carrot.png", "Köket", "Morot"));
+		plantListData.add(new Plant("client/images/chili.png", "Sovrum", "Chili"));
 		
 		plantList.setCellFactory(new Callback<ListView<Plant>,ListCell<Plant>>() {
 
@@ -58,7 +57,7 @@ public class MainViewController implements Initializable {
 					protected void updateItem(Plant c, boolean bt1) {
 						super.updateItem(c, bt1);
 						if(c != null) {
-							Image image = new Image(getClass().getResource(c.getPlantIconFile()).toExternalForm(), 30, 30, false, true);
+							Image image = new Image(getClass().getClassLoader().getResource(c.getPlantIconFile()).toExternalForm(), 30, 30, false, true);
 							ImageView imageView = new ImageView(image);
 							setGraphic(imageView);
 							setText(c.getPlantAlias());
