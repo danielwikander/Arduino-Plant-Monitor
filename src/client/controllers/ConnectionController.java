@@ -1,8 +1,7 @@
-package Client;
+package client.controllers;
 
-import SharedResources.Login;
-import SharedResources.NewUser;
-
+import models.Login;
+import models.NewUser;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -32,6 +31,8 @@ public class ConnectionController {
 			ois = new ObjectInputStream(socket.getInputStream());
 		} catch (IOException e) {
 			e.printStackTrace();
+			System.out.println("Server not available.");
+			// TODO: skapa error i GUI. röd text?
 		}
 		new ConnectionHandler().start();
 	}
@@ -51,7 +52,7 @@ public class ConnectionController {
 	 * Sets the loginViewController.
 	 * @param loginViewController The loginViewController to use.
 	 */
-	public void setLoginViewController(LoginViewController loginViewController) {
+	void setLoginViewController(LoginViewController loginViewController) {
 		this.loginViewController = loginViewController;
 	}
 
@@ -59,7 +60,7 @@ public class ConnectionController {
 	 * Sets the newUserViewController.
 	 * @param newUserViewController The newUserViewController to use.
 	 */
-	public void setNewUserViewController(NewUserViewController newUserViewController) {
+	void setNewUserViewController(NewUserViewController newUserViewController) {
 		this.newUserViewController = newUserViewController;
 	}
 
@@ -80,12 +81,11 @@ public class ConnectionController {
 	 * Sends a new user request to the server.
 	 * @param newUser The new user information to send.
 	 */
-	protected void newUser(NewUser newUser) {
+	void newUser(NewUser newUser) {
 		try {
 			oos.writeObject(newUser);
 			oos.flush();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -93,7 +93,7 @@ public class ConnectionController {
 	/**
 	 * Closes the socket.
 	 */
-	protected void closeSocket() {
+	public void closeSocket() {
 		try {
 			socket.close();
 		} catch (IOException e) {
@@ -115,7 +115,7 @@ public class ConnectionController {
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
 				} catch (SocketException e) {
-					System.out.println("Client socket closed");
+					System.out.println("client socket closed");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

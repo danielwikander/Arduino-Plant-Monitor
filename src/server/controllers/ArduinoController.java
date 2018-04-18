@@ -1,4 +1,4 @@
-package Server;
+package server.controllers;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
- * Handles arduinos connecting to the server, by setting
+ * Handles arduinos connecting to the server by setting
  * up a serversocket and starting an {@link ArduinoHandler}.
  */
 public class ArduinoController implements Runnable {
@@ -21,7 +21,7 @@ public class ArduinoController implements Runnable {
 	/**
 	 * Sets up a connection with the database. Sets up a serversocket for arduinos.
 	 * Starts a thread that listens for connecting arduinos.
-	 * @param port
+	 * @param port	The port the server listens to.
 	 */
 	public ArduinoController(int port) {
 		try {
@@ -45,7 +45,7 @@ public class ArduinoController implements Runnable {
 	 * and starts an {@link ArduinoHandler}.
 	 */
 	public void run() {
-		while (true) {
+		while (!serverSocket.isClosed()) {
 			try {
 				Socket socket = serverSocket.accept();
 				ArduinoHandler arduinoHandler = new ArduinoHandler(socket);
@@ -58,10 +58,10 @@ public class ArduinoController implements Runnable {
 
 	/**
 	 * Thread that handles arduino requests.
-	 * The receives the values from the arduino,
+	 * The class receives values from the arduino,
 	 * and stores and handles them accordingly.
 	 */
-	public class ArduinoHandler extends Thread {
+	private class ArduinoHandler extends Thread {
 		private Socket socket;
 		private String macAddress;
 		private int soilMoistureLevel;
@@ -72,9 +72,9 @@ public class ArduinoController implements Runnable {
 
 		/**
 		 * Establishes the socket for the arduino connection.
-		 * @param socket
+		 * @param socket The socket to set.
 		 */
-		public ArduinoHandler(Socket socket) {
+		private ArduinoHandler(Socket socket) {
 			this.socket = socket;
 		}
 
@@ -98,7 +98,7 @@ public class ArduinoController implements Runnable {
 				timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 				System.out.println(timestamp);
 				
-				if(checkMacAddress(macAddress)) {
+				if(checkMacAddress()) {
 					insertValues();
 				}
 				br.close();
@@ -111,7 +111,7 @@ public class ArduinoController implements Runnable {
 		/**
 		 * Checks if the arduino exists in database.
 		 */
-		private boolean checkMacAddress(String mac) {
+		private boolean checkMacAddress() {
 			try {
 				Statement stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery("SELECT mac FROM apm_plant WHERE mac = '" + macAddress + "';");

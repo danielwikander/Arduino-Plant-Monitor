@@ -1,5 +1,7 @@
-package Client;
+package client.controllers;
 
+import client.Main;
+import models.Plant;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -10,7 +12,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Callback;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -32,19 +33,20 @@ public class MainViewController implements Initializable {
 
 	/**
 	 * Initializes the main view.
-	 * @param arg0	TODO: Explain FXML stuff?
-	 * @param arg1
+	 * @param url 	The location of the FXML document to use.
+	 * @param rb 	Resources for the JavaFX view.
 	 */
 	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
+	public void initialize(URL url, ResourceBundle rb) {
 		change.setDisable(true);
 		remove.setDisable(true);
 		initializeListViewListener();
 		
 		plantListData.clear();
-		plantListData.add(new Plant("images/broccoli.png", "Vardagsrum", "Broccoli"));
-		plantListData.add(new Plant("images/carrot.png", "Köket", "Morot"));
-		plantListData.add(new Plant("images/chili.png", "Sovrum", "Chili"));
+		// Dummy data
+		plantListData.add(new Plant("client/images/broccoli.png", "Vardagsrum", "Broccoli"));
+		plantListData.add(new Plant("client/images/carrot.png", "Köket", "Morot"));
+		plantListData.add(new Plant("client/images/chili.png", "Sovrum", "Chili"));
 		
 		plantList.setCellFactory(new Callback<ListView<Plant>,ListCell<Plant>>() {
 
@@ -55,7 +57,7 @@ public class MainViewController implements Initializable {
 					protected void updateItem(Plant c, boolean bt1) {
 						super.updateItem(c, bt1);
 						if(c != null) {
-							Image image = new Image(getClass().getResource(c.getPlantIconFile()).toExternalForm(), 30, 30, false, true);
+							Image image = new Image(getClass().getClassLoader().getResource(c.getPlantIconFile()).toExternalForm(), 30, 30, false, true);
 							ImageView imageView = new ImageView(image);
 							setGraphic(imageView);
 							setText(c.getPlantAlias());
@@ -67,24 +69,36 @@ public class MainViewController implements Initializable {
 		});
 		plantList.setItems(plantListData);
 	}
-	
+
+	/**
+	 * Presents the add view, where users can add a new plant.
+	 * @throws IOException Throws exception if the add view cannot be found.
+	 */
 	@FXML
 	private void goAdd() throws IOException {
 		add.setDisable(true);
 		Main.showAddView();
 	}
-	
+
+	/**
+	 * Presents the change view, where users can change plant values and information.
+	 * @throws IOException	Throws exception if the change view cannot be found.
+	 */
 	@FXML
 	private void goChange() throws IOException {
 		Main.showChangeView();
 	}
-	
-	public void initializeListViewListener() {
+
+	/**
+	 * Initializes the list so that when users click on a plant,
+	 * they are presented with the graph view for that plant.
+	 */
+	private void initializeListViewListener() {
 		plantList.getSelectionModel().selectedItemProperty().addListener((v) -> {
 			change.setDisable(false);
 			remove.setDisable(false);
+			add.setDisable(false);
 			try {
-				add.setDisable(false);
 				Main.showGraphView(plantList.getSelectionModel().getSelectedItem());
 			} catch (IOException e) {
 				e.printStackTrace();

@@ -1,4 +1,4 @@
-package Server;
+package server;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -10,7 +10,7 @@ import java.util.Random;
  * The class emulates values sent from an arduino for testing purposes.
  */
 public class ArduinoEmulator {
-	private final String macAddress = "2C:3A:E8:43:59:F0";
+	private final String MAC_ADDRESS = "2C:3A:E8:43:59:F0";
 	private int port;
 	private String ip;
 
@@ -40,7 +40,7 @@ public class ArduinoEmulator {
 				while(true) {
 					socket = new Socket(ip, port);
 					DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
-					dos.writeUTF(macAddress);
+					dos.writeUTF(MAC_ADDRESS);
 					dos.writeInt(random(20, 90));	//soilMoistureLevel
 					dos.writeInt(random(0, 100));	//LightLevel
 					dos.writeInt(random(15, 80));	//airHumidityLevel
@@ -50,11 +50,7 @@ public class ArduinoEmulator {
 					dos.close();
 					socket.close();
 				}
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
+			} catch (InterruptedException | IOException e) {
 				e.printStackTrace();
 			}
 		}
@@ -65,11 +61,9 @@ public class ArduinoEmulator {
 		 * @param max	Maximum value
 		 * @return		Returns the random value.
 		 */
-		public int random(int min, int max) {
+		private int random(int min, int max) {
 			Random rand = new Random();
 			return min + rand.nextInt(max + min +1);
 		}
 	}
-	
-
 }

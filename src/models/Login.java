@@ -1,4 +1,4 @@
-package SharedResources;
+package models;
 
 import java.io.Serializable;
 
@@ -11,7 +11,7 @@ public class Login implements Serializable {
 	private static final long serialVersionUID = 3667940984279025940L;
 	private String email;
 	private String password;
-	private boolean loginStatus;
+	private boolean isLoggedIn;
 
 	/**
 	 * Sets the email and password of the user object.
@@ -21,7 +21,7 @@ public class Login implements Serializable {
 	public Login(String email, String password) {
 		this.email = email;
 		this.password = password;
-		this.loginStatus = false;
+		this.isLoggedIn = false;
 	}
 
 	/**
@@ -46,17 +46,17 @@ public class Login implements Serializable {
 	 * False 	= Logged out.
 	 * @return	  Returns the users login status.
 	 */
-	public boolean getLoginStatus() {
-		return this.loginStatus;
+	public boolean getIsLoggedIn() {
+		return this.isLoggedIn;
 	}
 
 	/**
 	 * Sets the login objects login status.
 	 * True 	= Logged in.
 	 * False 	= Logged out.
-	 * @param loginStatus	The login status to set.
+	 * @param loggedIn	The login status to set.
 	 */
-	public void setLoginStatus(boolean loginStatus) {
-		this.loginStatus = loginStatus;
+	public void setIsLoggedIn(boolean loggedIn) {
+		this.isLoggedIn = loggedIn;
 	}
 }

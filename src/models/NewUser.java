@@ -1,4 +1,4 @@
-package SharedResources;
+package models;
 
 import java.io.Serializable;
 
@@ -16,7 +16,7 @@ public class NewUser implements Serializable {
 	private boolean newUserStatus;
 
 	/**
-	 * Sets all the new user information.
+	 * Constructor that sets all the new user information.
 	 * @param email		The users email-address.
 	 * @param password	The users password.
 	 * @param firstName	The users first name.
@@ -75,7 +75,7 @@ public class NewUser implements Serializable {
 	 * Boolean that checks if the new user was validly created in the database.
 	 * If the user information was valid and a new user was created, the boolean is true.
 	 * The value is used to automatically login newly created users to the client.
-	 * //TODO: Save new users information in the loginview if this boolean returns true?
+	 * //TODO: Save new users information in the loginview if this boolean returns true.
 	 */
 	public void setNewUserStatus(boolean newUserStatus) {
 		this.newUserStatus = newUserStatus;

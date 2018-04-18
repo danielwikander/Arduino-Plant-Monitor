@@ -1,6 +1,7 @@
-package Client;
+package client.controllers;
 
-import SharedResources.Login;
+import client.Main;
+import models.Login;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -17,6 +18,7 @@ import java.util.ResourceBundle;
  */
 public class LoginViewController implements Initializable {
 
+	/* FXML */
 	@FXML
 	private TextField email;
 	@FXML
@@ -28,15 +30,15 @@ public class LoginViewController implements Initializable {
 	@FXML
 	private Button newUser;
 	
-	ConnectionController connectionController;
+	private ConnectionController connectionController;
 
 	/**
 	 * Initializes the login view.
-	 * @param arg0 //TODO: Explain FXML stuff?
-	 * @param arg1
+	 * @param url 	The location of the FXML document to use.
+	 * @param rb 	Resources for the JavaFX view.
 	 */
 	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
+	public void initialize(URL url, ResourceBundle rb) {
 		connectionController = ConnectionController.getInstance();
 		connectionController.setLoginViewController(this);
 		loginError.setVisible(false);
@@ -55,22 +57,18 @@ public class LoginViewController implements Initializable {
 	 * Prints out the login status (If the login succeeded or failed).
 	 * @param login	The login information to check.
 	 */
-	public void validateLogin(Login login) {
-		if(!login.getLoginStatus()) {
+	void validateLogin(Login login) {
+		if(!login.getIsLoggedIn()) {
 			loginError.setVisible(true);
 		} else {
-			try {
-				Main.showMainView();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			Main.showMainView();
 		}
 	}
 
 	/**
 	 * Starts the new user view where users can create new accounts.
 	 * This method is called when users press 'Ny användare'.
-	 * @throws IOException
+	 * @throws IOException	Throws exception when FXML view cannot be found.
 	 */
 	public void showNewUserView() throws IOException {
 		Main.showNewUserView();

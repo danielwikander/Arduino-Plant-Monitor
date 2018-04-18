@@ -1,21 +1,23 @@
-package Client;
+package client.controllers;
 
-import SharedResources.NewUser;
+import client.Main;
+import models.NewUser;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
- * The view that is presented when a user wishes to create a new user.
+ * Controller which handles the logic for the new user view that is presented
+ * when a user wishes to create a new user.
  */
 public class NewUserViewController implements Initializable {
 
+	/* FXML */
 	@FXML
 	private TextField email;
 	@FXML
@@ -33,11 +35,11 @@ public class NewUserViewController implements Initializable {
 
 	/**
 	 * Initializes the view.
-	 * @param location 	//TODO: Explain FXML stuff?
-	 * @param resources
+	 * @param url 	The location of the FXML document to use.
+	 * @param rb 	Resources for the JavaFX view.
 	 */
 	@Override
-	public void initialize(URL location, ResourceBundle resources) {
+	public void initialize(URL url, ResourceBundle rb) {
 		connectionController = ConnectionController.getInstance();
 		connectionController.setNewUserViewController(this);
 	}
@@ -52,12 +54,16 @@ public class NewUserViewController implements Initializable {
 	}
 
 	/**
-	 * Prints the new users status in the database.
+	 * Validates the new users status in the database.
+	 * If the new user was created in the database,
+	 * the login view will automatically fill in the
+	 * login information for the user.
 	 * @param newUser	The user to check.
 	 */
-	public void validateNewUser(NewUser newUser) {
-		System.out.println(newUser.getNewUserStatus());
+	void validateNewUser(NewUser newUser) {
+		// NOT FINISHED
 		//TODO: Create 'autofill' function?
+		System.out.println(newUser.getNewUserStatus());
 	}
 
 	/**
