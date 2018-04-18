@@ -1,12 +1,9 @@
 package client.controllers;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import models.Plant;
 import models.DataRequest;
 import models.Login;
 import models.NewUser;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -69,6 +66,10 @@ public class ConnectionController {
 	 */
 	void setNewUserViewController(NewUserViewController newUserViewController) {
 		this.newUserViewController = newUserViewController;
+	}
+	
+	void setMainViewController(MainViewController mainViewController) {
+		this.mainViewController = mainViewController;
 	}
 
 	/**
@@ -139,8 +140,8 @@ public class ConnectionController {
 				}
 				if(obj instanceof ArrayList<?>) {
 					if(((ArrayList<?>)obj).get(0) instanceof Plant) {
+						@SuppressWarnings("unchecked")
 						ArrayList<Plant> newList = (ArrayList<Plant>)obj;
-						System.out.println(newList.toString());
 						mainViewController.setPlantList(newList);
 					}
 				}

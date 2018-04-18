@@ -1,10 +1,6 @@
 package server.controllers;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import models.*;
-
-import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -208,14 +204,15 @@ public class ClientController implements Runnable {
 			return plantList;
 		}
 
+
 		/**
 		 * Fills the plant object with data from the server.
 		 * @param plant	The plant to fill.
 		 * @return		The list of datapoints for the plant.
 		 */
-		private ObservableList<DataPoint> getPlantData(Plant plant) {
+		private ArrayList<DataPoint> getPlantData(Plant plant) {
 			ResultSet rs;
-			ObservableList<DataPoint> plantListData = FXCollections.observableArrayList();
+			ArrayList<DataPoint> plantListData = new ArrayList<DataPoint>();
 
 			try {
 				rs = conn.createStatement().executeQuery(
