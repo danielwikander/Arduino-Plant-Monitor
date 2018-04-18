@@ -1,7 +1,8 @@
 package models;
 
-import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
+
+import java.io.Serializable;
 
 /**
  * This class represents a plant.
@@ -9,7 +10,7 @@ import javafx.collections.ObservableList;
  * //TODO: Plant should contain values for notifications.
  * //TODO: Plant should contain HashMap of DataPoints.
  */
-public class Plant {
+public class Plant implements Serializable {
 
 	private ObservableList<DataPoint> dataPoints;
 

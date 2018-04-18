@@ -7,49 +7,57 @@ import java.io.Serializable;
  */
 public class DataPoint implements Serializable {
 
-    private String timePoint;
-    private String soilMoistureLevel;
-    private String airMoistureLevel;
-    private String lightLevel;
-    private String temperature;
+    private String timeStamp;
+    private int soilMoistureLevel;
+    private int humidity;
+    private int lightLevel;
+    private int temperature;
 
-    public String getTimePoint() {
-        return timePoint;
+    public DataPoint (String timeStamp, int soilMoistureLevel, int humidity, int temperature, int lightLevel) {
+        this.timeStamp = timeStamp;
+        this.soilMoistureLevel = soilMoistureLevel;
+        this.humidity = humidity;
+        this.lightLevel = lightLevel;
+        this.temperature = temperature;
     }
 
-    public void setTimePoint(String timePoint) {
-        this.timePoint = timePoint;
+    public String getTimeStamp() {
+        return timeStamp;
     }
 
-    public String getSoilMoistureLevel() {
+    public void setTimeStamp(String timeStamp) {
+        this.timeStamp = timeStamp;
+    }
+
+    public int getSoilMoistureLevel() {
         return soilMoistureLevel;
     }
 
-    public void setSoilMoistureLevel(String soilMoistureLevel) {
+    public void setSoilMoistureLevel(int soilMoistureLevel) {
         this.soilMoistureLevel = soilMoistureLevel;
     }
 
-    public String getAirMoistureLevel() {
-        return airMoistureLevel;
+    public int getHumidity() {
+        return humidity;
     }
 
-    public void setAirMoistureLevel(String airMoistureLevel) {
-        this.airMoistureLevel = airMoistureLevel;
+    public void setHumidity(int humidity) {
+        this.humidity = humidity;
     }
 
-    public String getLightLevel() {
+    public int getLightLevel() {
         return lightLevel;
     }
 
-    public void setLightLevel(String lightLevel) {
+    public void setLightLevel(int lightLevel) {
         this.lightLevel = lightLevel;
     }
 
-    public String getTemperature() {
+    public int getTemperature() {
         return temperature;
     }
 
-    public void setTemperature(String temperature) {
+    public void setTemperature(int temperature) {
         this.temperature = temperature;
     }
 }

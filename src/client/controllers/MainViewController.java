@@ -44,7 +44,7 @@ public class MainViewController implements Initializable {
 		initializeListViewListener();
 		
 		plantListData.clear();
-//		// Dummy data
+		// Dummy data
 //		plantListData.add(new Plant("client/images/broccoli.png", "Vardagsrum", "Broccoli"));
 //		plantListData.add(new Plant("client/images/carrot.png", "Köket", "Morot"));
 //		plantListData.add(new Plant("client/images/chili.png", "Sovrum", "Chili"));

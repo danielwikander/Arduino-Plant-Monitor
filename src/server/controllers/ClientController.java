@@ -1,10 +1,10 @@
 package server.controllers;
 
-import models.DataRequest;
-import models.Login;
-import models.NewUser;
-import models.Plant;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import models.*;
 
+import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -95,8 +95,10 @@ public class ClientController implements Runnable {
 						oos.writeObject(newUser);
 						oos.flush();
 					} else if(obj instanceof DataRequest) {
-						//TODO: Get data for client.
-
+						DataRequest dataRequest = (DataRequest)obj;
+						ArrayList<Plant> plantList = getPlants(dataRequest.getRequestingUser());
+						oos.writeObject(plantList);
+						oos.flush();
 					}
 				}
 			} catch (IOException e) {
@@ -191,12 +193,39 @@ public class ClientController implements Runnable {
 							rs.getBoolean(8), rs.getInt(9), rs.getInt(10),
 							rs.getBoolean(11), rs.getInt(12), rs.getInt(13)));
 				}
-
-
+				for(Plant p : plantList) {
+					p.setDataPoints(getPlantData(p));
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 			return plantList;
+		}
+
+
+		private ObservableList<DataPoint> getPlantData(Plant plant) {
+			ResultSet rs;
+			ObservableList<DataPoint> plantListData = FXCollections.observableArrayList();
+
+			try {
+				rs = conn.createStatement().executeQuery(
+						"select " +
+								"date, " +
+								"mac, " +
+								"soil_moisture, " +
+								"humidity, " +
+								"temperature, " +
+								"light_exposure\n" +
+								"from apm_value\n" +
+								"where mac = '"+ plant.getMac() + "';");
+
+				while(rs.next()) {
+					plantListData.add(new DataPoint(rs.getString(1), rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getInt(6)));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return plantListData;
 		}
 	}
 }

@@ -141,6 +141,7 @@ public class ConnectionController {
 					if(((ArrayList<?>)obj).get(0) instanceof Plant) {
 						ArrayList<Plant> newList = (ArrayList<Plant>)obj;
 						//TODO: set local plants info.
+						System.out.println(newList.toString());
 						mainViewController.setPlantList(newList);
 					}
 				}
