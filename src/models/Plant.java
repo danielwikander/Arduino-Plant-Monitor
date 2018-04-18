@@ -1,8 +1,7 @@
 package models;
 
-import javafx.collections.ObservableList;
-
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * This class represents a plant.
@@ -12,8 +11,8 @@ import java.io.Serializable;
  */
 public class Plant implements Serializable {
 
-	private ObservableList<DataPoint> dataPoints;
-
+	private static final long serialVersionUID = 2679207460693826435L;
+	private ArrayList<DataPoint> dataPoints;
 	private String plantIconFile;
 	private String plantSpecies;
 	private String mac;
@@ -50,13 +49,14 @@ public class Plant implements Serializable {
 		this.temperatureMonitor = temperatureMonitor;
 		this.temperatureMax = temperatureMax;
 		this.temperatureMin = temperatureMin;
+		this.plantIconFile = "client/images/" + plantSpecies + ".png";
 	}
 
-	public ObservableList<DataPoint> getDataPoints() {
+	public ArrayList<DataPoint> getDataPoints() {
 		return dataPoints;
 	}
 
-	public void setDataPoints(ObservableList<DataPoint> dataPoints) {
+	public void setDataPoints(ArrayList<DataPoint> dataPoints) {
 		this.dataPoints = dataPoints;
 	}
 
@@ -114,5 +114,77 @@ public class Plant implements Serializable {
 	 */
 	public String getPlantSpecies() {
 		return plantSpecies;
+	}
+	
+	public boolean isSoilMoistureMonitor() {
+		return soilMoistureMonitor;
+	}
+
+	public void setSoilMoistureMonitor(boolean soilMoistureMonitor) {
+		this.soilMoistureMonitor = soilMoistureMonitor;
+	}
+
+	public int getSoilMoistureMax() {
+		return soilMoistureMax;
+	}
+
+	public void setSoilMoistureMax(int soilMoistureMax) {
+		this.soilMoistureMax = soilMoistureMax;
+	}
+
+	public int getSoilMoistureMin() {
+		return soilMoistureMin;
+	}
+
+	public void setSoilMoistureMin(int soilMoistureMin) {
+		this.soilMoistureMin = soilMoistureMin;
+	}
+
+	public boolean isHumidityMonitor() {
+		return humidityMonitor;
+	}
+
+	public void setHumidityMonitor(boolean humidityMonitor) {
+		this.humidityMonitor = humidityMonitor;
+	}
+
+	public int getHumidityMax() {
+		return humidityMax;
+	}
+
+	public void setHumidityMax(int humidityMax) {
+		this.humidityMax = humidityMax;
+	}
+
+	public int getHumidityMin() {
+		return humidityMin;
+	}
+
+	public void setHumidityMin(int humidityMin) {
+		this.humidityMin = humidityMin;
+	}
+
+	public boolean isTemperatureMonitor() {
+		return temperatureMonitor;
+	}
+
+	public void setTemperatureMonitor(boolean temperatureMonitor) {
+		this.temperatureMonitor = temperatureMonitor;
+	}
+
+	public int getTemperatureMax() {
+		return temperatureMax;
+	}
+
+	public void setTemperatureMax(int temperatureMax) {
+		this.temperatureMax = temperatureMax;
+	}
+
+	public int getTemperatureMin() {
+		return temperatureMin;
+	}
+
+	public void setTemperatureMin(int temperatureMin) {
+		this.temperatureMin = temperatureMin;
 	}
 }

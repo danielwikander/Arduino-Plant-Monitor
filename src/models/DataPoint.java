@@ -7,7 +7,8 @@ import java.io.Serializable;
  */
 public class DataPoint implements Serializable {
 
-    private String timeStamp;
+	private static final long serialVersionUID = 5914959873620340574L;
+	private String timeStamp;
     private int soilMoistureLevel;
     private int humidity;
     private int lightLevel;

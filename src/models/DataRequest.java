@@ -9,7 +9,8 @@ import java.io.Serializable;
  */
 public class DataRequest implements Serializable {
 
-    private Login requestingUser;
+	private static final long serialVersionUID = 1816313010023085287L;
+	private Login requestingUser;
 
     public DataRequest(Login requestingUser) {
         this.requestingUser = requestingUser;

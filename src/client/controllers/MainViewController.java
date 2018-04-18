@@ -31,6 +31,7 @@ public class MainViewController implements Initializable {
 	@FXML
 	private ListView<Plant> plantList;
 	private ObservableList<Plant> plantListData = FXCollections.observableArrayList();
+	private ConnectionController connectionController;
 
 	/**
 	 * Initializes the main view.
@@ -39,17 +40,16 @@ public class MainViewController implements Initializable {
 	 */
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
+		connectionController = ConnectionController.getInstance();
+		connectionController.setMainViewController(this);
+		
 		changeButton.setDisable(true);
 		removeButton.setDisable(true);
 		initializeListViewListener();
 		
 		plantListData.clear();
-		// Dummy data
-//		plantListData.add(new Plant("client/images/broccoli.png", "Vardagsrum", "Broccoli"));
-//		plantListData.add(new Plant("client/images/carrot.png", "Köket", "Morot"));
-//		plantListData.add(new Plant("client/images/chili.png", "Sovrum", "Chili"));
 		
-		plantList.setCellFactory(new Callback<ListView<Plant>,ListCell<Plant>>() {
+		this.plantList.setCellFactory(new Callback<ListView<Plant>,ListCell<Plant>>() {
 
 			@Override
 			public ListCell<Plant> call(ListView<Plant> arg0) {
@@ -61,14 +61,15 @@ public class MainViewController implements Initializable {
 							Image image = new Image(getClass().getClassLoader().getResource(c.getPlantIconFile()).toExternalForm(), 30, 30, false, true);
 							ImageView imageView = new ImageView(image);
 							setGraphic(imageView);
-							setText(c.getPlantAlias());
+							setText(c.getAlias());
 						}
 					}
 				};
 				return cell;
 			}		
 		});
-		plantList.setItems(plantListData);
+		
+
 	}
 
 	/**
@@ -109,5 +110,6 @@ public class MainViewController implements Initializable {
 
 	public void setPlantList(ArrayList<Plant> plantList) {
 		plantListData = FXCollections.observableArrayList(plantList);
+		this.plantList.setItems(plantListData);
 	}
 }
