@@ -159,6 +159,12 @@ public class ClientController implements Runnable {
 			return true;
 		}
 
+		/**
+		 * Retrieves a users plants and their information from the server.
+		 * The information includes things like MAC-address, notification levels etc.
+		 * @param login	The user who wishes to retrieve plant information.
+		 * @return		Returns a list of the users plants and their data values.
+		 */
 		private ArrayList<Plant> getPlants(Login login) {
 			ResultSet rs;
 			ArrayList<Plant> plantList = new ArrayList<Plant>();
@@ -202,7 +208,11 @@ public class ClientController implements Runnable {
 			return plantList;
 		}
 
-
+		/**
+		 * Fills the plant object with data from the server.
+		 * @param plant	The plant to fill.
+		 * @return		The list of datapoints for the plant.
+		 */
 		private ObservableList<DataPoint> getPlantData(Plant plant) {
 			ResultSet rs;
 			ObservableList<DataPoint> plantListData = FXCollections.observableArrayList();

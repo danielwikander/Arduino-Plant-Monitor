@@ -140,7 +140,6 @@ public class ConnectionController {
 				if(obj instanceof ArrayList<?>) {
 					if(((ArrayList<?>)obj).get(0) instanceof Plant) {
 						ArrayList<Plant> newList = (ArrayList<Plant>)obj;
-						//TODO: set local plants info.
 						System.out.println(newList.toString());
 						mainViewController.setPlantList(newList);
 					}
@@ -151,7 +150,7 @@ public class ConnectionController {
 
 	/**
 	 * Retrieves plant information from the server.
-	 * @param dataRequest
+	 * @param dataRequest The request for data.
 	 */
 	public void requestUsersPlantInfo(DataRequest dataRequest) {
 		try {
