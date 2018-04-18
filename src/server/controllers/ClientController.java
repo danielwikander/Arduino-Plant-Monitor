@@ -1,5 +1,6 @@
 package server.controllers;
 
+import models.DataRequest;
 import models.Login;
 import models.NewUser;
 import java.io.IOException;
@@ -53,7 +54,8 @@ public class ClientController implements Runnable {
 	 * Handles newly connected clients.
 	 * Starts new socket connection with input and output streams.
 	 * Checks if the client wants to log in or create a new user,
-	 * and handles the request accordingly.
+	 * and handles the request accordingly. Also handles datarequests
+	 * when a user wishes to retrieve data.
 	 */
 	private class ClientHandler extends Thread {
 		private Socket socket;
@@ -84,12 +86,13 @@ public class ClientController implements Runnable {
 						login.setIsLoggedIn(validateLogin(login));
 						oos.writeObject(login);
 						oos.flush();
-					}
-					else if(obj instanceof NewUser) {
+					} else if(obj instanceof NewUser) {
 						newUser = (NewUser) obj;
 						newUser.setNewUserStatus(validateNewUser(newUser));
 						oos.writeObject(newUser);
 						oos.flush();
+					} else if(obj instanceof DataRequest) {
+						//TODO: Get data for client.
 					}
 				}
 			} catch (IOException e) {

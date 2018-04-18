@@ -1,12 +1,16 @@
 package client.controllers;
 
+import models.DataPoint;
+import models.DataRequest;
 import models.Login;
 import models.NewUser;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.ArrayList;
 
 /**
  * Handles the initial connection to the server.
@@ -127,7 +131,27 @@ public class ConnectionController {
 					NewUser newUser = (NewUser) obj;
 					newUserViewController.validateNewUser(newUser);
 				}
+				if(obj instanceof ArrayList<?>)
+				{
+					if(((ArrayList<?>)obj).get(0) instanceof DataPoint)
+					{
+						//TODO: set local plants info.
+					}
+				}
 			}
+		}
+	}
+
+	/**
+	 * Retrieves plant information from the server.
+	 * @param dataRequest
+	 */
+	public void requestUsersPlantInfo(DataRequest dataRequest) {
+		try {
+			oos.writeObject(dataRequest);
+			oos.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 }

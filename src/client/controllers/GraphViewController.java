@@ -20,7 +20,6 @@ public class GraphViewController {
 
 	@FXML
 	private Label plantAliasLabel;
-
 	@FXML
 	private AreaChart<Number, Number> valueChart = new AreaChart<Number,Number>(valueXAxis, valueYAxis);
 	@FXML
@@ -32,8 +31,7 @@ public class GraphViewController {
 		XYChart.Series valueSeries = new XYChart.Series();
 		valueSeries.setName("Värde");
 		//TODO: Hämta data och presentera.
-		valueSeries.getData().add(new XYChart.Data(1, 4));
+		// valueSeries.getData().add(new XYChart.Data(1, 4));
 	}
-
 
 }

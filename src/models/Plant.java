@@ -1,15 +1,20 @@
 package models;
 
+import javafx.collections.ObservableArray;
+import javafx.collections.ObservableList;
+
 /**
  * This class represents a plant.
  * The object contains the plants information, such as name, icon etc.
  * //TODO: Plant should contain values for notifications.
+ * //TODO: Plant should contain HashMap of DataPoints.
  */
 public class Plant {
 
 	private String plantIconFile;
 	private String plantAlias;
 	private String plantSpecies;
+	private ObservableList<DataPoint> dataPoints;
 
 	/**
 	 * Constructor that sets the plants variables.
