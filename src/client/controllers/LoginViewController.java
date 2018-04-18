@@ -8,7 +8,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -20,15 +19,15 @@ public class LoginViewController implements Initializable {
 
 	/* FXML */
 	@FXML
-	private TextField email;
+	private TextField emailTextField;
 	@FXML
-	private PasswordField password;
+	private PasswordField passwordPasswordField;
 	@FXML
-	private Label loginError;
+	private Label loginErrorLabel;
 	@FXML
-	private Button login;
+	private Button loginButton;
 	@FXML
-	private Button newUser;
+	private Button newUserButton;
 	
 	private ConnectionController connectionController;
 
@@ -41,7 +40,7 @@ public class LoginViewController implements Initializable {
 	public void initialize(URL url, ResourceBundle rb) {
 		connectionController = ConnectionController.getInstance();
 		connectionController.setLoginViewController(this);
-		loginError.setVisible(false);
+		loginErrorLabel.setVisible(false);
 	}
 
 	/**
@@ -49,7 +48,7 @@ public class LoginViewController implements Initializable {
 	 * This method is called when users press 'Logga in'
 	 */
 	public void goLogin() {
-		Login login = new Login(email.getText(), password.getText());
+		Login login = new Login(emailTextField.getText(), passwordPasswordField.getText());
 		connectionController.login(login);
 	}
 
@@ -59,7 +58,7 @@ public class LoginViewController implements Initializable {
 	 */
 	void validateLogin(Login login) {
 		if(!login.getIsLoggedIn()) {
-			loginError.setVisible(true);
+			loginErrorLabel.setVisible(true);
 		} else {
 			Main.showMainView();
 		}

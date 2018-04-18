@@ -22,11 +22,11 @@ import java.util.ResourceBundle;
 public class MainViewController implements Initializable {
 
 	@FXML
-	private Button add;
+	private Button addButton;
 	@FXML
-	private Button change;
+	private Button changeButton;
 	@FXML
-	private Button remove;
+	private Button removeButton;
 	@FXML
 	private ListView<Plant> plantList;
 	private final ObservableList<Plant> plantListData = FXCollections.observableArrayList();
@@ -38,8 +38,8 @@ public class MainViewController implements Initializable {
 	 */
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
-		change.setDisable(true);
-		remove.setDisable(true);
+		changeButton.setDisable(true);
+		removeButton.setDisable(true);
 		initializeListViewListener();
 		
 		plantListData.clear();
@@ -76,7 +76,7 @@ public class MainViewController implements Initializable {
 	 */
 	@FXML
 	private void goAdd() throws IOException {
-		add.setDisable(true);
+		addButton.setDisable(true);
 		Main.showAddView();
 	}
 
@@ -95,9 +95,9 @@ public class MainViewController implements Initializable {
 	 */
 	private void initializeListViewListener() {
 		plantList.getSelectionModel().selectedItemProperty().addListener((v) -> {
-			change.setDisable(false);
-			remove.setDisable(false);
-			add.setDisable(false);
+			changeButton.setDisable(false);
+			removeButton.setDisable(false);
+			addButton.setDisable(false);
 			try {
 				Main.showGraphView(plantList.getSelectionModel().getSelectedItem());
 			} catch (IOException e) {

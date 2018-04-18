@@ -5,6 +5,7 @@ import models.NewUser;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import java.io.IOException;
@@ -19,17 +20,19 @@ public class NewUserViewController implements Initializable {
 
 	/* FXML */
 	@FXML
-	private TextField email;
+	private TextField emailTextField;
 	@FXML
-	private PasswordField password;
+	private PasswordField passwordPasswordField;
 	@FXML
-	private TextField firstName;
+	private TextField firstNameTextField;
 	@FXML
-	private TextField lastName;
+	private TextField lastNameTextField;
 	@FXML
-	private Button newUser;
+	private Label emailErrorLabel;
 	@FXML
-	private Button back;
+	private Button newUserButton;
+	@FXML
+	private Button backButton;
 	
 	private ConnectionController connectionController;
 
@@ -42,6 +45,7 @@ public class NewUserViewController implements Initializable {
 	public void initialize(URL url, ResourceBundle rb) {
 		connectionController = ConnectionController.getInstance();
 		connectionController.setNewUserViewController(this);
+		emailErrorLabel.setVisible(false);
 	}
 
 	/**
@@ -49,7 +53,7 @@ public class NewUserViewController implements Initializable {
 	 * The ConnectionController will attempt to create a new user.
 	 */
 	public void goNewUser() {
-		NewUser newUser = new NewUser(email.getText(), password.getText(), firstName.getText(), lastName.getText());
+		NewUser newUser = new NewUser(emailTextField.getText(), passwordPasswordField.getText(), firstNameTextField.getText(), lastNameTextField.getText());
 		connectionController.newUser(newUser);
 	}
 
@@ -61,9 +65,11 @@ public class NewUserViewController implements Initializable {
 	 * @param newUser	The user to check.
 	 */
 	void validateNewUser(NewUser newUser) {
-		// NOT FINISHED
-		//TODO: Create 'autofill' function?
-		System.out.println(newUser.getNewUserStatus());
+		if(newUser.getNewUserStatus()) {
+			Main.showMainView();
+		} else {
+			emailErrorLabel.setVisible(true);
+		}
 	}
 
 	/**
