@@ -57,7 +57,7 @@ public class LoginViewController implements Initializable {
 	 * @param login	The login information to check.
 	 */
 	void validateLogin(Login login) {
-		if(!login.getIsLoggedIn()) {
+		if(!login.isLoggedIn()) {
 			loginErrorLabel.setVisible(true);
 		} else {
 			Main.showMainView();

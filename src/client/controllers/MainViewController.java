@@ -14,6 +14,7 @@ import javafx.scene.image.ImageView;
 import javafx.util.Callback;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 /**
@@ -29,7 +30,7 @@ public class MainViewController implements Initializable {
 	private Button removeButton;
 	@FXML
 	private ListView<Plant> plantList;
-	private final ObservableList<Plant> plantListData = FXCollections.observableArrayList();
+	private ObservableList<Plant> plantListData = FXCollections.observableArrayList();
 
 	/**
 	 * Initializes the main view.
@@ -43,10 +44,10 @@ public class MainViewController implements Initializable {
 		initializeListViewListener();
 		
 		plantListData.clear();
-		// Dummy data
-		plantListData.add(new Plant("client/images/broccoli.png", "Vardagsrum", "Broccoli"));
-		plantListData.add(new Plant("client/images/carrot.png", "Köket", "Morot"));
-		plantListData.add(new Plant("client/images/chili.png", "Sovrum", "Chili"));
+//		// Dummy data
+//		plantListData.add(new Plant("client/images/broccoli.png", "Vardagsrum", "Broccoli"));
+//		plantListData.add(new Plant("client/images/carrot.png", "Köket", "Morot"));
+//		plantListData.add(new Plant("client/images/chili.png", "Sovrum", "Chili"));
 		
 		plantList.setCellFactory(new Callback<ListView<Plant>,ListCell<Plant>>() {
 
@@ -104,5 +105,9 @@ public class MainViewController implements Initializable {
 				e.printStackTrace();
 			}
 		});
+	}
+
+	public void setPlantList(ArrayList<Plant> plantList) {
+		plantListData = FXCollections.observableArrayList(plantList);
 	}
 }

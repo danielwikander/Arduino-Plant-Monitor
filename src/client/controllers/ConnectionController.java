@@ -1,6 +1,8 @@
 package client.controllers;
 
-import models.DataPoint;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import models.Plant;
 import models.DataRequest;
 import models.Login;
 import models.NewUser;
@@ -23,6 +25,7 @@ public class ConnectionController {
 	private LoginViewController loginViewController;
 	private NewUserViewController newUserViewController;
 	private static ConnectionController connectionController;
+	private MainViewController mainViewController;
 
 	/**
 	 * Sets up input / output streams and starts a new {@link ConnectionHandler}
@@ -126,16 +129,19 @@ public class ConnectionController {
 				if(obj instanceof Login) {
 					Login login = (Login) obj;			
 					loginViewController.validateLogin(login);
+					if(login.isLoggedIn()) {
+						requestUsersPlantInfo(new DataRequest(login));
+					}
 				}
 				if(obj instanceof NewUser) {
 					NewUser newUser = (NewUser) obj;
 					newUserViewController.validateNewUser(newUser);
 				}
-				if(obj instanceof ArrayList<?>)
-				{
-					if(((ArrayList<?>)obj).get(0) instanceof DataPoint)
-					{
+				if(obj instanceof ArrayList<?>) {
+					if(((ArrayList<?>)obj).get(0) instanceof Plant) {
+						ArrayList<Plant> newList = (ArrayList<Plant>)obj;
 						//TODO: set local plants info.
+						mainViewController.setPlantList(newList);
 					}
 				}
 			}

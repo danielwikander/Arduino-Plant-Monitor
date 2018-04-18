@@ -3,6 +3,8 @@ package server.controllers;
 import models.DataRequest;
 import models.Login;
 import models.NewUser;
+import models.Plant;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -10,6 +12,7 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.*;
+import java.util.ArrayList;
 
 /**
  * Handles clients connecting to the server by setting
@@ -93,6 +96,7 @@ public class ClientController implements Runnable {
 						oos.flush();
 					} else if(obj instanceof DataRequest) {
 						//TODO: Get data for client.
+
 					}
 				}
 			} catch (IOException e) {
@@ -151,6 +155,48 @@ public class ClientController implements Runnable {
 				return false;
 			}
 			return true;
+		}
+
+		private ArrayList<Plant> getPlants(Login login) {
+			ResultSet rs;
+			ArrayList<Plant> plantList = new ArrayList<Plant>();
+			try {
+				conn = DriverManager.getConnection("jdbc:postgresql://35.230.133.109:5432/apmdb1", "postgres", "Passw0rd1234!");
+			} catch (SQLException e) {
+				System.out.println("Unable to connect to database");
+				e.printStackTrace();
+			}
+			try {
+				// Gets information about arduino and the plants notification values.
+				rs = conn.createStatement().executeQuery(
+						"select " +
+								"mac, " +
+								"email, " +
+								"plant_name, " +
+								"plant_alias, " +
+								"soil_moisture_monitor, " +
+								"soil_moisture_max, " +
+								"soil_moisture_min, " +
+								"humidity_monitor, " +
+								"humidity_max, " +
+								"humidity_min, " +
+								"temperature_monitor, " +
+								"temperature_max, " +
+								"temperature_min\n" +
+								"from apm_arduino\n" +
+								"where email = '" + login.getEmail() + "';");
+				while(rs.next()) {
+					plantList.add(new Plant(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
+							rs.getBoolean(5), rs.getInt(6), rs.getInt(7),
+							rs.getBoolean(8), rs.getInt(9), rs.getInt(10),
+							rs.getBoolean(11), rs.getInt(12), rs.getInt(13)));
+				}
+
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return plantList;
 		}
 	}
 }

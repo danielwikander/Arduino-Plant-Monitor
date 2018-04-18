@@ -46,7 +46,7 @@ public class Login implements Serializable {
 	 * False 	= Logged out.
 	 * @return	  Returns the users login status.
 	 */
-	public boolean getIsLoggedIn() {
+	public boolean isLoggedIn() {
 		return this.isLoggedIn;
 	}
 
