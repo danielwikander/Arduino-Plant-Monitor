@@ -5,13 +5,63 @@
 <?import javafx.scene.chart.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.text.Font?>
 
 <BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.controllers.GraphViewController">
+   <center>
+      <LineChart fx:id="valueChart" prefHeight="340.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+        <xAxis>
+          <CategoryAxis fx:id="valueXAxis" side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis fx:id="valueYAxis" label="\%" side="LEFT" />
+        </yAxis>
+      </LineChart>
+   </center>
+   <bottom>
+      <LineChart fx:id="temperatureChart" prefHeight="250.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+        <xAxis>
+          <CategoryAxis fx:id="temperatureXAxis" side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis fx:id="temperatureYAxis" label="C°" side="LEFT" />
+        </yAxis>
+      </LineChart>
+   </bottom>
    <top>
-      <Label fx:id="plantAliasLabel" BorderPane.alignment="CENTER" />
+      <HBox alignment="CENTER" prefHeight="50.0" prefWidth="800.0" BorderPane.alignment="CENTER_LEFT">
+         <children>
+            <HBox prefHeight="100.0" prefWidth="260.0">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="50.0" prefWidth="260.0">
+               <children>
+                  <Label fx:id="plantAliasLabel" prefHeight="35.0" prefWidth="200.0" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="260.0" spacing="10.0">
+               <children>
+                  <DatePicker prefHeight="21.0" prefWidth="120.0" promptText="Från " />
+                  <DatePicker prefHeight="25.0" prefWidth="120.0" promptText="Till ">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </DatePicker>
+               </children>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </HBox>
+         </children>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+         <padding>
+            <Insets left="10.0" right="10.0" />
+         </padding>
+      </HBox>
    </top>
 </BorderPane>

@@ -7,22 +7,24 @@ import models.DataPoint;
 import models.Plant;
 import java.util.ArrayList;
 import javafx.scene.chart.XYChart.Series;
+import javafx.*;
+
 public class GraphViewController {
 
 	@FXML
-	private CategoryAxis valueXAxis;
+	public CategoryAxis valueXAxis;
 	@FXML
-	private NumberAxis valueYAxis;
+	public NumberAxis valueYAxis;
 	@FXML
-	private CategoryAxis temperatureXAxis;
+	public CategoryAxis temperatureXAxis;
 	@FXML
-	private NumberAxis temperatureYAxis;
+	public NumberAxis temperatureYAxis;
 	@FXML
-	private Label plantAliasLabel;
+	public Label plantAliasLabel;
 	@FXML
-	private LineChart<String, Integer> valueChart;
+	public LineChart<String, Integer> valueChart;
 	@FXML
-	private LineChart<String, Integer> temperatureChart;
+	public LineChart<String, Integer> temperatureChart;
 
 
 	@SuppressWarnings("unchecked")
@@ -31,14 +33,38 @@ public class GraphViewController {
 
 		ArrayList<DataPoint> dataPointArrayList = plant.getDataPoints();
 
-		Series<String, Integer> valueSeries = new XYChart.Series<>();
-		valueSeries.setName("Värde");
+		Series<String, Integer> soilMoistureSeries = new XYChart.Series<>();
+		Series<String, Integer> lightLevelSeries = new XYChart.Series<>();
+		Series<String, Integer> humiditySeries = new XYChart.Series<>();
+		Series<String, Integer> temperatureSeries = new XYChart.Series<>();
+		soilMoistureSeries.setName("Jordfuktighet");
+		lightLevelSeries.setName("Ljusnivå");
+		humiditySeries.setName("Luftfuktighet");
+		temperatureSeries.setName("Temperatur");
+
 		for (DataPoint dp : dataPointArrayList) {
-			valueSeries.getData().add(new XYChart.Data<>(dp.getTimeStamp(), dp.getSoilMoistureLevel()));
+			soilMoistureSeries.getData().add(new XYChart.Data<>(dateFormat(dp.getTimeStamp()), dp.getSoilMoistureLevel()));
+			lightLevelSeries.getData().add(new XYChart.Data<>(dateFormat(dp.getTimeStamp()), dp.getLightLevel()));
+			humiditySeries.getData().add(new XYChart.Data<>(dateFormat(dp.getTimeStamp()), dp.getHumidity()));
+			temperatureSeries.getData().add(new XYChart.Data<>(dateFormat(dp.getTimeStamp()), dp.getTemperature()));
 		}
-		valueChart.getData().addAll(valueSeries);
-//		valueSeries.getData().add(new XYChart.Data(1, 4));
-//		valueSeries.getData().add(new XYChart.Data<>(1, 4));
+
+		valueChart.getData().addAll(soilMoistureSeries);
+		valueChart.getData().addAll(humiditySeries);
+        valueChart.getData().addAll(lightLevelSeries);
+        temperatureChart.getData().addAll(temperatureSeries);
+
+		valueXAxis.setTickLabelRotation(0);
+		temperatureXAxis.setTickLabelRotation(0);
 	}
+
+    /**
+     * Formats a date string from yyyy-mm-dd hh:mm:ss to yy-mm-dd \n hh:mm
+     * @param dateToFormat  The date to format.
+     * @return              The formatted date.
+     */
+	public String dateFormat(String dateToFormat) {
+	    return dateToFormat.substring(2,10) + "\n   " + dateToFormat.substring(11,16);
+    }
 
 }
