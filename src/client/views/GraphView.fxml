@@ -44,8 +44,8 @@
             </HBox>
             <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="260.0" spacing="10.0">
                <children>
-                  <DatePicker prefHeight="21.0" prefWidth="120.0" promptText="Från " />
-                  <DatePicker prefHeight="25.0" prefWidth="120.0" promptText="Till ">
+                  <DatePicker fx:id="fromDatePicker" prefHeight="21.0" prefWidth="120.0" promptText="Från " showWeekNumbers="true" />
+                  <DatePicker fx:id="toDatePicker" prefHeight="25.0" prefWidth="120.0" promptText="Till ">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>

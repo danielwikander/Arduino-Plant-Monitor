@@ -2,6 +2,7 @@ package client;
 
 import client.controllers.ConnectionController;
 import client.controllers.GraphViewController;
+import javafx.stage.Screen;
 import models.Plant;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -12,7 +13,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
+import java.awt.geom.Rectangle2D;
 import java.io.IOException;
+import java.awt.*;
 
 /**
  * Sets all JavaFX views and starts the application.
@@ -52,6 +55,7 @@ public class Main extends Application {
 		loader.setLocation(Main.class.getResource("views/LoginView.fxml"));
 		BorderPane loginLayout = loader.load();
 		Scene scene = new Scene(loginLayout);
+		primaryStage.setResizable(false);
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
@@ -85,6 +89,7 @@ public class Main extends Application {
 			}
 			Scene scene = new Scene(mainLayout);
 			primaryStage.setScene(scene);
+			primaryStage.setMaximized(true);
 			primaryStage.show();
 			try {
 				showStartView();
