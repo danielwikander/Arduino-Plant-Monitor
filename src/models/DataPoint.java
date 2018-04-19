@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Represents a collection of plant data at a specific point in time.
  */
 public class DataPoint implements Serializable {
-
+	
 	private static final long serialVersionUID = 5914959873620340574L;
 	private String timeStamp;
     private int soilMoistureLevel;
