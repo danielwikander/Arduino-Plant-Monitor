@@ -2,6 +2,7 @@ package client.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.chart.*;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import models.DataPoint;
 import models.Plant;
@@ -25,7 +26,10 @@ public class GraphViewController {
 	public LineChart<String, Integer> valueChart;
 	@FXML
 	public LineChart<String, Integer> temperatureChart;
-
+	@FXML
+	public DatePicker fromDatePicker;
+	@FXML
+	public DatePicker toDatePicker;
 
 	@SuppressWarnings("unchecked")
 	public void initialize(Plant plant) {
