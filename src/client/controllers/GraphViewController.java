@@ -1,37 +1,44 @@
 package client.controllers;
 
-import models.Plant;
 import javafx.fxml.FXML;
-import javafx.scene.chart.Chart;
+import javafx.scene.chart.*;
 import javafx.scene.control.Label;
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.chart.AreaChart;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
-import javafx.stage.Stage;
-
+import models.DataPoint;
+import models.Plant;
+import java.util.ArrayList;
+import javafx.scene.chart.XYChart.Series;
 public class GraphViewController {
 
-	private final NumberAxis valueXAxis = new NumberAxis(0, 100, 5);
-	private final NumberAxis valueYAxis = new NumberAxis(0, 100, 5);
-	private final NumberAxis temperatureXAxis = new NumberAxis(0, 100, 5);
-	private final NumberAxis temperatureYAxis = new NumberAxis(0, 100, 5);
-
+	@FXML
+	private CategoryAxis valueXAxis;
+	@FXML
+	private NumberAxis valueYAxis;
+	@FXML
+	private CategoryAxis temperatureXAxis;
+	@FXML
+	private NumberAxis temperatureYAxis;
 	@FXML
 	private Label plantAliasLabel;
 	@FXML
-	private AreaChart<Number, Number> valueChart = new AreaChart<Number,Number>(valueXAxis, valueYAxis);
+	private LineChart<String, Integer> valueChart;
 	@FXML
-	private AreaChart<Number, Number> temperatureChart = new AreaChart<Number,Number>(temperatureXAxis, temperatureYAxis);
+	private LineChart<String, Integer> temperatureChart;
 
+
+	@SuppressWarnings("unchecked")
 	public void initialize(Plant plant) {
 		plantAliasLabel.setText(plant.getPlantAlias());
 
-		XYChart.Series valueSeries = new XYChart.Series();
+		ArrayList<DataPoint> dataPointArrayList = plant.getDataPoints();
+
+		Series<String, Integer> valueSeries = new XYChart.Series<>();
 		valueSeries.setName("Värde");
-		//TODO: Hämta data och presentera.
-		// valueSeries.getData().add(new XYChart.Data(1, 4));
+		for (DataPoint dp : dataPointArrayList) {
+			valueSeries.getData().add(new XYChart.Data<>(dp.getTimeStamp(), dp.getSoilMoistureLevel()));
+		}
+		valueChart.getData().addAll(valueSeries);
+//		valueSeries.getData().add(new XYChart.Data(1, 4));
+//		valueSeries.getData().add(new XYChart.Data<>(1, 4));
 	}
 
 }

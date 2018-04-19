@@ -6,8 +6,6 @@ import java.util.ArrayList;
 /**
  * This class represents a plant.
  * The object contains the plants information, such as name, icon etc.
- * //TODO: Plant should contain values for notifications.
- * //TODO: Plant should contain HashMap of DataPoints.
  */
 public class Plant implements Serializable {
 
@@ -116,7 +114,7 @@ public class Plant implements Serializable {
 		return plantSpecies;
 	}
 	
-	public boolean isSoilMoistureMonitor() {
+	public boolean monitoringSoilMoisture() {
 		return soilMoistureMonitor;
 	}
 
@@ -140,7 +138,7 @@ public class Plant implements Serializable {
 		this.soilMoistureMin = soilMoistureMin;
 	}
 
-	public boolean isHumidityMonitor() {
+	public boolean monitoringHumidity() {
 		return humidityMonitor;
 	}
 
@@ -164,7 +162,7 @@ public class Plant implements Serializable {
 		this.humidityMin = humidityMin;
 	}
 
-	public boolean isTemperatureMonitor() {
+	public boolean monitoringTemperature() {
 		return temperatureMonitor;
 	}
 
