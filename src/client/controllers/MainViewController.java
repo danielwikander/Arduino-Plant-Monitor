@@ -1,7 +1,6 @@
 package client.controllers;
 
 import client.Main;
-import models.Plant;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -12,6 +11,8 @@ import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Callback;
+import models.Plant;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -26,8 +27,6 @@ public class MainViewController implements Initializable {
 	private Button addButton;
 	@FXML
 	private Button changeButton;
-	@FXML
-	private Button removeButton;
 	@FXML
 	private ListView<Plant> plantList;
 	private ObservableList<Plant> plantListData = FXCollections.observableArrayList();
@@ -44,7 +43,6 @@ public class MainViewController implements Initializable {
 		connectionController.setMainViewController(this);
 		
 		changeButton.setDisable(true);
-		removeButton.setDisable(true);
 		initializeListViewListener();
 		
 		plantListData.clear();
@@ -98,7 +96,6 @@ public class MainViewController implements Initializable {
 	private void initializeListViewListener() {
 		plantList.getSelectionModel().selectedItemProperty().addListener((v) -> {
 			changeButton.setDisable(false);
-			removeButton.setDisable(false);
 			addButton.setDisable(false);
 			try {
 				Main.showGraphView(plantList.getSelectionModel().getSelectedItem());

@@ -31,6 +31,6 @@ public class AddViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         WebEngine webEngine = wikiWebView.getEngine();
-        webEngine.load("https://sv.m.wikipedia.org/wiki/Tomat");
+        webEngine.load("https://sv.m.wikipedia.org/wiki/Växt");
     }
 }

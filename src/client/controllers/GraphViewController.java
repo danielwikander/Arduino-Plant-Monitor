@@ -1,14 +1,17 @@
 package client.controllers;
 
 import javafx.fxml.FXML;
-import javafx.scene.chart.*;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
+import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import models.DataPoint;
 import models.Plant;
+
 import java.util.ArrayList;
-import javafx.scene.chart.XYChart.Series;
-import javafx.*;
 
 public class GraphViewController {
 

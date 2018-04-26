@@ -2,8 +2,6 @@ package client;
 
 import client.controllers.ConnectionController;
 import client.controllers.GraphViewController;
-import javafx.stage.Screen;
-import models.Plant;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -12,10 +10,9 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import models.Plant;
 
-import java.awt.geom.Rectangle2D;
 import java.io.IOException;
-import java.awt.*;
 
 /**
  * Sets all JavaFX views and starts the application.
