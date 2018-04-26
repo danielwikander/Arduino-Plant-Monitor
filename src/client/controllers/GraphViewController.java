@@ -36,7 +36,7 @@ public class GraphViewController {
 
 	@SuppressWarnings("unchecked")
 	public void initialize(Plant plant) {
-		plantAliasLabel.setText(plant.getPlantAlias());
+		plantAliasLabel.setText(plant.getAlias());
 
 		ArrayList<DataPoint> dataPointArrayList = plant.getDataPoints();
 
@@ -49,11 +49,13 @@ public class GraphViewController {
 		humiditySeries.setName("Luftfuktighet");
 		temperatureSeries.setName("Temperatur");
 
-		for (DataPoint dp : dataPointArrayList) {
-			soilMoistureSeries.getData().add(new XYChart.Data<>(dateFormat(dp.getTimeStamp()), dp.getSoilMoistureLevel()));
-			lightLevelSeries.getData().add(new XYChart.Data<>(dateFormat(dp.getTimeStamp()), dp.getLightLevel()));
-			humiditySeries.getData().add(new XYChart.Data<>(dateFormat(dp.getTimeStamp()), dp.getHumidity()));
-			temperatureSeries.getData().add(new XYChart.Data<>(dateFormat(dp.getTimeStamp()), dp.getTemperature()));
+		if(dataPointArrayList !=null){
+			for (DataPoint dp : dataPointArrayList) {
+				soilMoistureSeries.getData().add(new XYChart.Data<>(dateFormat(dp.getTimeStamp()), dp.getSoilMoistureLevel()));
+				lightLevelSeries.getData().add(new XYChart.Data<>(dateFormat(dp.getTimeStamp()), dp.getLightLevel()));
+				humiditySeries.getData().add(new XYChart.Data<>(dateFormat(dp.getTimeStamp()), dp.getHumidity()));
+				temperatureSeries.getData().add(new XYChart.Data<>(dateFormat(dp.getTimeStamp()), dp.getTemperature()));
+			}
 		}
 
 		valueChart.getData().addAll(soilMoistureSeries);

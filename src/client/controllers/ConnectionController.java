@@ -107,6 +107,16 @@ public class ConnectionController {
 			e.printStackTrace();
 		}
 	}
+	
+	void sendPlant(Plant plant){
+		try {
+			oos.writeObject(plant);
+			oos.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
 
 	/**
 	 * Closes the socket.
@@ -144,11 +154,11 @@ public class ConnectionController {
 						requestUsersPlantInfo(new DataRequest(login));
 					}
 				}
-				if (obj instanceof NewUser) {
+				else if (obj instanceof NewUser) {
 					NewUser newUser = (NewUser) obj;
 					newUserViewController.validateNewUser(newUser);
 				}
-				if (obj instanceof ArrayList<?>) {
+				else if (obj instanceof ArrayList<?>) {
 					@SuppressWarnings("unchecked")
 					ArrayList<Plant> newList = (ArrayList<Plant>) obj;
 					mainViewController.setPlantList(newList);

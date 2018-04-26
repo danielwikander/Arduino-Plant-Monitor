@@ -10,8 +10,8 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import models.Login;
 import models.Plant;
-
 import java.io.IOException;
 
 /**
@@ -21,6 +21,8 @@ public class Main extends Application {
 
 	private static Stage primaryStage;
 	private static BorderPane mainLayout;
+	private static String user;
+	
 
 	/**
 	 * Starts applications primary stage and presents the login view.
@@ -116,6 +118,8 @@ public class Main extends Application {
 		loader.setLocation(Main.class.getResource("views/AddView.fxml"));
 		BorderPane addLayout = loader.load();
 		mainLayout.setCenter(addLayout);
+		
+		
 	}
 
 	/**
@@ -142,6 +146,14 @@ public class Main extends Application {
 		gvc.initialize(plant);
 	}
 
+	public static void setLoggedInUser(String email) {
+		user = email;
+	}
+	
+	public static String getLoggedInUser() {
+		return user;
+	}	
+	
 	/**
 	 * Launches the application.
 	 */

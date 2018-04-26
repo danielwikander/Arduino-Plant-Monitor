@@ -50,6 +50,7 @@ public class LoginViewController implements Initializable {
 	 */
 	public void goLogin() {
 		Login login = new Login(emailTextField.getText(), passwordPasswordField.getText());
+		Main.setLoggedInUser(login.getEmail());
 		connectionController.login(login);
 	}
 

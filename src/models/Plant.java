@@ -40,6 +40,7 @@ public class Plant implements Serializable {
 		this.plantSpecies = plantSpecies;
 		this.alias = alias;
 		this.soilMoistureMonitor = soilMoistureMonitor;
+		this.soilMoistureMin = 1;
 	}
 
 	/**
@@ -169,15 +170,6 @@ public class Plant implements Serializable {
 	 */
 	public String getPlantIconFile() {
 		return plantIconFile;
-	}
-
-	/**
-	 * Returns the plants alias.
-	 * 
-	 * @return Returns the alias.
-	 */
-	public String getPlantAlias() {
-		return alias;
 	}
 
 	/**

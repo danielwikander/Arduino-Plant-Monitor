@@ -55,7 +55,9 @@ public class NewUserViewController implements Initializable {
 	 */
 	public void goNewUser() {
 		NewUser newUser = new NewUser(emailTextField.getText(), passwordPasswordField.getText(), firstNameTextField.getText(), lastNameTextField.getText());
+		Main.setLoggedInUser(newUser.getEmail());
 		connectionController.newUser(newUser);
+		
 	}
 
 	/**

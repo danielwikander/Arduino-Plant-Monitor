@@ -1,5 +1,7 @@
 package client.controllers;
 
+import models.DataRequest;
+import models.Login;
 import models.Plant;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -11,14 +13,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.web.WebView;
-import models.Plant;
 import javafx.scene.web.WebEngine;
 import javafx.scene.control.ChoiceBox;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import client.Main;
 
 public class AddViewController implements Initializable {
@@ -72,7 +71,14 @@ public class AddViewController implements Initializable {
 
 	@FXML
     public void savePlant() {
-        Plant newPlant = new Plant(macAddressTextField.getText(), USEREMAIL, speciesChoiceBox.getValue(), plantAliasTextField.getText(), plantNotifierCheckBox.isSelected());
+        Plant newPlant = new Plant(macAddressTextField.getText(), Main.getLoggedInUser(), speciesChoiceBox.getValue(), plantAliasTextField.getText(), plantNotifierCheckBox.isSelected());
+        ConnectionController.getInstance().sendPlant(newPlant);
+        ConnectionController.getInstance().requestUsersPlantInfo(new DataRequest(new Login(Main.getLoggedInUser(), "")));
+        try {
+			Main.showGraphView(newPlant);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
 
 	private void initializeChoiceBoxListener() {
@@ -88,4 +94,6 @@ public class AddViewController implements Initializable {
 
 		});
 	}
+	
+	
 }

@@ -114,7 +114,7 @@ public class ArduinoController implements Runnable {
 		private boolean checkMacAddress() {
 			try {
 				Statement stmt = conn.createStatement();
-				ResultSet rs = stmt.executeQuery("SELECT mac FROM apm_plant WHERE mac = '" + macAddress + "';");
+				ResultSet rs = stmt.executeQuery("SELECT mac FROM apm_arduino WHERE mac = '" + macAddress + "';");
 				if(rs.next()) {
 					return true;
 				}

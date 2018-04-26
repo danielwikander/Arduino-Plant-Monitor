@@ -29,7 +29,7 @@ public class MainViewController implements Initializable {
 	private Button changeButton;
 	@FXML
 	private ListView<Plant> plantList;
-	private ObservableList<Plant> plantListData = FXCollections.observableArrayList();
+	private static ObservableList<Plant> plantListData = FXCollections.observableArrayList();
 	private ConnectionController connectionController;
 
 	/**
@@ -53,9 +53,12 @@ public class MainViewController implements Initializable {
 			public ListCell<Plant> call(ListView<Plant> arg0) {
 				ListCell<Plant> cell = new ListCell<Plant>() {
 					@Override
-					protected void updateItem(Plant c, boolean bt1) {
-						super.updateItem(c, bt1);
-						if(c != null) {
+					protected void updateItem(Plant c, boolean empty) {
+						super.updateItem(c, empty);
+						if(empty){
+							setGraphic(null);
+							setText(null);
+						} else {
 							Image image = new Image(getClass().getClassLoader().getResource(c.getPlantIconFile()).toExternalForm(), 30, 30, false, true);
 							ImageView imageView = new ImageView(image);
 							setGraphic(imageView);
@@ -108,5 +111,10 @@ public class MainViewController implements Initializable {
 	public void setPlantList(ArrayList<Plant> plantList) {
 		plantListData = FXCollections.observableArrayList(plantList);
 		this.plantList.setItems(plantListData);
+	}
+	
+	protected static void clearPlantListData(){
+		plantListData.clear();
+		
 	}
 }
