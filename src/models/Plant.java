@@ -27,8 +27,23 @@ public class Plant implements Serializable {
 	private int temperatureMin;
 
 	/**
-	 * Constructor that sets the plants variables.
-	 * 
+	 * Constructor that sets the plants values.
+	 * @param mac
+	 * @param email
+	 * @param plantSpecies
+	 * @param alias
+	 * @param soilMoistureMonitor
+	 */
+	public Plant(String mac, String email, String plantSpecies, String alias, boolean soilMoistureMonitor) {
+		this.mac = mac;
+		this.email = email;
+		this.plantSpecies = plantSpecies;
+		this.alias = alias;
+		this.soilMoistureMonitor = soilMoistureMonitor;
+	}
+
+	/**
+	 * Constructor that sets the plants variables if the user chose the advanced option.
 	 * @param plantSpecies
 	 *            The type of plant.
 	 */
@@ -237,7 +252,7 @@ public class Plant implements Serializable {
 	/**
 	 * Method sets the the boolean of if the humidity should be monitored.
 	 * 
-	 * @param soilMoistureMonitor
+	 * @param humidityMonitor
 	 *            the boolean-flag to set.
 	 */
 	public void setHumidityMonitor(boolean humidityMonitor) {

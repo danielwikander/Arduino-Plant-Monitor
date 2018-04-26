@@ -1,15 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
+<?import javafx.scene.web.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
-<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.141">
-   <center>
-      <Label text="ÄndraVy" BorderPane.alignment="CENTER">
-         <font>
-            <Font size="36.0" />
-         </font>
-      </Label>
-   </center>
+
+<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.controllers.ChangeViewController">
+   <top>
+      <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="settingsForLabel" contentDisplay="CENTER" text="Inställningar för: ">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Label>
+         </children>
+         <padding>
+            <Insets bottom="10.0" top="10.0" />
+         </padding>
+      </HBox>
+   </top>
+   <left>
+      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="400.0" spacing="15.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER" prefHeight="30.0" prefWidth="300.0" spacing="15.0">
+               <children>
+                  <Label text="Välj växtart:" />
+                  <ChoiceBox fx:id="plantChoiceBox" prefHeight="25.0" prefWidth="200.0" />
+               </children>
+            </HBox>
+            <TextField fx:id="macAddressTextField" promptText="MAC-adress" />
+            <TextField fx:id="plantAliasTextField" promptText="Växtnamn (ex. Tomat, balkongen)" />
+            <CheckBox fx:id="plantNotifierCheckBox" contentDisplay="RIGHT" mnemonicParsing="false" text="Notifiera mig när min växt är törstig" />
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+               <children>
+                  <Button fx:id="saveButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Spara" />
+                  <Button fx:id="cancelButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Avbryt" />
+               </children>
+            </HBox>
+         </children>
+         <padding>
+            <Insets left="50.0" right="50.0" top="50.0" />
+         </padding>
+      </VBox>
+   </left>
+   <right>
+      <WebView fx:id="wikiWebView" minHeight="400.0" minWidth="400.0" prefHeight="-1.0" prefWidth="-1.0" BorderPane.alignment="CENTER" />
+   </right>
 </BorderPane>

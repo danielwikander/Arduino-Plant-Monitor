@@ -1,5 +1,6 @@
 package client.controllers;
 
+import models.Plant;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -68,7 +69,12 @@ public class AddViewController implements Initializable {
 	private void cancel() throws IOException{
 		Main.showStartView();
 	}
-	
+
+	@FXML
+    public void savePlant() {
+        Plant newPlant = new Plant(macAddressTextField.getText(), USEREMAIL, speciesChoiceBox.getValue(), plantAliasTextField.getText(), plantNotifierCheckBox.isSelected());
+    }
+
 	private void initializeChoiceBoxListener() {
 		speciesChoiceBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
 			@Override
