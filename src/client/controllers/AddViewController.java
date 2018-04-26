@@ -1,8 +1,6 @@
 package client.controllers;
 
-import models.DataRequest;
-import models.Login;
-import models.Plant;
+import client.Main;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -11,14 +9,18 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.TextField;
-import javafx.scene.web.WebView;
-import javafx.scene.web.WebEngine;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
+import models.DataRequest;
+import models.Login;
+import models.Plant;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import client.Main;
 
 public class AddViewController implements Initializable {
 	@FXML
@@ -41,9 +43,12 @@ public class AddViewController implements Initializable {
 	Button saveButton;
 	@FXML
 	Button cancelButton;
+	@FXML
+	private HBox topPanelHBox;
 
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
+		topPanelHBox.setStyle("-fx-background-color: #a8cb9c;");
 		populateSpeciesList();
 		initializeChoiceBoxListener();
 		webEngine = wikiWebView.getEngine();
@@ -77,7 +82,7 @@ public class AddViewController implements Initializable {
         try {
 			Main.showGraphView(newPlant);
 		} catch (IOException e) {
-			e.printStackTrace();
+        	e.printStackTrace();
 		}
     }
 
@@ -94,6 +99,4 @@ public class AddViewController implements Initializable {
 
 		});
 	}
-	
-	
 }

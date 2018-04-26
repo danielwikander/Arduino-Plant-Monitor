@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import javafx.scene.chart.*?>
@@ -30,18 +31,20 @@
       </LineChart>
    </bottom>
    <top>
-      <HBox alignment="CENTER" prefHeight="50.0" prefWidth="800.0" BorderPane.alignment="CENTER_LEFT">
+      <HBox fx:id="topPanelHBox" alignment="CENTER" prefHeight="50.0" prefWidth="800.0" BorderPane.alignment="CENTER_LEFT">
          <children>
-            <HBox prefHeight="100.0" prefWidth="260.0">
+            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="260.0">
                <HBox.margin>
                   <Insets />
                </HBox.margin>
-            </HBox>
-            <HBox alignment="CENTER" prefHeight="50.0" prefWidth="260.0">
                <children>
-                  <Label fx:id="plantAliasLabel" prefHeight="35.0" prefWidth="200.0" />
+                  <Label fx:id="plantAliasLabel" prefHeight="35.0" prefWidth="200.0" text="Växt Alias" textFill="WHITE">
+                     <font>
+                        <Font size="24.0" />
+                     </font></Label>
                </children>
             </HBox>
+            <HBox alignment="CENTER" prefHeight="50.0" prefWidth="260.0" />
             <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="260.0" spacing="10.0">
                <children>
                   <DatePicker fx:id="fromDatePicker" prefHeight="21.0" prefWidth="120.0" promptText="Från " showWeekNumbers="true" />

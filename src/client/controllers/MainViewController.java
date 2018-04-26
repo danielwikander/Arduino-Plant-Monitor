@@ -1,6 +1,7 @@
 package client.controllers;
 
 import client.Main;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -10,6 +11,7 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.util.Callback;
 import models.Plant;
 
@@ -24,6 +26,10 @@ import java.util.ResourceBundle;
 public class MainViewController implements Initializable {
 
 	@FXML
+	private ImageView addButtonIcon;
+	@FXML
+	private ImageView changeButtonIcon;
+	@FXML
 	private Button addButton;
 	@FXML
 	private Button changeButton;
@@ -31,6 +37,8 @@ public class MainViewController implements Initializable {
 	private ListView<Plant> plantList;
 	private static ObservableList<Plant> plantListData = FXCollections.observableArrayList();
 	private ConnectionController connectionController;
+	@FXML
+	private HBox topPanelHBox;
 
 	/**
 	 * Initializes the main view.
@@ -39,6 +47,7 @@ public class MainViewController implements Initializable {
 	 */
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
+		topPanelHBox.setStyle("-fx-background-color: #a8cb9c;");
 		connectionController = ConnectionController.getInstance();
 		connectionController.setMainViewController(this);
 		
@@ -102,19 +111,16 @@ public class MainViewController implements Initializable {
 			addButton.setDisable(false);
 			try {
 				Main.showGraphView(plantList.getSelectionModel().getSelectedItem());
-			} catch (IOException e) {
+			} catch (IOException e ) {
 				e.printStackTrace();
 			}
 		});
 	}
 
 	public void setPlantList(ArrayList<Plant> plantList) {
-		plantListData = FXCollections.observableArrayList(plantList);
-		this.plantList.setItems(plantListData);
-	}
-	
-	protected static void clearPlantListData(){
-		plantListData.clear();
-		
+		Platform.runLater(() -> {
+			plantListData = FXCollections.observableArrayList(plantList);
+			this.plantList.setItems(plantListData);
+		});
 	}
 }

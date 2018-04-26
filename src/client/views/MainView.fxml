@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -15,8 +18,27 @@
             <ListView fx:id="plantList" prefHeight="200.0" prefWidth="200.0" />
          </center>
          <top>
-            <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" spacing="15.0" BorderPane.alignment="CENTER">
+            <HBox fx:id="topPanelHBox" alignment="CENTER" prefHeight="50.0" prefWidth="200.0" spacing="15.0" BorderPane.alignment="CENTER">
                <children>
+                  <ImageView fx:id="addButtonImage" fitHeight="40.0" fitWidth="40.0" focusTraversable="true" onMouseClicked="#goAdd" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/add.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="OPEN_HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fx:id="changeButtonImage" fitHeight="40.0" fitWidth="40.0" focusTraversable="true" onMouseClicked="#goChange" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/settings.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="OPEN_HAND" />
+                     </cursor>
+                  </ImageView>
                   <Button fx:id="addButton" mnemonicParsing="false" onAction="#goAdd" text="Lägg till" />
                   <Button fx:id="changeButton" mnemonicParsing="false" text="Ändra" />
                </children>

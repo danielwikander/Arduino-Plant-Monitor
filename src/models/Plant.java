@@ -29,7 +29,6 @@ public class Plant implements Serializable {
 	/**
 	 * Constructor that sets the plants values.
 	 * @param mac
-	 * @param email
 	 * @param plantSpecies
 	 * @param alias
 	 * @param soilMoistureMonitor

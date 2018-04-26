@@ -8,6 +8,7 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import models.DataPoint;
 import models.Plant;
 
@@ -33,9 +34,16 @@ public class GraphViewController {
 	public DatePicker fromDatePicker;
 	@FXML
 	public DatePicker toDatePicker;
+	@FXML
+	HBox topPanelHBox;
+
 
 	@SuppressWarnings("unchecked")
 	public void initialize(Plant plant) {
+		topPanelHBox.setStyle("-fx-background-color: #a8cb9c;");
+
+		System.out.println(plantAliasLabel);
+		System.out.println(plant.getAlias());
 		plantAliasLabel.setText(plant.getAlias());
 
 		ArrayList<DataPoint> dataPointArrayList = plant.getDataPoints();

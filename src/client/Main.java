@@ -10,8 +10,8 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import models.Login;
 import models.Plant;
+
 import java.io.IOException;
 
 /**
@@ -39,7 +39,9 @@ public class Main extends Application {
             @Override
             public void handle(WindowEvent t) {
                 ConnectionController cc = ConnectionController.getInstance();
-                cc.closeSocket();
+                if(cc.isServerAvailable() ) {
+					cc.closeSocket();
+				}
             }
         });
 	}
@@ -118,8 +120,6 @@ public class Main extends Application {
 		loader.setLocation(Main.class.getResource("views/AddView.fxml"));
 		BorderPane addLayout = loader.load();
 		mainLayout.setCenter(addLayout);
-		
-		
 	}
 
 	/**

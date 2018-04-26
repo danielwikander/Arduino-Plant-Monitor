@@ -24,6 +24,7 @@ public class ConnectionController {
 	private NewUserViewController newUserViewController;
 	private static ConnectionController connectionController;
 	private MainViewController mainViewController;
+	private boolean serverAvailable;
 
 	/**
 	 * Sets up input / output streams and starts a new {@link ConnectionHandler}
@@ -34,14 +35,18 @@ public class ConnectionController {
 			this.socket = new Socket("127.0.0.1", 5483);
 			oos = new ObjectOutputStream(socket.getOutputStream());
 			ois = new ObjectInputStream(socket.getInputStream());
+			serverAvailable = true;
 		} catch (IOException e) {
-			e.printStackTrace();
-			System.out.println("Server not available.");
-			// TODO: skapa error i GUI. röd text?
+			System.out.println("Server ej tillgänglig");
+			serverAvailable = false;
 		}
 		new ConnectionHandler().start();
 	}
 
+
+	public boolean isServerAvailable() {
+		return serverAvailable;
+	}
 	/**
 	 * Creates a singleton instance of the class.
 	 * 

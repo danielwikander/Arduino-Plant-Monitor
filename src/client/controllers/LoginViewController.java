@@ -1,12 +1,15 @@
 package client.controllers;
 
 import client.Main;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import models.Login;
 
 import java.io.IOException;
@@ -42,7 +45,47 @@ public class LoginViewController implements Initializable {
 		connectionController = ConnectionController.getInstance();
 		connectionController.setLoginViewController(this);
 		loginErrorLabel.setVisible(false);
+		loginButton.setDisable(true);
+		initializeTextFieldListeners();
+
+		// Attempts to log in if the user presses enter on the password field.
+		passwordPasswordField.setOnKeyPressed(event -> {
+			if(event.getCode() == KeyCode.ENTER){
+				goLogin();
+			}
+		});
+		if (!connectionController.isServerAvailable()) {
+            loginErrorLabel.setText("Server ej tillgänglig");
+            loginErrorLabel.setVisible(true);
+            loginButton.setDisable(true);
+            newUserButton.setDisable(true);
+            passwordPasswordField.setDisable(true);
+            emailTextField.setDisable(true);
+        }
 	}
+
+	void initializeTextFieldListeners() {
+	    emailTextField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
+                if (t1.equals("") ) {
+                    loginButton.setDisable(true);
+                } else if (!passwordPasswordField.getText().isEmpty() ){
+                    loginButton.setDisable(false);
+                }
+            }
+        });
+        passwordPasswordField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
+                if (t1.equals("")) {
+                    loginButton.setDisable(true);
+                } else if (!emailTextField.getText().isEmpty() ){
+                    loginButton.setDisable(false);
+                }
+            }
+        });
+    }
 
 	/**
 	 * Attempts to log in the user.
