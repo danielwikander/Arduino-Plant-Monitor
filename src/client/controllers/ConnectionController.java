@@ -13,8 +13,8 @@ import java.net.SocketException;
 import java.util.ArrayList;
 
 /**
- * Handles the initial connection to the server.
- * Sets up a socket and input / output streams.
+ * Handles the initial connection to the server. Sets up a socket and input /
+ * output streams.
  */
 public class ConnectionController {
 	private Socket socket;
@@ -44,10 +44,11 @@ public class ConnectionController {
 
 	/**
 	 * Creates a singleton instance of the class.
-	 * @return	Returns instance of the class.
+	 * 
+	 * @return Returns instance of the class.
 	 */
 	public static ConnectionController getInstance() {
-		if(connectionController == null) {
+		if (connectionController == null) {
 			connectionController = new ConnectionController();
 		}
 		return connectionController;
@@ -55,7 +56,9 @@ public class ConnectionController {
 
 	/**
 	 * Sets the loginViewController.
-	 * @param loginViewController The loginViewController to use.
+	 * 
+	 * @param loginViewController
+	 *            The loginViewController to use.
 	 */
 	void setLoginViewController(LoginViewController loginViewController) {
 		this.loginViewController = loginViewController;
@@ -63,19 +66,23 @@ public class ConnectionController {
 
 	/**
 	 * Sets the newUserViewController.
-	 * @param newUserViewController The newUserViewController to use.
+	 * 
+	 * @param newUserViewController
+	 *            The newUserViewController to use.
 	 */
 	void setNewUserViewController(NewUserViewController newUserViewController) {
 		this.newUserViewController = newUserViewController;
 	}
-	
+
 	void setMainViewController(MainViewController mainViewController) {
 		this.mainViewController = mainViewController;
 	}
 
 	/**
 	 * Sends a login request to the server.
-	 * @param login The login information to send.
+	 * 
+	 * @param login
+	 *            The login information to send.
 	 */
 	protected void login(Login login) {
 		try {
@@ -88,7 +95,9 @@ public class ConnectionController {
 
 	/**
 	 * Sends a new user request to the server.
-	 * @param newUser The new user information to send.
+	 * 
+	 * @param newUser
+	 *            The new user information to send.
 	 */
 	void newUser(NewUser newUser) {
 		try {
@@ -111,13 +120,13 @@ public class ConnectionController {
 	}
 
 	/**
-	 * Handles the incoming connection information.
-	 * Checks if the login or new user information sent is valid.
+	 * Handles the incoming connection information. Checks if the login or new
+	 * user information sent is valid.
 	 */
 	private class ConnectionHandler extends Thread {
 
 		public void run() {
-			while(!socket.isClosed()) {
+			while (!socket.isClosed()) {
 				Object obj = null;
 				try {
 					obj = ois.readObject();
@@ -128,23 +137,21 @@ public class ConnectionController {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				if(obj instanceof Login) {
-					Login login = (Login) obj;			
+				if (obj instanceof Login) {
+					Login login = (Login) obj;
 					loginViewController.validateLogin(login);
-					if(login.isLoggedIn()) {
+					if (login.isLoggedIn()) {
 						requestUsersPlantInfo(new DataRequest(login));
 					}
 				}
-				if(obj instanceof NewUser) {
+				if (obj instanceof NewUser) {
 					NewUser newUser = (NewUser) obj;
 					newUserViewController.validateNewUser(newUser);
 				}
-				if(obj instanceof ArrayList<?>) {
-					if(((ArrayList<?>)obj).get(0) instanceof Plant) {
-						@SuppressWarnings("unchecked")
-						ArrayList<Plant> newList = (ArrayList<Plant>)obj;
-						mainViewController.setPlantList(newList);
-					}
+				if (obj instanceof ArrayList<?>) {
+					@SuppressWarnings("unchecked")
+					ArrayList<Plant> newList = (ArrayList<Plant>) obj;
+					mainViewController.setPlantList(newList);
 				}
 			}
 		}
@@ -152,7 +159,9 @@ public class ConnectionController {
 
 	/**
 	 * Retrieves plant information from the server.
-	 * @param dataRequest The request for data.
+	 * 
+	 * @param dataRequest
+	 *            The request for data.
 	 */
 	public void requestUsersPlantInfo(DataRequest dataRequest) {
 		try {
