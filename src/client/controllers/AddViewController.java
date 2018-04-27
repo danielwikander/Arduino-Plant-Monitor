@@ -22,17 +22,19 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * The controller for the Add View.
+ * This controller handles the logic for the view the user is presented
+ * with when they wish to add a new plant to the system.
+ */
 public class AddViewController implements Initializable {
+
 	@FXML
 	WebView wikiWebView;
-
 	WebEngine webEngine;
-
 	@FXML
 	ChoiceBox<String> speciesChoiceBox;
-
 	ObservableList<String> speciesListData = FXCollections.observableArrayList();
-
 	@FXML
 	TextField macAddressTextField;
 	@FXML
@@ -46,6 +48,12 @@ public class AddViewController implements Initializable {
 	@FXML
 	private HBox topPanelHBox;
 
+	/**
+	 * Initializes the view.
+	 * Sets background color of the top panel and initializes the choicebox and webengine.
+	 * @param url
+	 * @param resourceBundle
+	 */
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
 		topPanelHBox.setStyle("-fx-background-color: #a8cb9c;");
@@ -55,6 +63,9 @@ public class AddViewController implements Initializable {
 		webEngine.load("https://sv.m.wikipedia.org/wiki/Växt");
 	}
 
+	/**
+	 * Populates the list of species in the choicebox.
+	 */
 	private void populateSpeciesList() {
 		speciesListData.add("Broccoli");
 		speciesListData.add("Chili");
@@ -69,11 +80,19 @@ public class AddViewController implements Initializable {
 		speciesChoiceBox.setItems(speciesListData);
 	}
 
+	/**
+	 * Returns the user to the start view if they press the 'avbryt' button.
+	 * @throws IOException
+	 */
 	@FXML
 	private void cancel() throws IOException{
 		Main.showStartView();
 	}
 
+	/**
+	 * Saves the new plant.
+	 * The method sends the new plant to the server which inserts it into the database.
+	 */
 	@FXML
     public void savePlant() {
         Plant newPlant = new Plant(macAddressTextField.getText(), Main.getLoggedInUser(), speciesChoiceBox.getValue(), plantAliasTextField.getText(), plantNotifierCheckBox.isSelected());
@@ -86,6 +105,10 @@ public class AddViewController implements Initializable {
 		}
     }
 
+	/**
+	 * Initializes listener for the choicebox.
+	 * The listener changes the wiki webview depending on what item the user chooses in the choicebox.
+ 	 */
 	private void initializeChoiceBoxListener() {
 		speciesChoiceBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
 			@Override

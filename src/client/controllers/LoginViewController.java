@@ -64,6 +64,11 @@ public class LoginViewController implements Initializable {
         }
 	}
 
+	/**
+	 * Initializes textfield listeners that check if the user has written anything
+	 * in the email and password fields. The user has to write something in the fields
+	 * to be able to log in.
+	 */
 	void initializeTextFieldListeners() {
 	    emailTextField.textProperty().addListener(new ChangeListener<String>() {
             @Override

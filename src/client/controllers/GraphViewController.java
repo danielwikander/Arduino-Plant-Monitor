@@ -14,6 +14,13 @@ import models.Plant;
 
 import java.util.ArrayList;
 
+/**
+ * The controller for the Graph View.
+ * This controller handles the logic for the view that the user is
+ * presented with then they select a plant from the menu.
+ * The view presents the user with graphs showing the history of
+ * that plants data.
+ */
 public class GraphViewController {
 
 	@FXML
@@ -37,7 +44,12 @@ public class GraphViewController {
 	@FXML
 	HBox topPanelHBox;
 
-
+	/**
+	 * Initializes the Graph View.
+	 * Sets the background color of the top panel,
+	 * and initializes the graphs with data from the selected plant.
+	 * @param plant	The plant to retrieve data from.
+	 */
 	@SuppressWarnings("unchecked")
 	public void initialize(Plant plant) {
 		topPanelHBox.setStyle("-fx-background-color: #a8cb9c;");

@@ -43,10 +43,14 @@ public class ConnectionController {
 		new ConnectionHandler().start();
 	}
 
-
+	/**
+	 * Keeps track of the server status.
+	 * @return	Returns true if the server is available.
+	 */
 	public boolean isServerAvailable() {
 		return serverAvailable;
 	}
+
 	/**
 	 * Creates a singleton instance of the class.
 	 * 
@@ -79,6 +83,10 @@ public class ConnectionController {
 		this.newUserViewController = newUserViewController;
 	}
 
+	/**
+	 * Sets the main View Controller
+	 * @param mainViewController	The mainViewController to use.
+	 */
 	void setMainViewController(MainViewController mainViewController) {
 		this.mainViewController = mainViewController;
 	}
@@ -112,7 +120,11 @@ public class ConnectionController {
 			e.printStackTrace();
 		}
 	}
-	
+
+	/**
+	 * Sends a plant that the user wishes to save to the server.
+	 * @param plant	The plant that the user wishes to save.
+	 */
 	void sendPlant(Plant plant){
 		try {
 			oos.writeObject(plant);

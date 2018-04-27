@@ -117,6 +117,14 @@ public class MainViewController implements Initializable {
 		});
 	}
 
+	/**
+	 * Sets the list of plants available to the user.
+	 * The list is presented on the left at all times when the
+	 * user is logged in.
+	 * Platform.runLater() is used to make sure that only the JavaFX
+	 * thread handles the operation.
+	 * @param plantList The list of plants to set.
+	 */
 	public void setPlantList(ArrayList<Plant> plantList) {
 		Platform.runLater(() -> {
 			plantListData = FXCollections.observableArrayList(plantList);

@@ -119,6 +119,10 @@ public class ClientController implements Runnable {
 			}
 		}
 
+		/**
+		 * Adds a plant to the database.
+		 * @param plant	The plant to add.
+		 */
 		private void addPlant(Plant plant) {
 			try {
 				Statement stmt = conn.createStatement();
@@ -135,6 +139,13 @@ public class ClientController implements Runnable {
 			}
 		}
 
+		/**
+		 * Checks if the MacAddress sent is used by a arduino from the same user or not.
+		 * If the MAC-Address is already used by a different user it will not allow an overwrite.
+		 * //TODO: Stämmer ovanstående kommentar?
+		 * @param plant	The plant which contains the MAC-address and email.
+		 * @return		Returns true if the MAC-address is already used by the same user.
+		 */
 		private boolean macAddressMatchEmail(Plant plant) {
 			try {
 				Statement stmt = conn.createStatement();
@@ -150,6 +161,11 @@ public class ClientController implements Runnable {
 			return false;
 		}
 
+		/**
+		 * Checks if the MAC-address is already in the database.
+		 * @param plant	The plant which holds the MAC-address to check.
+		 * @return		Returns true if taken else returns false.
+		 */
 		private boolean macAddressTaken(Plant plant) {
 			try {
 				Statement stmt = conn.createStatement();

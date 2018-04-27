@@ -146,10 +146,18 @@ public class Main extends Application {
 		gvc.initialize(plant);
 	}
 
+	/**
+	 * Sets the logged in user.
+	 * @param email	The email of the logged in user.
+	 */
 	public static void setLoggedInUser(String email) {
 		user = email;
 	}
-	
+
+	/**
+	 * Returns the logged in user.
+	 * @return	The email of the logged in user.
+	 */
 	public static String getLoggedInUser() {
 		return user;
 	}	
