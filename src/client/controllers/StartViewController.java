@@ -18,6 +18,8 @@ public class StartViewController implements Initializable {
     @FXML
     Label splashLabel = new Label();
     @FXML
+    Label startViewText = new Label();
+    @FXML
     HBox topPanelHBox;
 
     /**
@@ -31,6 +33,8 @@ public class StartViewController implements Initializable {
         topPanelHBox.setStyle("-fx-background-color: #a8cb9c;");
         Image splashIcon = new Image("client/images/mediumIcon.png");
         splashLabel.setGraphic(new ImageView(splashIcon));
+        startViewText.setText("Välkommen till Arduino Plant Monitor! " +
+                "\nÄr det första gången du använder APM? Lägg till din växt med '+' ikonen ovanför listan till vänster.");
     }
 }
 

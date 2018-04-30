@@ -27,7 +27,29 @@
          </BorderPane.margin>
       </HBox>
    </top>
+   <left>
+      <VBox prefHeight="550.0" prefWidth="500.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label prefHeight="24.0" prefWidth="391.0" text="Information till nya användare:">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="startViewText" alignment="TOP_LEFT" prefHeight="600.0" prefWidth="400.0" text="Information till nya användare:">
+               <padding>
+                  <Insets right="50.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </Label>
+         </children>
+         <padding>
+            <Insets bottom="50.0" left="50.0" right="50.0" top="20.0" />
+         </padding>
+      </VBox>
+   </left>
    <center>
-      <Label fx:id="splashLabel" prefHeight="256.0" prefWidth="256.0" BorderPane.alignment="CENTER_LEFT" />
+      <Label fx:id="splashLabel" alignment="CENTER" prefHeight="256.0" prefWidth="256.0" BorderPane.alignment="TOP_CENTER" />
    </center>
 </BorderPane>

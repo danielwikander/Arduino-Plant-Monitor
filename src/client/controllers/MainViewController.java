@@ -26,19 +26,28 @@ import java.util.ResourceBundle;
 public class MainViewController implements Initializable {
 
 	@FXML
+	private HBox topPanelHBox;
+	@FXML
 	private ImageView addButtonIcon;
 	@FXML
-	private ImageView changeButtonIcon;
+	private ImageView settingsButtonIcon;
 	@FXML
-	private Button addButton;
+	Image settingsIcon = new Image("client/images/settings.png");
 	@FXML
-	private Button changeButton;
+	Image settingsIconGrey = new Image("client/images/settingsGrey.png");
+	@FXML
+	Image addIcon = new Image("client/images/add.png");
+	@FXML
+	Image addIconGrey = new Image("client/images/add.png");
 	@FXML
 	private ListView<Plant> plantList;
 	private static ObservableList<Plant> plantListData = FXCollections.observableArrayList();
 	private ConnectionController connectionController;
-	@FXML
-	private HBox topPanelHBox;
+
+//	@FXML
+//	private Button addButton;
+//	@FXML
+//	private Button changeButton;
 
 	/**
 	 * Initializes the main view.
@@ -50,8 +59,10 @@ public class MainViewController implements Initializable {
 		topPanelHBox.setStyle("-fx-background-color: #a8cb9c;");
 		connectionController = ConnectionController.getInstance();
 		connectionController.setMainViewController(this);
-		
-		changeButton.setDisable(true);
+
+
+		settingsButtonIcon.setDisable(true);
+//		changeButton.setDisable(true);
 		initializeListViewListener();
 		
 		plantListData.clear();
@@ -78,8 +89,6 @@ public class MainViewController implements Initializable {
 				return cell;
 			}		
 		});
-		
-
 	}
 
 	/**
@@ -88,7 +97,8 @@ public class MainViewController implements Initializable {
 	 */
 	@FXML
 	private void goAdd() throws IOException {
-		addButton.setDisable(true);
+//		addButton.setDisable(true);
+		addButtonIcon.setDisable(true);
 		Main.showAddView();
 	}
 
@@ -107,8 +117,10 @@ public class MainViewController implements Initializable {
 	 */
 	private void initializeListViewListener() {
 		plantList.getSelectionModel().selectedItemProperty().addListener((v) -> {
-			changeButton.setDisable(false);
-			addButton.setDisable(false);
+			addButtonIcon.setDisable(false);
+			settingsButtonIcon.setDisable(false);
+//			changeButton.setDisable(false);
+//			addButton.setDisable(false);
 			try {
 				Main.showGraphView(plantList.getSelectionModel().getSelectedItem());
 			} catch (IOException e ) {
@@ -131,4 +143,21 @@ public class MainViewController implements Initializable {
 			this.plantList.setItems(plantListData);
 		});
 	}
+
+	public void settingsButtonPressed() {
+		settingsButtonIcon.setImage(settingsIconGrey);
+	}
+
+	public void settingsButtonReleased() {
+		settingsButtonIcon.setImage(settingsIcon);
+	}
+
+	public void addButtonPressed() {
+		addButtonIcon.setImage(addIconGrey);
+	}
+
+	public void addButtonReleased() {
+		addButtonIcon.setImage(addIcon);
+	}
+
 }
