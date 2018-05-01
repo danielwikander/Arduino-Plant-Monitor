@@ -61,7 +61,7 @@ public class MainViewController implements Initializable {
 		connectionController.setMainViewController(this);
 
 
-		settingsButtonIcon.setDisable(true);
+//		settingsButtonIcon.setDisable(true);
 //		changeButton.setDisable(true);
 		initializeListViewListener();
 		
@@ -98,7 +98,7 @@ public class MainViewController implements Initializable {
 	@FXML
 	private void goAdd() throws IOException {
 //		addButton.setDisable(true);
-		addButtonIcon.setDisable(true);
+//		addButtonIcon.setDisable(true);
 		Main.showAddView();
 	}
 
@@ -117,8 +117,8 @@ public class MainViewController implements Initializable {
 	 */
 	private void initializeListViewListener() {
 		plantList.getSelectionModel().selectedItemProperty().addListener((v) -> {
-			addButtonIcon.setDisable(false);
-			settingsButtonIcon.setDisable(false);
+//			addButtonIcon.setDisable(false);
+//			settingsButtonIcon.setDisable(false);
 //			changeButton.setDisable(false);
 //			addButton.setDisable(false);
 			try {
