@@ -132,7 +132,6 @@ public class ConnectionController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
 	}
 
 	/**

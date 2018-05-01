@@ -24,7 +24,6 @@ public class Main extends Application {
 	private static Stage primaryStage;
 	private static BorderPane mainLayout;
 	private static String user;
-	
 
 	/**
 	 * Starts applications primary stage and presents the login view.

@@ -14,8 +14,7 @@ import java.io.IOException;
  * presented with then they wish to change their settings for a plant.
  */
 public class ChangeViewController {
-    @FXML
-    ChoiceBox plantChoiceBox;
+
     @FXML
     TextField macAddressTextField;
     @FXML

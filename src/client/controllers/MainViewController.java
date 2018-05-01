@@ -143,6 +143,11 @@ public class MainViewController implements Initializable {
 		});
 	}
 
+	/**
+	 * Disables the settings button.
+	 * This method should be invoked when the user enters the
+	 * settings view for a selected plant.
+	 */
 	public void disableSettingsButton() {
 		settingsButtonIcon.setImage(settingsIconGrey);
 		settingsButtonIcon.setOnMouseClicked(null);
@@ -150,6 +155,9 @@ public class MainViewController implements Initializable {
 		settingsButtonIcon.setCursor(Cursor.DEFAULT);
 	}
 
+	/**
+	 * Enables the settings button.
+	 */
 	public void enableSettingsButton() {
 		settingsButtonIcon.setImage(settingsIcon);
 		settingsButtonIcon.setOpacity(1);
@@ -164,9 +172,11 @@ public class MainViewController implements Initializable {
 			}
 		});
 		settingsButtonIcon.setCursor(Cursor.OPEN_HAND);
-
 	}
 
+	/**
+	 * Disables the add button.
+	 */
 	public void disableAddButton() {
 		addButtonIcon.setImage(addIconGrey);
 		addButtonIcon.setOnMouseClicked(null);
@@ -174,6 +184,9 @@ public class MainViewController implements Initializable {
 		addButtonIcon.setCursor(Cursor.DEFAULT);
 	}
 
+	/**
+	 * Enables the add button.
+	 */
 	public void enableAddButton() {
 		addButtonIcon.setImage(addIcon);
 		addButtonIcon.setOnMouseClicked(new EventHandler<javafx.scene.input.MouseEvent>() {

@@ -74,8 +74,9 @@ public class ClientController implements Runnable {
 		}
 
 		/**
-		 * Thread that checks if the connected client wants to log in or create
-		 * a new user.
+		 * Thread that checks what the connected client wishes to do.
+		 * The thread checks what type of object that the client sent and
+		 * reacts accordingly.
 		 */
 		public void run() {
 			try {
@@ -157,7 +158,6 @@ public class ClientController implements Runnable {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-
 			return false;
 		}
 
