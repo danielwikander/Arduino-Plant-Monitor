@@ -16,8 +16,8 @@
 //  - Variables -
                       
 //  - Wifi  -
-const char ssid[] = "Hotspot";          // Name of the wifi to connect to.
-const char password[] = "hotspotpass1"; // Password of above wifi.
+const char ssid[] = "v a t t e n";      // Name of the wifi to connect to.
+const char password[] = "labiblioteca"; // Password of above wifi.
 const char* host = "35.204.189.85";
 const int port = 5482;  
 WiFiEspClient client;       
