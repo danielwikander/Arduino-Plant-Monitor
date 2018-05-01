@@ -14,11 +14,11 @@
 #include <dht11.h>          // Library for DHT11 temperature and airmoisture sensor.
 
 //  - Variables -
-                      
+
 //  - Wifi  -
 const char ssid[] = "v a t t e n";      // Name of the wifi to connect to.
 const char password[] = "labiblioteca"; // Password of above wifi.
-const char* host = "35.204.189.85";
+const char* host = "192.168.0.102";
 const int port = 5482;  
 WiFiEspClient client;       
 int status = WL_IDLE_STATUS;            // Status of wifi connection.
@@ -73,7 +73,7 @@ void loop() {
   int percentageSoilMoistureValue = map(soilMoistureValue, 1023, 200, 0, 100); // Converts the value to %
   // Light sensor stuff: (!!! Not calibrated yet !!!)
   lightSensorValue = analogRead(lightSensor); // Reads lightsensor value.
-  int percentageLightSensorValue = map(lightSensorValue, 1023, 200, 0 ,100); // converts to %
+  int percentageLightSensorValue = map(lightSensorValue, 1023, 0, 0 ,100); // converts to %
   // Air temperature and humidity sensor stuff:
   int chk = DHT11.read(DHT11PIN); // Reads the value from the sensor.
   int humidityLevel = DHT11.humidity;
@@ -126,7 +126,7 @@ void loop() {
   Serial.println(rssi);
 
   // Pause before the next read/write cycle.
-  delay(7000);
+  delay(1800000);
 }
 
 // Prints the ssid of the network, Arduinos IPv4-address and MAC-Address.

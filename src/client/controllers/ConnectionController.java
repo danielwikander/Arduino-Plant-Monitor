@@ -32,7 +32,7 @@ public class ConnectionController {
 	 */
 	private ConnectionController() {
 		try {
-			this.socket = new Socket("127.0.0.1", 5483);
+			this.socket = new Socket("192.168.0.102", 5483);
 			oos = new ObjectOutputStream(socket.getOutputStream());
 			ois = new ObjectInputStream(socket.getInputStream());
 			serverAvailable = true;
