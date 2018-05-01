@@ -18,9 +18,9 @@
             <ListView fx:id="plantList" prefHeight="200.0" prefWidth="200.0" />
          </center>
          <top>
-            <HBox fx:id="topPanelHBox" alignment="CENTER" prefHeight="50.0" prefWidth="200.0" spacing="15.0" BorderPane.alignment="CENTER">
+            <HBox fx:id="topPanelHBox" alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="200.0" spacing="15.0" BorderPane.alignment="CENTER_LEFT">
                <children>
-                  <ImageView fx:id="addButtonImage" fitHeight="40.0" fitWidth="40.0" focusTraversable="true" onMouseClicked="#goAdd" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="addButtonIcon" fitHeight="40.0" fitWidth="40.0" focusTraversable="true" onMouseClicked="#goAdd" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/add.png" />
                      </image>
@@ -31,7 +31,7 @@
                         <Cursor fx:constant="OPEN_HAND" />
                      </cursor>
                   </ImageView>
-                  <ImageView fx:id="settingsButtonImage" fitHeight="40.0" fitWidth="40.0" focusTraversable="true" onMouseClicked="#goChange" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="settingsButtonIcon" fitHeight="40.0" fitWidth="40.0" focusTraversable="true" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/settings.png" />
                      </image>
@@ -39,8 +39,6 @@
                         <Cursor fx:constant="OPEN_HAND" />
                      </cursor>
                   </ImageView>
-                  <Button fx:id="addButton" mnemonicParsing="false" onAction="#goAdd" text="Lägg till" />
-                  <Button fx:id="changeButton" mnemonicParsing="false" text="Ändra" />
                </children>
             </HBox>
          </top>

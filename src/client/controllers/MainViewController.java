@@ -4,9 +4,10 @@ import client.Main;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
+import javafx.scene.Cursor;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
@@ -32,22 +33,20 @@ public class MainViewController implements Initializable {
 	@FXML
 	private ImageView settingsButtonIcon;
 	@FXML
-	Image settingsIcon = new Image("client/images/settings.png");
+	private Image settingsIcon = new Image("client/images/settings.png");
 	@FXML
-	Image settingsIconGrey = new Image("client/images/settingsGrey.png");
+	private Image settingsIconGrey = new Image("client/images/settingsGrey.png");
 	@FXML
-	Image addIcon = new Image("client/images/add.png");
+	private Image addIcon = new Image("client/images/add.png");
 	@FXML
-	Image addIconGrey = new Image("client/images/add.png");
+	private Image addIconGrey = new Image("client/images/addGrey.png");
 	@FXML
 	private ListView<Plant> plantList;
 	private static ObservableList<Plant> plantListData = FXCollections.observableArrayList();
 	private ConnectionController connectionController;
+	private AddViewController addViewController;
+	private ChangeViewController changeViewController;
 
-//	@FXML
-//	private Button addButton;
-//	@FXML
-//	private Button changeButton;
 
 	/**
 	 * Initializes the main view.
@@ -59,11 +58,9 @@ public class MainViewController implements Initializable {
 		topPanelHBox.setStyle("-fx-background-color: #a8cb9c;");
 		connectionController = ConnectionController.getInstance();
 		connectionController.setMainViewController(this);
-
-
-//		settingsButtonIcon.setDisable(true);
-//		changeButton.setDisable(true);
 		initializeListViewListener();
+		enableAddButton();
+		enableSettingsButton();
 		
 		plantListData.clear();
 		
@@ -97,8 +94,10 @@ public class MainViewController implements Initializable {
 	 */
 	@FXML
 	private void goAdd() throws IOException {
-//		addButton.setDisable(true);
-//		addButtonIcon.setDisable(true);
+		//TODO: Clear selection when entering addview?
+//		plantList.getSelectionModel().clearSelection();
+		disableAddButton();
+		enableSettingsButton();
 		Main.showAddView();
 	}
 
@@ -107,8 +106,10 @@ public class MainViewController implements Initializable {
 	 * @throws IOException	Throws exception if the change view cannot be found.
 	 */
 	@FXML
-	private void goChange() throws IOException {
-		Main.showChangeView();
+	private void goChange(Plant plant) throws IOException {
+		Main.showChangeView(plant);
+		disableSettingsButton();
+		enableAddButton();
 	}
 
 	/**
@@ -117,10 +118,8 @@ public class MainViewController implements Initializable {
 	 */
 	private void initializeListViewListener() {
 		plantList.getSelectionModel().selectedItemProperty().addListener((v) -> {
-//			addButtonIcon.setDisable(false);
-//			settingsButtonIcon.setDisable(false);
-//			changeButton.setDisable(false);
-//			addButton.setDisable(false);
+			enableAddButton();
+			enableSettingsButton();
 			try {
 				Main.showGraphView(plantList.getSelectionModel().getSelectedItem());
 			} catch (IOException e ) {
@@ -144,20 +143,51 @@ public class MainViewController implements Initializable {
 		});
 	}
 
-	public void settingsButtonPressed() {
+	public void disableSettingsButton() {
 		settingsButtonIcon.setImage(settingsIconGrey);
+		settingsButtonIcon.setOnMouseClicked(null);
+		settingsButtonIcon.setOpacity(0.3);
+		settingsButtonIcon.setCursor(Cursor.DEFAULT);
 	}
 
-	public void settingsButtonReleased() {
+	public void enableSettingsButton() {
 		settingsButtonIcon.setImage(settingsIcon);
+		settingsButtonIcon.setOpacity(1);
+		settingsButtonIcon.setOnMouseClicked(new EventHandler<javafx.scene.input.MouseEvent>() {
+			@Override
+			public void handle(javafx.scene.input.MouseEvent mouseEvent) {
+			try {
+				goChange(plantList.getSelectionModel().getSelectedItem());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			}
+		});
+		settingsButtonIcon.setCursor(Cursor.OPEN_HAND);
+
 	}
 
-	public void addButtonPressed() {
+	public void disableAddButton() {
 		addButtonIcon.setImage(addIconGrey);
+		addButtonIcon.setOnMouseClicked(null);
+		addButtonIcon.setOpacity(0.3);
+		addButtonIcon.setCursor(Cursor.DEFAULT);
 	}
 
-	public void addButtonReleased() {
+	public void enableAddButton() {
 		addButtonIcon.setImage(addIcon);
+		addButtonIcon.setOnMouseClicked(new EventHandler<javafx.scene.input.MouseEvent>() {
+			@Override
+			public void handle(javafx.scene.input.MouseEvent mouseEvent) {
+				try {
+					goAdd();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		addButtonIcon.setOpacity(1);
+		addButtonIcon.setCursor(Cursor.OPEN_HAND);
 	}
 
 }

@@ -119,7 +119,6 @@ public class AddViewController implements Initializable {
 					webEngine.load("https://sv.m.wikipedia.org/wiki/" + newValue);
 				}
 			}
-
 		});
 	}
 }

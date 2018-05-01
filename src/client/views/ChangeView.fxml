@@ -31,19 +31,15 @@
    <left>
       <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="400.0" spacing="15.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox alignment="CENTER" prefHeight="30.0" prefWidth="300.0" spacing="15.0">
-               <children>
-                  <Label text="Välj växtart:" />
-                  <ChoiceBox fx:id="plantChoiceBox" prefHeight="25.0" prefWidth="200.0" />
-               </children>
-            </HBox>
-            <TextField fx:id="macAddressTextField" promptText="MAC-adress" />
+            <Label prefHeight="15.0" prefWidth="300.0" text="MAC-adress:" />
+            <TextField fx:id="macAddressTextField" prefHeight="25.0" prefWidth="300.0" promptText="MAC-adress" />
+            <Label prefHeight="15.0" prefWidth="300.0" text="Växtnamn:" />
             <TextField fx:id="plantAliasTextField" promptText="Växtnamn (ex. Tomat, balkongen)" />
             <CheckBox fx:id="plantNotifierCheckBox" contentDisplay="RIGHT" mnemonicParsing="false" text="Notifiera mig när min växt är törstig" />
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                <children>
                   <Button fx:id="saveButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Spara" />
-                  <Button fx:id="cancelButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Avbryt" />
+                  <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancel" prefHeight="25.0" prefWidth="100.0" text="Avbryt" />
                </children>
             </HBox>
          </children>
@@ -52,7 +48,4 @@
          </padding>
       </VBox>
    </left>
-   <right>
-      <WebView fx:id="wikiWebView" minHeight="400.0" minWidth="400.0" prefHeight="-1.0" prefWidth="-1.0" BorderPane.alignment="CENTER" />
-   </right>
 </BorderPane>

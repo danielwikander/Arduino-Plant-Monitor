@@ -1,7 +1,9 @@
 package client;
 
+import client.controllers.ChangeViewController;
 import client.controllers.ConnectionController;
 import client.controllers.GraphViewController;
+import client.controllers.MainViewController;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -120,17 +122,21 @@ public class Main extends Application {
 		loader.setLocation(Main.class.getResource("views/AddView.fxml"));
 		BorderPane addLayout = loader.load();
 		mainLayout.setCenter(addLayout);
+
 	}
 
 	/**
 	 * Presents the change view.
 	 * @throws IOException	Throws if the loader cannot load the ChangeView.
 	 */
-	public static void showChangeView() throws IOException {
+	public static void showChangeView(Plant plant) throws IOException {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(Main.class.getResource("views/ChangeView.fxml"));
 		BorderPane changeLayout = loader.load();
 		mainLayout.setCenter(changeLayout);
+		ChangeViewController cvc = loader.getController();
+		cvc.initialize(plant);
+
 	}
 
 	/**

@@ -1,11 +1,12 @@
 package client.controllers;
 
+import client.Main;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
-import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebView;
 import models.Plant;
+
+import java.io.IOException;
 
 /**
  * The controller for the Change View.
@@ -13,8 +14,6 @@ import models.Plant;
  * presented with then they wish to change their settings for a plant.
  */
 public class ChangeViewController {
-    @FXML
-    WebView wikiWebView;
     @FXML
     ChoiceBox plantChoiceBox;
     @FXML
@@ -35,13 +34,23 @@ public class ChangeViewController {
     /**
      * Initializes the view.
      * Sets the background color of the top panel.
-     * //TODO: Skapa ny vy.
-     * @param plant
+     * @param plant The plant to change settings for.
      */
     public void initialize(Plant plant) {
         topPanelHBox.setStyle("-fx-background-color: #a8cb9c;");
         settingsForLabel.setText("Inställningar för: " + plant.getAlias());
-        WebEngine webEngine = wikiWebView.getEngine();
-        webEngine.load("https://sv.m.wikipedia.org/wiki/Växt");
+        macAddressTextField.setText(plant.getMac());
+        plantAliasTextField.setText(plant.getAlias());
+        plantNotifierCheckBox.setSelected(plant.monitoringSoilMoisture());
+
+    }
+
+    /**
+     * Returns the user to the start view if they press the 'avbryt' button.
+     * @throws IOException
+     */
+    @FXML
+    private void cancel() throws IOException {
+        Main.showStartView();
     }
 }
