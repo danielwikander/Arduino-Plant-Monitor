@@ -27,7 +27,7 @@ public class StartViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         topPanelHBox.setStyle("-fx-background-color: #a8cb9c;");
-        startViewText.setText("Välkommen till Arduino Plant Monitor! " +
+        startViewText.setText("Välkommen " + ConnectionController.getInstance().getUser().getFirstName() + "!" +
                 "\nÄr det första gången du använder APM? Lägg till din växt med '+' ikonen ovanför listan till vänster.");
     }
 }

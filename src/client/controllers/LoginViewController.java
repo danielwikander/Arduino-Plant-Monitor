@@ -10,7 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
-import models.Login;
+import models.User;
 
 import java.io.IOException;
 import java.net.URL;
@@ -97,17 +97,17 @@ public class LoginViewController implements Initializable {
 	 * This method is called when users press 'Logga in'
 	 */
 	public void goLogin() {
-		Login login = new Login(emailTextField.getText(), passwordPasswordField.getText());
-		Main.setLoggedInUser(login.getEmail());
-		connectionController.login(login);
+		User user = new User(emailTextField.getText(), passwordPasswordField.getText());
+		Main.setLoggedInUser(user.getEmail());
+		connectionController.login(user);
 	}
 
 	/**
 	 * Prints out the login status (If the login succeeded or failed).
-	 * @param login	The login information to check.
+	 * @param user	The login information to check.
 	 */
-	void validateLogin(Login login) {
-		if(!login.isLoggedIn()) {
+	void validateLogin(User user) {
+		if(!user.isLoggedIn()) {
 			loginErrorLabel.setVisible(true);
 		} else {
 			Main.showMainView();

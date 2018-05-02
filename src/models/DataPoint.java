@@ -47,32 +47,12 @@ public class DataPoint implements Serializable {
 	}
 
 	/**
-	 * Sets the time and date of this DataPoint.
-	 * 
-	 * @param timeStamp
-	 *            String of the time and date to be set.
-	 */
-	public void setTimeStamp(String timeStamp) {
-		this.timeStamp = timeStamp;
-	}
-
-	/**
 	 * Returns the value of the soil moisture level.
 	 * 
 	 * @return Integer value of the soil moisture.
 	 */
 	public int getSoilMoistureLevel() {
 		return soilMoistureLevel;
-	}
-
-	/**
-	 * Sets the soil moisture level.
-	 * 
-	 * @param soilMoistureLevel
-	 *            Integer value of the soil moisture to be set.
-	 */
-	public void setSoilMoistureLevel(int soilMoistureLevel) {
-		this.soilMoistureLevel = soilMoistureLevel;
 	}
 
 	/**
@@ -85,32 +65,12 @@ public class DataPoint implements Serializable {
 	}
 
 	/**
-	 * Sets the humidity level.
-	 * 
-	 * @param humidity
-	 *            Integer value of the humidity level to be set.
-	 */
-	public void setHumidity(int humidity) {
-		this.humidity = humidity;
-	}
-
-	/**
 	 * Returns the value of the light level.
 	 * 
 	 * @return Integer value of the light level.
 	 */
 	public int getLightLevel() {
 		return lightLevel;
-	}
-
-	/**
-	 * Sets the light level.
-	 * 
-	 * @param lightLevel
-	 *            Integer value of the light level to be set.
-	 */
-	public void setLightLevel(int lightLevel) {
-		this.lightLevel = lightLevel;
 	}
 
 	/**
@@ -122,13 +82,4 @@ public class DataPoint implements Serializable {
 		return temperature;
 	}
 
-	/**
-	 * Sets the temperature.
-	 * 
-	 * @param temperature
-	 *            Integer value of the temperature.
-	 */
-	public void setTemperature(int temperature) {
-		this.temperature = temperature;
-	}
 }

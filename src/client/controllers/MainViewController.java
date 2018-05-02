@@ -94,8 +94,6 @@ public class MainViewController implements Initializable {
 	 */
 	@FXML
 	private void goAdd() throws IOException {
-		//TODO: Clear selection when entering addview?
-//		plantList.getSelectionModel().clearSelection();
 		disableAddButton();
 		enableSettingsButton();
 		Main.showAddView();

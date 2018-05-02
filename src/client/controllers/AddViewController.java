@@ -15,7 +15,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import models.DataRequest;
-import models.Login;
+import models.User;
 import models.Plant;
 
 import java.io.IOException;
@@ -75,8 +75,6 @@ public class AddViewController implements Initializable {
 		speciesListData.add("Potatis");
 		speciesListData.add("Tomat");
 		speciesListData.add("Egen");
-		System.out.println(speciesListData);
-		System.out.println(speciesChoiceBox);
 		speciesChoiceBox.setItems(speciesListData);
 	}
 
@@ -98,8 +96,8 @@ public class AddViewController implements Initializable {
 	@FXML
     public void savePlant() {
         Plant newPlant = new Plant(macAddressTextField.getText(), Main.getLoggedInUser(), speciesChoiceBox.getValue(), plantAliasTextField.getText(), plantNotifierCheckBox.isSelected());
-        ConnectionController.getInstance().sendPlant(newPlant);
-        ConnectionController.getInstance().requestUsersPlantInfo(new DataRequest(new Login(Main.getLoggedInUser(), "")));
+        ConnectionController.getInstance().addPlant(newPlant);
+        ConnectionController.getInstance().requestUsersPlantInfo(new DataRequest(new User(Main.getLoggedInUser(), "")));
         try {
 			Main.showGraphView(newPlant);
 		} catch (IOException e) {

@@ -1,6 +1,9 @@
 package models;
 
-public class ChangePlantRequest {
+import java.io.Serializable;
+
+public class ChangePlantRequest implements Serializable {
+    private static final long serialVersionUID = -4929315440419583481L;
     private Plant plantToChange;
 
     public ChangePlantRequest(Plant plantToChange) {
