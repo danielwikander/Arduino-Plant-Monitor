@@ -12,7 +12,6 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 import models.Plant;
 
@@ -156,9 +155,9 @@ public class Main extends Application {
 		loader.setLocation(Main.class.getResource("views/ConfirmRemoveDialog.fxml"));
 		BorderPane confirmRemoveDialogLayout = loader.load();
 		Scene scene = new Scene(confirmRemoveDialogLayout);
-		Stage stage = new Stage(StageStyle.UNDECORATED);
+		Stage stage = new Stage();
+		stage.initModality(Modality.APPLICATION_MODAL);
 		stage.setScene(scene);
-		stage.initModality(Modality.WINDOW_MODAL);
 		ConfirmRemoveDialogController crdc = loader.getController();
 		crdc.initialize(plant);
 		stage.show();
