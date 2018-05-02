@@ -1,15 +1,20 @@
 package client.controllers;
 
 import client.Main;
+import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import models.DataRequest;
+import models.Login;
 import models.Plant;
 
 import java.io.IOException;
+
+import static java.lang.Thread.sleep;
 
 /**
  * The controller for the Change View.
@@ -32,6 +37,7 @@ public class ChangeViewController {
     Label settingsForLabel;
     @FXML
     HBox topPanelHBox;
+    private Plant plant;
 
     /**
      * Initializes the view.
@@ -39,11 +45,34 @@ public class ChangeViewController {
      * @param plant The plant to change settings for.
      */
     public void initialize(Plant plant) {
+        this.plant = plant;
         topPanelHBox.setStyle("-fx-background-color: #a8cb9c;");
         settingsForLabel.setText("Inställningar för: " + plant.getAlias());
         macAddressTextField.setText(plant.getMac());
+        macAddressTextField.setDisable(true);
         plantAliasTextField.setText(plant.getAlias());
         plantNotifierCheckBox.setSelected(plant.monitoringSoilMoisture());
+    }
+
+    /**
+     * Saves the new plant.
+     * The method sends the new plant to the server which inserts it into the database.
+     */
+    @FXML
+    public void changePlant() {
+        Plant newPlant = new Plant(plant.getMac(), plant.getEmail(), plant.getPlantSpecies(), plantAliasTextField.getText(), plantNotifierCheckBox.isSelected());
+        System.out.println(newPlant.getAlias() + "i changePlant()");
+        ConnectionController.getInstance().sendPlant(newPlant);
+        ConnectionController.getInstance().requestUsersPlantInfo(new DataRequest(new Login(Main.getLoggedInUser(), "")));
+        try {
+            Main.showGraphView(newPlant);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void removePlant() {
+
     }
 
     /**

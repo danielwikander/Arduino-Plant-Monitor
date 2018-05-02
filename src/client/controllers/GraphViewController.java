@@ -1,5 +1,7 @@
 package client.controllers;
 
+import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
@@ -13,6 +15,8 @@ import models.DataPoint;
 import models.Plant;
 
 import java.util.ArrayList;
+
+import static java.lang.Thread.sleep;
 
 /**
  * The controller for the Graph View.
@@ -67,7 +71,7 @@ public class GraphViewController {
 		humiditySeries.setName("Luftfuktighet");
 		temperatureSeries.setName("Temperatur");
 
-		if(dataPointArrayList !=null){
+		if (dataPointArrayList != null) {
 			for (DataPoint dp : dataPointArrayList) {
 				soilMoistureSeries.getData().add(new XYChart.Data<>(dateFormat(dp.getTimeStamp()), dp.getSoilMoistureLevel()));
 				lightLevelSeries.getData().add(new XYChart.Data<>(dateFormat(dp.getTimeStamp()), dp.getLightLevel()));
@@ -78,20 +82,20 @@ public class GraphViewController {
 
 		valueChart.getData().addAll(soilMoistureSeries);
 		valueChart.getData().addAll(humiditySeries);
-        valueChart.getData().addAll(lightLevelSeries);
-        temperatureChart.getData().addAll(temperatureSeries);
+		valueChart.getData().addAll(lightLevelSeries);
+		temperatureChart.getData().addAll(temperatureSeries);
 
 		valueXAxis.setTickLabelRotation(0);
 		temperatureXAxis.setTickLabelRotation(0);
 	}
 
-    /**
-     * Formats a date string from yyyy-mm-dd hh:mm:ss to yy-mm-dd \n hh:mm
-     * @param dateToFormat  The date to format.
-     * @return              The formatted date.
-     */
+	/**
+	 * Formats a date string from yyyy-mm-dd hh:mm:ss to yy-mm-dd \n hh:mm
+	 * @param dateToFormat  The date to format.
+	 * @return              The formatted date.
+	 */
 	public String dateFormat(String dateToFormat) {
-	    return dateToFormat.substring(2,10) + "\n   " + dateToFormat.substring(11,16);
-    }
+		return dateToFormat.substring(2,10) + "\n   " + dateToFormat.substring(11,16);
+	}
 
 }

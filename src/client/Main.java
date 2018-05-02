@@ -3,8 +3,10 @@ package client;
 import client.controllers.ChangeViewController;
 import client.controllers.ConnectionController;
 import client.controllers.GraphViewController;
+import client.controllers.MainViewController;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -14,6 +16,8 @@ import javafx.stage.WindowEvent;
 import models.Plant;
 
 import java.io.IOException;
+
+import static java.lang.Thread.sleep;
 
 /**
  * Sets all JavaFX views and starts the application.

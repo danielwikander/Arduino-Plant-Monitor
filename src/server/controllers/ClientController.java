@@ -104,8 +104,8 @@ public class ClientController implements Runnable {
 						Plant plant = (Plant) obj;
 						if (macAddressTaken(plant)) {
 							if (macAddressMatchEmail(plant)) {
-								// changePlant();
-								System.out.println("change plant");
+								changePlant(plant);
+								System.out.println("changed plant");
 							}
 						} else {
 							addPlant(plant);
@@ -135,6 +135,19 @@ public class ClientController implements Runnable {
 								+ ", " + plant.monitoringHumidity() + ", " + plant.getHumidityMax() 
 								+ ", " + plant.getHumidityMin() + ", " + plant.monitoringTemperature() 
 								+ ", " + plant.getTemperatureMax() + ", " + plant.getTemperatureMin() + ");");
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		private void changePlant(Plant plant) {
+			try {
+				Statement stmt = conn.createStatement();
+				stmt.executeUpdate(
+						"update apm_arduino\n"
+								+ " set plant_alias = '" + plant.getAlias() + "',"
+								+ " soil_moisture_monitor = " + plant.monitoringSoilMoisture()
+								+ " where mac = '" + plant.getMac() + "';");
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

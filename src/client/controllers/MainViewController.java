@@ -121,7 +121,9 @@ public class MainViewController implements Initializable {
 			enableAddButton();
 			enableSettingsButton();
 			try {
+				if(plantList.getSelectionModel().getSelectedItem() != null) {
 				Main.showGraphView(plantList.getSelectionModel().getSelectedItem());
+				}
 			} catch (IOException e ) {
 				e.printStackTrace();
 			}
