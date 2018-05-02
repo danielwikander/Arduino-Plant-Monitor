@@ -2,7 +2,10 @@ package client.controllers;
 
 import client.Main;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import models.Plant;
 
@@ -41,7 +44,6 @@ public class ChangeViewController {
         macAddressTextField.setText(plant.getMac());
         plantAliasTextField.setText(plant.getAlias());
         plantNotifierCheckBox.setSelected(plant.monitoringSoilMoisture());
-
     }
 
     /**
@@ -51,5 +53,7 @@ public class ChangeViewController {
     @FXML
     private void cancel() throws IOException {
         Main.showStartView();
+        ConnectionController.getInstance().getMainViewController().enableSettingsButton();
+        ConnectionController.getInstance().getMainViewController().enableAddButton();
     }
 }

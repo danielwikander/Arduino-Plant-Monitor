@@ -32,7 +32,7 @@ public class ConnectionController {
 	 */
 	private ConnectionController() {
 		try {
-			this.socket = new Socket("192.168.0.102", 5483);
+			this.socket = new Socket("localhost", 5483);
 			oos = new ObjectOutputStream(socket.getOutputStream());
 			ois = new ObjectInputStream(socket.getInputStream());
 			serverAvailable = true;
@@ -89,6 +89,14 @@ public class ConnectionController {
 	 */
 	void setMainViewController(MainViewController mainViewController) {
 		this.mainViewController = mainViewController;
+	}
+
+	/**
+	 * Gets the main View Controller
+	 * @return The mainViewController to return.
+	 */
+	public MainViewController getMainViewController() {
+		return mainViewController;
 	}
 
 	/**

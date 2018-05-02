@@ -85,8 +85,10 @@ public class AddViewController implements Initializable {
 	 * @throws IOException
 	 */
 	@FXML
-	private void cancel() throws IOException{
+	private void cancel() throws IOException {
 		Main.showStartView();
+		ConnectionController.getInstance().getMainViewController().enableSettingsButton();
+		ConnectionController.getInstance().getMainViewController().enableAddButton();
 	}
 
 	/**

@@ -3,7 +3,6 @@ package client;
 import client.controllers.ChangeViewController;
 import client.controllers.ConnectionController;
 import client.controllers.GraphViewController;
-import client.controllers.MainViewController;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;

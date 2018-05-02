@@ -54,8 +54,6 @@ public class GraphViewController {
 	public void initialize(Plant plant) {
 		topPanelHBox.setStyle("-fx-background-color: #a8cb9c;");
 
-		System.out.println(plantAliasLabel);
-		System.out.println(plant.getAlias());
 		plantAliasLabel.setText(plant.getAlias());
 
 		ArrayList<DataPoint> dataPointArrayList = plant.getDataPoints();

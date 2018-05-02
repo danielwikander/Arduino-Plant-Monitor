@@ -60,7 +60,7 @@ public class MainViewController implements Initializable {
 		connectionController.setMainViewController(this);
 		initializeListViewListener();
 		enableAddButton();
-		enableSettingsButton();
+		disableSettingsButton();
 		
 		plantListData.clear();
 		
