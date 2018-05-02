@@ -10,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.VBox;
 import models.User;
 
 import java.io.IOException;
@@ -21,7 +22,8 @@ import java.util.ResourceBundle;
  */
 public class LoginViewController implements Initializable {
 
-	/* FXML */
+	@FXML
+	private Label titleLabel;
 	@FXML
 	private TextField emailTextField;
 	@FXML
@@ -32,6 +34,8 @@ public class LoginViewController implements Initializable {
 	private Button loginButton;
 	@FXML
 	private Button newUserButton;
+	@FXML
+	private VBox topPanelVBox;
 	
 	private ConnectionController connectionController;
 
@@ -42,6 +46,8 @@ public class LoginViewController implements Initializable {
 	 */
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
+//		titleLabel.setGraphic(new ImageView(titleIcon));
+		topPanelVBox.setStyle("-fx-background-color: #a8cb9c;");
 		connectionController = ConnectionController.getInstance();
 		connectionController.setLoginViewController(this);
 		loginErrorLabel.setVisible(false);

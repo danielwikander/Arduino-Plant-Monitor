@@ -158,7 +158,7 @@ public class Main extends Application {
 		Scene scene = new Scene(confirmRemoveDialogLayout);
 		Stage stage = new Stage(StageStyle.UNDECORATED);
 		stage.setScene(scene);
-		stage.initModality(Modality.WINDOW_MODAL.NONE);
+		stage.initModality(Modality.WINDOW_MODAL);
 		ConfirmRemoveDialogController crdc = loader.getController();
 		crdc.initialize(plant);
 		stage.show();
