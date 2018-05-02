@@ -20,7 +20,7 @@
          <top>
             <HBox fx:id="topPanelHBox" alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="200.0" spacing="15.0" BorderPane.alignment="CENTER_LEFT">
                <children>
-                  <ImageView fx:id="addButtonIcon" fitHeight="40.0" fitWidth="40.0" focusTraversable="true" onMouseClicked="#goAdd" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="addButtonIcon" fitHeight="40.0" fitWidth="40.0" focusTraversable="true" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/add.png" />
                      </image>

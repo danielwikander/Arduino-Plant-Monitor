@@ -1,15 +1,16 @@
 package client;
 
 import client.controllers.ChangeViewController;
+import client.controllers.ConfirmRemoveDialogController;
 import client.controllers.ConnectionController;
 import client.controllers.GraphViewController;
-import client.controllers.MainViewController;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import models.Plant;
@@ -121,7 +122,6 @@ public class Main extends Application {
 		loader.setLocation(Main.class.getResource("views/AddView.fxml"));
 		BorderPane addLayout = loader.load();
 		mainLayout.setCenter(addLayout);
-
 	}
 
 	/**
@@ -135,7 +135,6 @@ public class Main extends Application {
 		mainLayout.setCenter(changeLayout);
 		ChangeViewController cvc = loader.getController();
 		cvc.initialize(plant);
-
 	}
 
 	/**
@@ -149,6 +148,19 @@ public class Main extends Application {
 		mainLayout.setCenter(graphLayout);
 		GraphViewController gvc = loader.getController();
 		gvc.initialize(plant);
+	}
+
+	public static void showConfirmRemoveDialog(Plant plant) throws IOException {
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(Main.class.getResource("views/ConfirmRemoveDialog.fxml"));
+		BorderPane confirmRemoveDialogLayout = loader.load();
+		Scene scene = new Scene(confirmRemoveDialogLayout);
+		Stage stage = new Stage();
+		stage.initModality(Modality.APPLICATION_MODAL);
+		stage.setScene(scene);
+		ConfirmRemoveDialogController crdc = loader.getController();
+		crdc.initialize(plant);
+		stage.show();
 	}
 
 	/**

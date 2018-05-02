@@ -1,10 +1,6 @@
 package client.controllers;
 
-import models.DataRequest;
-import models.Login;
-import models.NewUser;
-import models.Plant;
-
+import models.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -25,6 +21,7 @@ public class ConnectionController {
 	private static ConnectionController connectionController;
 	private MainViewController mainViewController;
 	private boolean serverAvailable;
+	private User currentUser;
 
 	/**
 	 * Sets up input / output streams and starts a new {@link ConnectionHandler}
@@ -32,12 +29,11 @@ public class ConnectionController {
 	 */
 	private ConnectionController() {
 		try {
-			this.socket = new Socket("10.2.29.41", 5483);
+			this.socket = new Socket("localhost", 5483);
 			oos = new ObjectOutputStream(socket.getOutputStream());
 			ois = new ObjectInputStream(socket.getInputStream());
 			serverAvailable = true;
 		} catch (IOException e) {
-			System.out.println("Server ej tillgänglig");
 			serverAvailable = false;
 		}
 		new ConnectionHandler().start();
@@ -92,14 +88,22 @@ public class ConnectionController {
 	}
 
 	/**
+	 * Gets the main View Controller
+	 * @return The mainViewController to return.
+	 */
+	public MainViewController getMainViewController() {
+		return mainViewController;
+	}
+
+	/**
 	 * Sends a login request to the server.
 	 * 
-	 * @param login
+	 * @param user
 	 *            The login information to send.
 	 */
-	protected void login(Login login) {
+	protected void login(User user) {
 		try {
-			oos.writeObject(login);
+			oos.writeObject(user);
 			oos.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -109,12 +113,12 @@ public class ConnectionController {
 	/**
 	 * Sends a new user request to the server.
 	 * 
-	 * @param newUser
+	 * @param newUserRequest
 	 *            The new user information to send.
 	 */
-	void newUser(NewUser newUser) {
+	void newUser(NewUserRequest newUserRequest) {
 		try {
-			oos.writeObject(newUser);
+			oos.writeObject(newUserRequest);
 			oos.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -125,14 +129,43 @@ public class ConnectionController {
 	 * Sends a plant that the user wishes to save to the server.
 	 * @param plant	The plant that the user wishes to save.
 	 */
-	void sendPlant(Plant plant){
+	void addPlant(Plant plant){
 		try {
-			oos.writeObject(plant);
+			AddPlantRequest plantToAdd = new AddPlantRequest(plant);
+			oos.writeObject(plantToAdd);
 			oos.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
+
+	/**
+	 * Sends a request to change the plants information in the database.
+	 * @param plant The plant to change.
+	 */
+	void changePlant(Plant plant) {
+		try {
+			ChangePlantRequest plantToChange = new ChangePlantRequest(plant);
+			oos.writeObject(plantToChange);
+			oos.flush();
+			} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	void removePlant(Plant plant) {
+		try {
+			RemovePlantRequest plantToRemove = new RemovePlantRequest(plant);
+			oos.writeObject(plantToRemove);
+			oos.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	User getUser() {
+	    return currentUser;
+    }
 
 	/**
 	 * Closes the socket.
@@ -163,16 +196,17 @@ public class ConnectionController {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				if (obj instanceof Login) {
-					Login login = (Login) obj;
-					loginViewController.validateLogin(login);
-					if (login.isLoggedIn()) {
-						requestUsersPlantInfo(new DataRequest(login));
+				if (obj instanceof User) {
+					User user = (User) obj;
+					loginViewController.validateLogin(user);
+					if (user.isLoggedIn()) {
+					    currentUser = user;
+						requestUsersPlantInfo(new DataRequest(user));
 					}
 				}
-				else if (obj instanceof NewUser) {
-					NewUser newUser = (NewUser) obj;
-					newUserViewController.validateNewUser(newUser);
+				else if (obj instanceof NewUserRequest) {
+					NewUserRequest newUserRequest = (NewUserRequest) obj;
+					newUserViewController.validateNewUser(newUserRequest);
 				}
 				else if (obj instanceof ArrayList<?>) {
 					@SuppressWarnings("unchecked")

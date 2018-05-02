@@ -7,7 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import models.NewUser;
+import models.NewUserRequest;
 
 import java.io.IOException;
 import java.net.URL;
@@ -54,9 +54,9 @@ public class NewUserViewController implements Initializable {
 	 * The ConnectionController will attempt to create a new user.
 	 */
 	public void goNewUser() {
-		NewUser newUser = new NewUser(emailTextField.getText(), passwordPasswordField.getText(), firstNameTextField.getText(), lastNameTextField.getText());
-		Main.setLoggedInUser(newUser.getEmail());
-		connectionController.newUser(newUser);
+		NewUserRequest newUserRequest = new NewUserRequest(emailTextField.getText(), passwordPasswordField.getText(), firstNameTextField.getText(), lastNameTextField.getText());
+		Main.setLoggedInUser(newUserRequest.getUser().getEmail());
+		connectionController.newUser(newUserRequest);
 		
 	}
 
@@ -65,10 +65,10 @@ public class NewUserViewController implements Initializable {
 	 * If the new user was created in the database,
 	 * the login view will automatically fill in the
 	 * login information for the user.
-	 * @param newUser	The user to check.
+	 * @param newUserRequest	The user to check.
 	 */
-	void validateNewUser(NewUser newUser) {
-		if(newUser.getNewUserStatus()) {
+	void validateNewUser(NewUserRequest newUserRequest) {
+		if(newUserRequest.getNewUserStatus()) {
 			Main.showMainView();
 		} else {
 			emailErrorLabel.setVisible(true);

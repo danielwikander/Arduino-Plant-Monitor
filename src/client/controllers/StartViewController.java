@@ -3,8 +3,6 @@ package client.controllers;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
 import java.net.URL;
@@ -16,7 +14,9 @@ import java.util.ResourceBundle;
 public class StartViewController implements Initializable {
 
     @FXML
-    Label startViewText = new Label();
+    Label startViewText;
+    @FXML
+    Label startViewHeader;
     @FXML
     HBox topPanelHBox;
 
@@ -29,8 +29,8 @@ public class StartViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         topPanelHBox.setStyle("-fx-background-color: #a8cb9c;");
-        startViewText.setText("Välkommen till Arduino Plant Monitor! " +
-                "\nÄr det första gången du använder APM? Lägg till din växt med '+' ikonen ovanför listan till vänster.");
+        startViewHeader.setText("Välkommen " + ConnectionController.getInstance().getUser().getFirstName() + "!");
+        startViewText.setText("Är det första gången du använder APM? \nLägg till din växt med '+' ikonen ovanför listan till vänster.");
     }
 }
 

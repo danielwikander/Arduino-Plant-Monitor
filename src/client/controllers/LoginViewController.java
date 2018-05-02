@@ -10,7 +10,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
-import models.Login;
+import javafx.scene.layout.VBox;
+import models.User;
 
 import java.io.IOException;
 import java.net.URL;
@@ -21,7 +22,8 @@ import java.util.ResourceBundle;
  */
 public class LoginViewController implements Initializable {
 
-	/* FXML */
+	@FXML
+	private Label titleLabel;
 	@FXML
 	private TextField emailTextField;
 	@FXML
@@ -32,6 +34,8 @@ public class LoginViewController implements Initializable {
 	private Button loginButton;
 	@FXML
 	private Button newUserButton;
+	@FXML
+	private VBox topPanelVBox;
 	
 	private ConnectionController connectionController;
 
@@ -42,6 +46,8 @@ public class LoginViewController implements Initializable {
 	 */
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
+//		titleLabel.setGraphic(new ImageView(titleIcon));
+		topPanelVBox.setStyle("-fx-background-color: #a8cb9c;");
 		connectionController = ConnectionController.getInstance();
 		connectionController.setLoginViewController(this);
 		loginErrorLabel.setVisible(false);
@@ -97,17 +103,17 @@ public class LoginViewController implements Initializable {
 	 * This method is called when users press 'Logga in'
 	 */
 	public void goLogin() {
-		Login login = new Login(emailTextField.getText(), passwordPasswordField.getText());
-		Main.setLoggedInUser(login.getEmail());
-		connectionController.login(login);
+		User user = new User(emailTextField.getText(), passwordPasswordField.getText());
+		Main.setLoggedInUser(user.getEmail());
+		connectionController.login(user);
 	}
 
 	/**
 	 * Prints out the login status (If the login succeeded or failed).
-	 * @param login	The login information to check.
+	 * @param user	The login information to check.
 	 */
-	void validateLogin(Login login) {
-		if(!login.isLoggedIn()) {
+	void validateLogin(User user) {
+		if(!user.isLoggedIn()) {
 			loginErrorLabel.setVisible(true);
 		} else {
 			Main.showMainView();

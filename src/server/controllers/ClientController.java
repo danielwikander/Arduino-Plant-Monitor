@@ -59,8 +59,8 @@ public class ClientController implements Runnable {
 	 */
 	private class ClientHandler extends Thread {
 		private Socket socket;
-		private Login login;
-		private NewUser newUser;
+		private User user;
+		private NewUserRequest newUserRequest;
 		private Connection conn;
 
 		/**
@@ -85,31 +85,50 @@ public class ClientController implements Runnable {
 				Object obj;
 				while (!socket.isClosed()) {
 					obj = ois.readObject();
-					if (obj instanceof Login) {
-						login = (Login) obj;
-						login.setIsLoggedIn(validateLogin(login));
-						oos.writeObject(login);
+					if (obj instanceof User) {
+						user = (User) obj;
+						user.setIsLoggedIn(validateLogin(user));
+						user = getUserInfo(user);
+						oos.writeObject(user);
 						oos.flush();
-					} else if (obj instanceof NewUser) {
-						newUser = (NewUser) obj;
-						newUser.setNewUserStatus(validateNewUser(newUser));
-						oos.writeObject(newUser);
+
+					} else if (obj instanceof NewUserRequest) {
+						newUserRequest = (NewUserRequest) obj;
+						newUserRequest.setNewUserStatus(validateNewUser(newUserRequest));
+						oos.writeObject(newUserRequest);
 						oos.flush();
+
 					} else if (obj instanceof DataRequest) {
 						DataRequest dataRequest = (DataRequest) obj;
 						ArrayList<Plant> plantList = getPlants(dataRequest.getRequestingUser());
 						oos.writeObject(plantList);
 						oos.flush();
-					} else if (obj instanceof Plant) {
-						Plant plant = (Plant) obj;
-						if (macAddressTaken(plant)) {
-							if (macAddressMatchEmail(plant)) {
-								// changePlant();
-								System.out.println("change plant");
-							}
+
+					} else if (obj instanceof AddPlantRequest) {
+						AddPlantRequest plantAddRequest = (AddPlantRequest) obj;
+						Plant plantToAdd = plantAddRequest.getPlantToAdd();
+						if(!macAddressTaken(plantToAdd)) {
+							addPlant(plantToAdd);
 						} else {
-							addPlant(plant);
-							System.out.println("plant added");
+							System.out.println("MAC-Address taken.");
+						}
+
+					} else if (obj instanceof ChangePlantRequest) {
+						ChangePlantRequest changePlantRequest = (ChangePlantRequest) obj;
+						Plant plantToChange = changePlantRequest.getPlantToChange();
+						if(macAddressMatchEmail(plantToChange)) {
+							changePlant(plantToChange);
+						} else {
+							System.out.println("Not this users plant.");
+						}
+
+					} else if (obj instanceof RemovePlantRequest) {
+						RemovePlantRequest removePlantRequest = (RemovePlantRequest) obj;
+						Plant plantToRemove = removePlantRequest.getPlantToRemove();
+						if(macAddressMatchEmail(plantToRemove)) {
+							removePlant(plantToRemove);
+						} else {
+							System.out.println("Not this users plant.");
 						}
 					}
 				}
@@ -140,10 +159,38 @@ public class ClientController implements Runnable {
 			}
 		}
 
+		private void changePlant(Plant plant) {
+			try {
+				Statement stmt = conn.createStatement();
+				stmt.executeUpdate(
+						"update apm_arduino\n"
+								+ " set plant_alias = '" + plant.getAlias() + "',"
+								+ " soil_moisture_monitor = " + plant.monitoringSoilMoisture()
+								+ " where mac = '" + plant.getMac() + "';");
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		private void removePlant(Plant plant) {
+			try {
+				Statement stmtRemoveData = conn.createStatement();
+				Statement stmtRemovePlant = conn.createStatement();
+				stmtRemoveData.executeUpdate(
+						"delete from apm_value\n"
+						+ "where mac = '" + plant.getMac() + "';");
+
+				stmtRemovePlant.executeUpdate(
+						"delete from apm_arduino\n"
+								+ "where mac = '" + plant.getMac() + "';");
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
 		/**
 		 * Checks if the MacAddress sent is used by a arduino from the same user or not.
 		 * If the MAC-Address is already used by a different user it will not allow an overwrite.
-		 * //TODO: Stämmer ovanstående kommentar?
 		 * @param plant	The plant which contains the MAC-address and email.
 		 * @return		Returns true if the MAC-address is already used by the same user.
 		 */
@@ -179,14 +226,28 @@ public class ClientController implements Runnable {
 			return false;
 		}
 
+		private User getUserInfo(User user) {
+            try {
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery("SELECT first_name, last_name FROM apm_user WHERE email = '" + user.getEmail() + "';");
+                if (rs.next()) {
+                    user.setFirstName(rs.getString(1));
+                    user.setLastName(rs.getString(2));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return user;
+        }
+
 		/**
 		 * Validates the login information by checking the database.
 		 * 
-		 * @param login
+		 * @param user
 		 *            The log in information from the user.
 		 * @return Returns true if the login is valid, else returns false.
 		 */
-		private boolean validateLogin(Login login) {
+		private boolean validateLogin(User user) {
 			ResultSet rs;
 			try {
 				conn = DriverManager.getConnection("jdbc:postgresql://35.230.133.109:5432/apmdb1", "postgres",
@@ -198,7 +259,7 @@ public class ClientController implements Runnable {
 			try {
 				rs = conn.createStatement()
 						.executeQuery("select email, password\n" + "from apm_user\n" + "where email = '"
-								+ login.getEmail() + "'\n" + "and password = '" + login.getPassword() + "';");
+								+ user.getEmail() + "'\n" + "and password = '" + user.getPassword() + "';");
 				if (rs.next()) {
 					return true;
 				}
@@ -213,20 +274,20 @@ public class ClientController implements Runnable {
 		 * email is already logged in the database, the method returns false and
 		 * the user is prompted to
 		 * 
-		 * @param newUser
+		 * @param newUserRequest
 		 *            The new user information.
 		 * @return Returns true if the email is new to the database, else
 		 *         returns false.
 		 */
-		private boolean validateNewUser(NewUser newUser) {
+		private boolean validateNewUser(NewUserRequest newUserRequest) {
 			Statement statement;
 			try {
 				this.conn = DriverManager.getConnection("jdbc:postgresql://35.230.133.109:5432/apmdb1", "postgres",
 						"Passw0rd1234!");
 				statement = conn.createStatement();
 				statement.executeUpdate("insert into apm_user(email, password, first_name, last_name) values\n" + "	('"
-						+ newUser.getEmail() + "', '" + newUser.getPassword() + "', '" + newUser.getFirstName() + "', '"
-						+ newUser.getLastName() + "');");
+						+ newUserRequest.getUser().getEmail() + "', '" + newUserRequest.getUser().getPassword() + "', '" + newUserRequest.getUser().getFirstName() + "', '"
+						+ newUserRequest.getUser().getLastName() + "');");
 			} catch (SQLException e) {
 				e.printStackTrace();
 				return false;
@@ -239,11 +300,11 @@ public class ClientController implements Runnable {
 		 * information includes things like MAC-address, notification levels
 		 * etc.
 		 * 
-		 * @param login
+		 * @param user
 		 *            The user who wishes to retrieve plant information.
 		 * @return Returns a list of the users plants and their data values.
 		 */
-		private ArrayList<Plant> getPlants(Login login) {
+		private ArrayList<Plant> getPlants(User user) {
 			ResultSet rs;
 			ArrayList<Plant> plantList = new ArrayList<Plant>();
 			try {
@@ -261,7 +322,7 @@ public class ClientController implements Runnable {
 								+ "soil_moisture_monitor, " + "soil_moisture_max, " + "soil_moisture_min, "
 								+ "humidity_monitor, " + "humidity_max, " + "humidity_min, " + "temperature_monitor, "
 								+ "temperature_max, " + "temperature_min\n" + "from apm_arduino\n" + "where email = '"
-								+ login.getEmail() + "';");
+								+ user.getEmail() + "';");
 				while (rs.next()) {
 					plantList.add(new Plant(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
 							rs.getBoolean(5), rs.getInt(6), rs.getInt(7), rs.getBoolean(8), rs.getInt(9), rs.getInt(10),

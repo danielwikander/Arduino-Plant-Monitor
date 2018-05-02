@@ -38,14 +38,14 @@
                   <Insets />
                </HBox.margin>
                <children>
-                  <Label fx:id="plantAliasLabel" prefHeight="35.0" prefWidth="200.0" text="Växt Alias" textFill="WHITE">
+                  <Label fx:id="plantAliasLabel" prefHeight="35.0" prefWidth="310.0" text="Växt Alias" textFill="WHITE">
                      <font>
                         <Font size="24.0" />
                      </font></Label>
                </children>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="50.0" prefWidth="260.0" />
-            <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="260.0" spacing="10.0">
+            <HBox alignment="CENTER" prefHeight="50.0" prefWidth="256.0" />
+            <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="253.0" spacing="10.0">
                <children>
                   <DatePicker fx:id="fromDatePicker" prefHeight="21.0" prefWidth="120.0" promptText="Från " showWeekNumbers="true" />
                   <DatePicker fx:id="toDatePicker" prefHeight="25.0" prefWidth="120.0" promptText="Till ">

@@ -6,13 +6,10 @@ import java.io.Serializable;
  * Holds information about a new user.
  * Information such as email, password, name and user
  */
-public class NewUser implements Serializable {
+public class NewUserRequest implements Serializable {
 
 	private static final long serialVersionUID = -595827879522136821L;
-	private String email;
-	private String password;
-	private String firstName;
-	private String lastName;
+	private User user;
 	private boolean newUserStatus;
 
 	/**
@@ -22,44 +19,15 @@ public class NewUser implements Serializable {
 	 * @param firstName	The users first name.
 	 * @param lastName	The users last name.
 	 */
-	public NewUser(String email, String password, String firstName, String lastName) {
-		this.email = email;
-		this.password = password;
-		this.firstName = firstName;
-		this.lastName = lastName;
+	public NewUserRequest(String email, String password, String firstName, String lastName) {
+		user = new User(email, password);
+		user.setFirstName(firstName);
+		user.setLastName(lastName);
 		this.newUserStatus = false;
 	}
 
-	/**
-	 * Returns the users email-address.
-	 * @return	Returns the email-address.
-	 */
-	public String getEmail() {
-		return email;
-	}
-
-	/**
-	 * Returns the users password.
-	 * @return	Returns the password.
-	 */
-	public String getPassword() {
-		return password;
-	}
-
-	/**
-	 * Returns the users first name.
-	 * @return Returns the first name.
-	 */
-	public String getFirstName() {
-		return firstName;
-	}
-
-	/**
-	 * Returns the users last name.
-	 * @return Returns the last name.
-	 */
-	public String getLastName() {
-		return lastName;
+	public User getUser() {
+		return user;
 	}
 
 	/**

@@ -29,7 +29,7 @@
       </HBox>
    </top>
    <left>
-      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="400.0" spacing="15.0" BorderPane.alignment="CENTER">
+      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="400.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
             <Label prefHeight="15.0" prefWidth="300.0" text="MAC-adress:" />
             <TextField fx:id="macAddressTextField" prefHeight="25.0" prefWidth="300.0" promptText="MAC-adress" />
@@ -38,10 +38,11 @@
             <CheckBox fx:id="plantNotifierCheckBox" contentDisplay="RIGHT" mnemonicParsing="false" text="Notifiera mig när min växt är törstig" />
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                <children>
-                  <Button fx:id="saveButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Spara" />
+                  <Button fx:id="saveButton" mnemonicParsing="false" onAction="#changePlant" prefHeight="25.0" prefWidth="100.0" text="Spara" />
                   <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancel" prefHeight="25.0" prefWidth="100.0" text="Avbryt" />
                </children>
             </HBox>
+            <Button fx:id="removeButton" mnemonicParsing="false" onAction="#removePlant" text="Ta bort växt" textFill="#ff6d6d" />
          </children>
          <padding>
             <Insets left="50.0" right="50.0" top="50.0" />

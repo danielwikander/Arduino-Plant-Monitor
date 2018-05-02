@@ -28,14 +28,14 @@
       </HBox>
    </top>
    <left>
-      <VBox prefHeight="550.0" prefWidth="500.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="550.0" prefWidth="794.0" BorderPane.alignment="CENTER">
          <children>
-            <Label prefHeight="24.0" prefWidth="391.0" text="Information till nya användare:">
+            <Label fx:id="startViewHeader" prefHeight="24.0" prefWidth="391.0" text="Information till nya användare:">
                <font>
                   <Font size="20.0" />
                </font>
             </Label>
-            <Label fx:id="startViewText" alignment="TOP_LEFT" prefHeight="600.0" prefWidth="400.0" text="Information till nya användare:">
+            <Label fx:id="startViewText" alignment="TOP_LEFT" prefHeight="446.0" prefWidth="692.0" text="Information till nya användare:">
                <padding>
                   <Insets right="50.0" />
                </padding>

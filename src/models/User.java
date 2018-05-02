@@ -6,11 +6,13 @@ import java.io.Serializable;
  * This class holds log in information.
  * It holds the users email, password and current login status.
  */
-public class Login implements Serializable {
+public class User implements Serializable {
 
 	private static final long serialVersionUID = 3667940984279025940L;
 	private String email;
 	private String password;
+	private String firstName;
+	private String lastName;
 	private boolean isLoggedIn;
 
 	/**
@@ -18,10 +20,26 @@ public class Login implements Serializable {
 	 * @param email		The users email-address.
 	 * @param password	The users password.
 	 */
-	public Login(String email, String password) {
+	public User(String email, String password) {
 		this.email = email;
 		this.password = password;
 		this.isLoggedIn = false;
+	}
+
+	public void setFirstName(String firstName){
+		this.firstName = firstName;
+	}
+
+	public void setLastName(String lastName){
+		this.lastName= lastName;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
 	}
 
 	/**
