@@ -36,7 +36,6 @@ public class LoginViewController implements Initializable {
 	private Button newUserButton;
 	@FXML
 	private VBox topPanelVBox;
-	
 	private ConnectionController connectionController;
 
 	/**

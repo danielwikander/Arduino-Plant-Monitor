@@ -7,8 +7,10 @@ import client.controllers.GraphViewController;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -25,6 +27,8 @@ public class Main extends Application {
 	private static Stage primaryStage;
 	private static BorderPane mainLayout;
 	private static String user;
+	@FXML
+	private Image applicationIcon = new Image("client/images/smallIcon.png");
 
 	/**
 	 * Starts applications primary stage and presents the login view.
@@ -36,6 +40,7 @@ public class Main extends Application {
 	public void start(Stage primaryStage) throws IOException {
 		Main.primaryStage = primaryStage;
 		Main.primaryStage.setTitle("Arduino Plant Monitor");
+		Main.primaryStage.getIcons().add(applicationIcon);
 		showLoginView();
 		Main.primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
@@ -157,6 +162,7 @@ public class Main extends Application {
 		Scene scene = new Scene(confirmRemoveDialogLayout);
 		Stage stage = new Stage();
 		stage.initModality(Modality.APPLICATION_MODAL);
+		stage.setTitle("Är du säker?");
 		stage.setScene(scene);
 		ConfirmRemoveDialogController crdc = loader.getController();
 		crdc.initialize(plant);
