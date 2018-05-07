@@ -16,9 +16,9 @@
 //  - Variables -
 
 //  - Wifi  -
-const char ssid[] = "v a t t e n";      // Name of the wifi to connect to.
-const char password[] = "labiblioteca"; // Password of above wifi.
-const char* host = "192.168.0.102";
+const char ssid[] = "Hotspot";      // Name of the wifi to connect to.
+const char password[] = "hotspotpass1"; // Password of above wifi.
+const char* host = "192.168.43.207";
 const int port = 5482;  
 WiFiEspClient client;       
 int status = WL_IDLE_STATUS;            // Status of wifi connection.
@@ -126,7 +126,7 @@ void loop() {
   Serial.println(rssi);
 
   // Pause before the next read/write cycle.
-  delay(1800000);
+  delay(20000);
 }
 
 // Prints the ssid of the network, Arduinos IPv4-address and MAC-Address.

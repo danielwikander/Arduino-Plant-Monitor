@@ -28,7 +28,7 @@ public class Main extends Application {
 	private static BorderPane mainLayout;
 	private static String user;
 	@FXML
-	private Image applicationIcon = new Image("client/images/smallIcon.png");
+	private static Image applicationIcon = new Image("client/images/smallIcon.png");
 
 	/**
 	 * Starts applications primary stage and presents the login view.
@@ -98,6 +98,7 @@ public class Main extends Application {
 			Scene scene = new Scene(mainLayout);
 			primaryStage.setScene(scene);
 			primaryStage.setMaximized(true);
+			primaryStage.setResizable(true);
 			primaryStage.show();
 			try {
 				showStartView();
@@ -164,6 +165,7 @@ public class Main extends Application {
 		stage.initModality(Modality.APPLICATION_MODAL);
 		stage.setTitle("Är du säker?");
 		stage.setScene(scene);
+		stage.getIcons().add(applicationIcon);
 		ConfirmRemoveDialogController crdc = loader.getController();
 		crdc.initialize(plant);
 		stage.show();
