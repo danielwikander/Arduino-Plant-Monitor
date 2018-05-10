@@ -1,18 +1,29 @@
 package server.controllers;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Properties;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 /**
- * Handles arduinos connecting to the server by setting
- * up a serversocket and starting an {@link ArduinoHandler}.
+ * Handles arduinos connecting to the server by setting up a serversocket and
+ * starting an {@link ArduinoHandler}.
  */
 public class ArduinoController implements Runnable {
 	private ServerSocket serverSocket;
@@ -21,11 +32,14 @@ public class ArduinoController implements Runnable {
 	/**
 	 * Sets up a connection with the database. Sets up a serversocket for arduinos.
 	 * Starts a thread that listens for connecting arduinos.
-	 * @param port	The port the server listens to.
+	 * 
+	 * @param port
+	 *            The port the server listens to.
 	 */
 	public ArduinoController(int port) {
 		try {
-			this.conn = DriverManager.getConnection("jdbc:postgresql://35.230.133.109:5432/apmdb1", "postgres", "Passw0rd1234!");
+			this.conn = DriverManager.getConnection("jdbc:postgresql://35.230.133.109:5432/apmdb1", "postgres",
+					"Passw0rd1234!");
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 			System.out.println("Unable to connect to database");
@@ -41,8 +55,8 @@ public class ArduinoController implements Runnable {
 	}
 
 	/**
-	 * Thread that listens after connecting arduinos, sets up a socket for them,
-	 * and starts an {@link ArduinoHandler}.
+	 * Thread that listens after connecting arduinos, sets up a socket for them, and
+	 * starts an {@link ArduinoHandler}.
 	 */
 	public void run() {
 		while (!serverSocket.isClosed()) {
@@ -57,9 +71,8 @@ public class ArduinoController implements Runnable {
 	}
 
 	/**
-	 * Thread that handles arduino requests.
-	 * The class receives values from the arduino,
-	 * and stores and handles them accordingly.
+	 * Thread that handles arduino requests. The class receives values from the
+	 * arduino, and stores and handles them accordingly.
 	 */
 	private class ArduinoHandler extends Thread {
 		private Socket socket;
@@ -72,36 +85,39 @@ public class ArduinoController implements Runnable {
 
 		/**
 		 * Establishes the socket for the arduino connection.
-		 * @param socket The socket to set.
+		 * 
+		 * @param socket
+		 *            The socket to set.
 		 */
 		private ArduinoHandler(Socket socket) {
 			this.socket = socket;
 		}
 
 		/**
-		 * This thread reads the values sent from the arduino,
-		 * sends them to the database and closes the socket.
+		 * This thread reads the values sent from the arduino, sends them to the
+		 * database and closes the socket.
 		 */
 		public void run() {
-			try (BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
-				
-				macAddress = br.readLine();
+			try (ObjectInputStream ois = new ObjectInputStream(socket.getInputStream())) {
+
+				macAddress = ois.readUTF();
 				System.out.println(macAddress);
-				soilMoistureLevel = Integer.parseInt(br.readLine());
+				soilMoistureLevel = Integer.parseInt(ois.readUTF());
 				System.out.println(soilMoistureLevel);
-				lightLevel = Integer.parseInt(br.readLine());
+				lightLevel = Integer.parseInt(ois.readUTF());
 				System.out.println(lightLevel);
-				airHumidityLevel = Integer.parseInt(br.readLine());
+				airHumidityLevel = Integer.parseInt(ois.readUTF());
 				System.out.println(airHumidityLevel);
-				airTemperature = Integer.parseInt(br.readLine());
+				airTemperature = Integer.parseInt(ois.readUTF());
 				System.out.println(airTemperature);
 				timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 				System.out.println(timestamp);
-				
-				if(checkMacAddress()) {
+
+				if (checkMacAddress()) {
 					insertValues();
+					checkValues();
 				}
-				br.close();
+				ois.close();
 				socket.close();
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -115,7 +131,7 @@ public class ArduinoController implements Runnable {
 			try {
 				Statement stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery("SELECT mac FROM apm_arduino WHERE mac = '" + macAddress + "';");
-				if(rs.next()) {
+				if (rs.next()) {
 					return true;
 				}
 			} catch (SQLException e) {
@@ -130,12 +146,114 @@ public class ArduinoController implements Runnable {
 		private void insertValues() {
 			try {
 				Statement stmt = conn.createStatement();
-				String sql = "INSERT INTO apm_value(date, mac, soil_moisture, humidity, temperature, light_exposure) VALUES ('" + this.timestamp + "', '" + this.macAddress + "', " + this.soilMoistureLevel + ", " + this.airHumidityLevel + ", " + this.airTemperature + ", " + this.lightLevel + ");";
+				String sql = "INSERT INTO apm_value(date, mac, soil_moisture, humidity, temperature, light_exposure) VALUES ('"
+						+ this.timestamp + "', '" + this.macAddress + "', " + this.soilMoistureLevel + ", "
+						+ this.airHumidityLevel + ", " + this.airTemperature + ", " + this.lightLevel + ");";
 				stmt.executeUpdate(sql);
-				stmt.close();			
+				stmt.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
-	}	
+
+		private void checkValues() {
+			boolean notifyUser = false;
+			if (soilMoistureLevel < 15) {
+
+				try {
+					Statement stmt = conn.createStatement();
+					ResultSet rs = stmt.executeQuery(
+							"SELECT soil_moisture_monitor FROM apm_arduino WHERE mac = '" + macAddress + "';");
+					if(rs.next()) {
+						notifyUser = rs.getBoolean(1);
+					}
+					
+					if (notifyUser) {
+						Statement stmt2 = conn.createStatement();
+						ResultSet rs2 = stmt2.executeQuery("select soil_moisture from apm_value where mac = '"
+								+ macAddress + "' order by date desc limit 24;");
+						while (rs2.next()) {
+							if (rs2.getInt(1) > 15) {
+								notifyUser = false;
+								break;
+							}
+						}
+					}
+					if (notifyUser) {
+						notifyUserEmail();
+					}
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+
+		private void notifyUserEmail() {
+			final String username = "noreply.arduinoplantmonitor@gmail.com";
+			final String password = "Passw0rd1234!";
+			String emailAddress = null;
+			String plantName = null;
+			String plantAlias = null;
+			String firstName = null;
+			String lastName = null;
+			
+			Statement stmt;
+			try {
+				stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery("select * from apm_arduino where mac = '" + macAddress + "';");
+				if(rs.next()) {
+					emailAddress = rs.getString(2);
+					plantName = rs.getString(3);
+					plantAlias = rs.getString(4);
+				}
+				stmt = conn.createStatement();
+				ResultSet rs2 = stmt.executeQuery("select * from apm_user where email = '" + emailAddress + "';");
+				
+				if(rs2.next()) {
+					firstName = rs2.getString(3);
+					lastName = rs2.getString(4);
+				}
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+
+			Properties props = new Properties();
+			props.put("mail.smtp.auth", "true");
+			props.put("mail.smtp.starttls.enable", "true");
+			props.put("mail.smtp.host", "smtp.gmail.com");
+			props.put("mail.smtp.port", "587");
+
+			Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+				protected PasswordAuthentication getPasswordAuthentication() {
+					return new PasswordAuthentication(username, password);
+				}
+			});
+
+			try {
+
+				Message message = new MimeMessage(session);
+				message.setFrom(new InternetAddress("noreply.arduinoplantmonitor@gmail.com"));
+				message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(emailAddress));
+				message.setSubject(plantAlias + " är törstig");
+				message.setText("Hej " + firstName + "!" + "\n\nDin växt " + plantAlias + " (" + plantName + ") behöver vattnas." );
+
+				Transport.send(message);
+
+				System.out.println("Sent email");
+				
+				try {
+					Statement stmt2 = conn.createStatement();
+					stmt2.executeUpdate(
+							"update apm_arduino set allowemail = false where mac = '" + macAddress + "';");
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+
+			} catch (MessagingException e) {
+				throw new RuntimeException(e);
+			}
+		}
+	}
 }

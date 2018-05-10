@@ -2,6 +2,7 @@ package server;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Random;
 
@@ -10,7 +11,7 @@ import java.util.Random;
  * The class emulates values sent from an arduino for testing purposes.
  */
 public class ArduinoEmulator {
-	private final String MAC_ADDRESS = "2C:3A:E8:43:59:F0";
+	private final String MAC_ADDRESS = "2C:3A:E8:43:57:6D";
 	private int port;
 	private String ip;
 
@@ -39,14 +40,14 @@ public class ArduinoEmulator {
 			try {			
 				while(true) {
 					socket = new Socket(ip, port);
-					DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
+					ObjectOutputStream dos = new ObjectOutputStream(socket.getOutputStream());
 					dos.writeUTF(MAC_ADDRESS);
-					dos.writeInt(random(20, 90));	//soilMoistureLevel
-					dos.writeInt(random(0, 100));	//LightLevel
-					dos.writeInt(random(15, 80));	//airHumidityLevel
-					dos.writeInt(random(5, 35));	//airTemperature
+					dos.writeUTF("" + 5);	//soilMoistureLevel
+					dos.writeUTF("" + random(0, 100));	//LightLevel
+					dos.writeUTF("" + random(15, 80));	//airHumidityLevel
+					dos.writeUTF("" + random(5, 35));	//airTemperature
 					dos.flush();
-					Thread.sleep(2500);
+					Thread.sleep(5000);
 					dos.close();
 					socket.close();
 				}
@@ -65,5 +66,9 @@ public class ArduinoEmulator {
 			Random rand = new Random();
 			return min + rand.nextInt(max + min +1);
 		}
+	}
+	
+	public static void main(String[]args) {
+		new ArduinoEmulator(5482, "localhost");
 	}
 }
