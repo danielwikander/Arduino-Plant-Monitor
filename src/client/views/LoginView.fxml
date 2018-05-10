@@ -9,15 +9,16 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <BorderPane prefHeight="275.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.controllers.LoginViewController">
    <top>
-      <VBox fx:id="topPanelVBox" alignment="CENTER" prefHeight="50.0" prefWidth="300.0" BorderPane.alignment="CENTER">
+      <VBox fx:id="topPanelVBox" alignment="CENTER" prefHeight="58.0" prefWidth="300.0" BorderPane.alignment="CENTER">
          <children>
-            <Label fx:id="titleLabel" text="Arduino Plant Monitor" textFill="WHITE">
+            <Label fx:id="titleLabel" prefWidth="178.0" text="Arduino Plant Monitor" textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>
@@ -26,14 +27,27 @@
       </VBox>
    </top>
    <bottom>
-      <BorderPane BorderPane.alignment="CENTER">
+      <BorderPane prefHeight="122.0" prefWidth="300.0" BorderPane.alignment="CENTER">
          <center>
-            <VBox alignment="CENTER" prefHeight="120.0" prefWidth="300.0" spacing="15.0">
+            <VBox alignment="CENTER" prefHeight="85.0" prefWidth="300.0">
                <children>
-                  <CheckBox fx:id="rememberUserCheckBox" mnemonicParsing="false" text="Kom ihåg mig" />
-                  <Button fx:id="loginButton" mnemonicParsing="false" onAction="#goLogin" text="Logga in" />
-                  <Button fx:id="newUserButton" mnemonicParsing="false" onAction="#showNewUserView" text="Ny användare" />
+                  <CheckBox fx:id="rememberUserCheckBox" mnemonicParsing="false" text="Kom ihåg mig">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <padding>
+                        <Insets bottom="10.0" />
+                     </padding></CheckBox>
+                  <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" spacing="20.0">
+                     <children>
+                        <Button fx:id="loginButton" mnemonicParsing="false" onAction="#goLogin" prefWidth="90.0" text="Logga in" />
+                        <Button fx:id="newUserButton" mnemonicParsing="false" onAction="#showNewUserView" text="Ny användare" />
+                     </children>
+                  </HBox>
                </children>
+               <BorderPane.margin>
+                  <Insets />
+               </BorderPane.margin>
             </VBox>
          </center>
          <top>
@@ -42,7 +56,7 @@
       </BorderPane>
    </bottom>
    <center>
-      <GridPane BorderPane.alignment="CENTER">
+      <GridPane prefHeight="100.0" prefWidth="300.0" BorderPane.alignment="CENTER">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="121.0" minWidth="10.0" prefWidth="59.0" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="201.0" minWidth="10.0" prefWidth="201.0" />
