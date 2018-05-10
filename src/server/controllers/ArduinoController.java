@@ -115,7 +115,10 @@ public class ArduinoController implements Runnable {
 
 				if (checkMacAddress()) {
 					insertValues();
+
+
 					checkValues();
+
 				}
 				ois.close();
 				socket.close();
@@ -156,39 +159,76 @@ public class ArduinoController implements Runnable {
 			}
 		}
 
+		/**
+		 * Method that checks if the soil moisture level is too low and takes action depending on each condition
+		 */
 		private void checkValues() {
 			boolean notifyUser = false;
-			if (soilMoistureLevel < 15) {
-
-				try {
-					Statement stmt = conn.createStatement();
-					ResultSet rs = stmt.executeQuery(
-							"SELECT soil_moisture_monitor FROM apm_arduino WHERE mac = '" + macAddress + "';");
-					if(rs.next()) {
-						notifyUser = rs.getBoolean(1);
-					}
-					
-					if (notifyUser) {
-						Statement stmt2 = conn.createStatement();
-						ResultSet rs2 = stmt2.executeQuery("select soil_moisture from apm_value where mac = '"
-								+ macAddress + "' order by date desc limit 24;");
-						while (rs2.next()) {
-							if (rs2.getInt(1) > 15) {
-								notifyUser = false;
-								break;
+			try {
+				Statement stmt = conn.createStatement();
+				ResultSet allowEmailResultSet = stmt.executeQuery("select allowemail from apm_arduino where mac = '" + macAddress + "'");
+				if(allowEmailResultSet.next()) {
+					// Checks if email has already been sent to user regarding low soil moisture level
+					if(allowEmailResultSet.getBoolean(1)) {
+						// Checks current soil moisture level
+						if (soilMoistureLevel < 15) {
+							try {
+								// Checks if user has set soil moisture monitor to true
+								Statement stmt2 = conn.createStatement();
+								ResultSet soilMoistureMonitorResultSet = stmt2.executeQuery(
+										"SELECT soil_moisture_monitor FROM apm_arduino WHERE mac = '" + macAddress + "';");
+								if(soilMoistureMonitorResultSet.next()) {
+									notifyUser = soilMoistureMonitorResultSet.getBoolean(1);
+								}							
+								if(notifyUser) {
+									// Check if there are at least 24 soil moisture records
+									Statement stmt3 = conn.createStatement();
+									ResultSet countSoilMoistureRecordsResultSet = stmt3.executeQuery("select count(soil_moisture) from apm_value where mac = '" + macAddress + "';");
+									if(countSoilMoistureRecordsResultSet.next()) {
+										int rows = countSoilMoistureRecordsResultSet.getInt(1);
+										if(rows >= 24) {
+											// Checks last 24 soil moisture level records
+											Statement stmt4 = conn.createStatement();
+											ResultSet soilMoistureResultSet = stmt4.executeQuery("select soil_moisture from apm_value where mac = '"
+													+ macAddress + "' order by date desc limit 24;");
+											while (soilMoistureResultSet.next()) {
+												// If all last 24 records are below 15 -> notifyUser is true
+												if (soilMoistureResultSet.getInt(1) > 15) {
+													notifyUser = false;
+													break;
+												}
+											}
+										} else {
+											notifyUser = false;
+										}
+									}
+								}
+								if (notifyUser) {
+									notifyUserEmail();
+								}
+							} catch (SQLException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
 							}
 						}
+					// If soil moisture monitoring is true and level is more than 15 -> allowemail is true
+					} else if (soilMoistureLevel>15) {
+						Statement stmt5 = conn.createStatement();
+						stmt5.executeUpdate(
+								"update apm_arduino set allowemail = true where mac = '" + macAddress + "';");
+						
 					}
-					if (notifyUser) {
-						notifyUserEmail();
-					}
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
 				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
+
 		}
 
+		/**
+		 * 
+		 */
 		private void notifyUserEmail() {
 			final String username = "noreply.arduinoplantmonitor@gmail.com";
 			final String password = "Passw0rd1234!";

@@ -11,7 +11,7 @@ import java.util.Random;
  * The class emulates values sent from an arduino for testing purposes.
  */
 public class ArduinoEmulator {
-	private final String MAC_ADDRESS = "2C:3A:E8:43:57:6D";
+	private final String MAC_ADDRESS = "2C:3A:E8:43:59:F0";
 	private int port;
 	private String ip;
 
