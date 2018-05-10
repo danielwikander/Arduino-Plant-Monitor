@@ -115,10 +115,7 @@ public class ArduinoController implements Runnable {
 
 				if (checkMacAddress()) {
 					insertValues();
-
-
 					checkValues();
-
 				}
 				ois.close();
 				socket.close();
@@ -162,6 +159,7 @@ public class ArduinoController implements Runnable {
 		/**
 		 * Method that checks if the soil moisture level is too low and takes action depending on each condition
 		 */
+		// TODO: Förfina den här metoden
 		private void checkValues() {
 			boolean notifyUser = false;
 			try {
