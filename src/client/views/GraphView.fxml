@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.controllers.GraphViewController">
+<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.controllers.GraphViewController">
    <center>
       <LineChart fx:id="valueChart" prefHeight="340.0" prefWidth="800.0" BorderPane.alignment="CENTER">
         <xAxis>
@@ -54,7 +54,7 @@
                   <Button fx:id="dayButton" mnemonicParsing="false" onAction="#showDayGraph" prefWidth="53.0" text="Dag" />
                   <Button fx:id="weekButton" mnemonicParsing="false" onAction="#showWeekGraph" prefWidth="53.0" text="Vecka" />
                   <Button fx:id="monthButton" mnemonicParsing="false" onAction="#showMonthGraph" text="Månad" />
-                  <Button fx:id="allButton" mnemonicParsing="false" onAction="#showAllGraph" prefWidth="53.0" text="Allt" />
+                  <Button fx:id="allButton" mnemonicParsing="false" onAction="#showAllGraph" prefWidth="53.0" text="Alla" />
                </children>
             </HBox>
          </children>

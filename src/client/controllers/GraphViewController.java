@@ -58,8 +58,8 @@ public class GraphViewController {
 	private Series<String, Integer> temperatureSeries;
 
 	/**
-	 * Initializes the Graph View. Sets the background color of the top panel,
-	 * and initializes the graphs with data from the selected plant.
+	 * Initializes the Graph View. Sets the background color of the top panel, and
+	 * initializes the graphs with data from the selected plant.
 	 * 
 	 * @param plant
 	 *            The plant to retrieve data from.
@@ -81,14 +81,8 @@ public class GraphViewController {
 		humiditySeries.setName("Luftfuktighet");
 		temperatureSeries.setName("Temperatur");
 
-		if (dataPointArrayList != null) {
-			for (DataPoint dp : dataPointArrayList) {
-				soilMoistureSeries.getData()
-						.add(new XYChart.Data<>(dateFormat(dp.getTimeStamp()), dp.getSoilMoistureLevel()));
-				lightLevelSeries.getData().add(new XYChart.Data<>(dateFormat(dp.getTimeStamp()), dp.getLightLevel()));
-				humiditySeries.getData().add(new XYChart.Data<>(dateFormat(dp.getTimeStamp()), dp.getHumidity()));
-				temperatureSeries.getData().add(new XYChart.Data<>(dateFormat(dp.getTimeStamp()), dp.getTemperature()));
-			}
+		if (dataPointArrayList.size() > 0) {
+			showAllGraph();
 		}
 
 		valueChart.getData().addAll(soilMoistureSeries);
@@ -100,80 +94,75 @@ public class GraphViewController {
 		temperatureXAxis.setTickLabelRotation(0);
 	}
 
-	// TODO: Fix bug with Dates on the X-axis
 	@SuppressWarnings("unchecked")
 	public void showDayGraph() {
-		int dayLimit = 48;
-		if (dataPointArrayList.size() >= dayLimit) {
-			this.resetSeries();
-			for (int i = dataPointArrayList.size() - 48; i < dataPointArrayList.size(); i++) {
-				soilMoistureSeries.getData()
-						.add(new XYChart.Data<>(dateFormat(dataPointArrayList.get(i).getTimeStamp()),
-								dataPointArrayList.get(i).getSoilMoistureLevel()));
-				lightLevelSeries.getData().add(new XYChart.Data<>(dateFormat(dataPointArrayList.get(i).getTimeStamp()),
-						dataPointArrayList.get(i).getLightLevel()));
-				humiditySeries.getData().add(new XYChart.Data<>(dateFormat(dataPointArrayList.get(i).getTimeStamp()),
-						dataPointArrayList.get(i).getHumidity()));
-				temperatureSeries.getData().add(new XYChart.Data<>(dateFormat(dataPointArrayList.get(i).getTimeStamp()),
-						dataPointArrayList.get(i).getTemperature()));
-			}
+		ArrayList<DataPoint> lastDayDataPointArrayList = new ArrayList<DataPoint>();
+		for (int i = dataPointArrayList.size() - 48; i < dataPointArrayList.size(); i++) {
+			lastDayDataPointArrayList.add(dataPointArrayList.get(i));
 		}
+		showGraph(lastDayDataPointArrayList);
 	}
 
 	public void showWeekGraph() {
-		int weekLimit = 48 * 7;
-		if (dataPointArrayList.size() >= weekLimit) {
-			this.resetSeries();
-			for (int i = dataPointArrayList.size() - (48 * 7) - 1; i < dataPointArrayList.size(); i++) {
-				if (i % 6 == 0) {
-					soilMoistureSeries.getData()
-							.add(new XYChart.Data<>(dateFormat(dataPointArrayList.get(i).getTimeStamp()),
-									dataPointArrayList.get(i).getSoilMoistureLevel()));
-					lightLevelSeries.getData()
-							.add(new XYChart.Data<>(dateFormat(dataPointArrayList.get(i).getTimeStamp()),
-									dataPointArrayList.get(i).getLightLevel()));
-					humiditySeries.getData()
-							.add(new XYChart.Data<>(dateFormat(dataPointArrayList.get(i).getTimeStamp()),
-									dataPointArrayList.get(i).getHumidity()));
-					temperatureSeries.getData()
-							.add(new XYChart.Data<>(dateFormat(dataPointArrayList.get(i).getTimeStamp()),
-									dataPointArrayList.get(i).getTemperature()));
-				}
-			}
+		ArrayList<DataPoint> lastWeekDataPointArrayList = new ArrayList<DataPoint>();
+		for (int i = dataPointArrayList.size() - 336; i < dataPointArrayList.size(); i++) {
+			lastWeekDataPointArrayList.add(dataPointArrayList.get(i));
 		}
+		showGraph(lastWeekDataPointArrayList);
 	}
 
 	public void showMonthGraph() {
-		int monthLimit = 48 * 7 * 30;
-		if (dataPointArrayList.size() >= monthLimit) {
-			this.resetSeries();
-			for (int i = dataPointArrayList.size() - monthLimit - 1; i < dataPointArrayList.size(); i++) {
-				if (i % 5 == 0) {
-					soilMoistureSeries.getData()
-							.add(new XYChart.Data<>(dateFormat(dataPointArrayList.get(i).getTimeStamp()),
-									dataPointArrayList.get(i).getSoilMoistureLevel()));
-					lightLevelSeries.getData()
-							.add(new XYChart.Data<>(dateFormat(dataPointArrayList.get(i).getTimeStamp()),
-									dataPointArrayList.get(i).getLightLevel()));
-					humiditySeries.getData()
-							.add(new XYChart.Data<>(dateFormat(dataPointArrayList.get(i).getTimeStamp()),
-									dataPointArrayList.get(i).getHumidity()));
-					temperatureSeries.getData()
-							.add(new XYChart.Data<>(dateFormat(dataPointArrayList.get(i).getTimeStamp()),
-									dataPointArrayList.get(i).getTemperature()));
-				}
-			}
+		ArrayList<DataPoint> lastMonthDataPointArrayList = new ArrayList<DataPoint>();
+		for (int i = dataPointArrayList.size() - 1488; i < dataPointArrayList.size(); i++) {
+			lastMonthDataPointArrayList.add(dataPointArrayList.get(i));
 		}
+		showGraph(lastMonthDataPointArrayList);
 	}
 
 	public void showAllGraph() {
+		showGraph(dataPointArrayList);
+	}
+
+	public void showGraph(ArrayList<DataPoint> graphList) {
 		this.resetSeries();
-		for (DataPoint dp : dataPointArrayList) {
+		ArrayList<Integer> soilMoistureArrayListYear = new ArrayList<Integer>();
+		ArrayList<Integer> lightLevelArrayListYear = new ArrayList<Integer>();
+		ArrayList<Integer> humidityArrayListYear = new ArrayList<Integer>();
+		ArrayList<Integer> temperatureArrayListYear = new ArrayList<Integer>();
+		ArrayList<String> dateArrayListYear = new ArrayList<String>();
+		int trimmedArrayList = (graphList.size() / 48);
+		for (int i = 0; i < graphList.size() - trimmedArrayList; i += trimmedArrayList) {
+			int soilMoistureLevelAverage = 0;
+			int lightLevelAverage = 0;
+			int humidityAverage = 0;
+			int temperatureAverage = 0;
+			for (int j = 0; j < trimmedArrayList; j++) {
+				soilMoistureLevelAverage += graphList.get(i + j).getSoilMoistureLevel();
+				lightLevelAverage += graphList.get(i + j).getLightLevel();
+				humidityAverage += graphList.get(i + j).getHumidity();
+				temperatureAverage += graphList.get(i + j).getTemperature();
+			}
+			soilMoistureLevelAverage = soilMoistureLevelAverage / trimmedArrayList;
+			lightLevelAverage = lightLevelAverage / trimmedArrayList;
+			humidityAverage = humidityAverage / trimmedArrayList;
+			temperatureAverage = temperatureAverage / trimmedArrayList;
+
+			soilMoistureArrayListYear.add(soilMoistureLevelAverage);
+			lightLevelArrayListYear.add(lightLevelAverage);
+			humidityArrayListYear.add(humidityAverage);
+			temperatureArrayListYear.add(temperatureAverage);
+			dateArrayListYear.add(graphList.get(i).getTimeStamp());
+		}
+
+		for (int i = 0; i < 47; i++) {
 			soilMoistureSeries.getData()
-					.add(new XYChart.Data<>(dateFormat(dp.getTimeStamp()), dp.getSoilMoistureLevel()));
-			lightLevelSeries.getData().add(new XYChart.Data<>(dateFormat(dp.getTimeStamp()), dp.getLightLevel()));
-			humiditySeries.getData().add(new XYChart.Data<>(dateFormat(dp.getTimeStamp()), dp.getHumidity()));
-			temperatureSeries.getData().add(new XYChart.Data<>(dateFormat(dp.getTimeStamp()), dp.getTemperature()));
+					.add(new XYChart.Data<>(dateFormat(dateArrayListYear.get(i)), soilMoistureArrayListYear.get(i)));
+			lightLevelSeries.getData()
+					.add(new XYChart.Data<>(dateFormat(dateArrayListYear.get(i)), lightLevelArrayListYear.get(i)));
+			humiditySeries.getData()
+					.add(new XYChart.Data<>(dateFormat(dateArrayListYear.get(i)), humidityArrayListYear.get(i)));
+			temperatureSeries.getData()
+					.add(new XYChart.Data<>(dateFormat(dateArrayListYear.get(i)), temperatureArrayListYear.get(i)));
 		}
 	}
 
@@ -182,10 +171,6 @@ public class GraphViewController {
 		lightLevelSeries.getData().clear();
 		humiditySeries.getData().clear();
 		temperatureSeries.getData().clear();
-		soilMoistureSeries.setName("Jordfuktighet");
-		lightLevelSeries.setName("Ljusnivå");
-		humiditySeries.setName("Luftfuktighet");
-		temperatureSeries.setName("Temperatur");
 	}
 
 	/**
