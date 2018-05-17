@@ -1,23 +1,23 @@
 package client.controllers;
 
-import javafx.application.Platform;
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Series;
-import javafx.scene.control.Button;
+import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import javafx.util.Callback;
 import models.DataPoint;
 import models.Plant;
 
 import java.util.ArrayList;
 
-import static java.lang.Thread.sleep;
+
+import java.time.LocalDate;
 
 /**
  * The controller for the Graph View. This controller handles the logic for the
@@ -42,13 +42,9 @@ public class GraphViewController {
 	@FXML
 	public LineChart<String, Integer> temperatureChart;
 	@FXML
-	public Button dayButton;
+	public DatePicker fromDatePicker;
 	@FXML
-	public Button weekButton;
-	@FXML
-	public Button monthButton;
-	@FXML
-	public Button allButton;
+	public DatePicker toDatePicker;
 	@FXML
 	HBox topPanelHBox;
 	private ArrayList<DataPoint> dataPointArrayList;
@@ -58,8 +54,8 @@ public class GraphViewController {
 	private Series<String, Integer> temperatureSeries;
 
 	/**
-	 * Initializes the Graph View. Sets the background color of the top panel, and
-	 * initializes the graphs with data from the selected plant.
+	 * Initializes the Graph View. Sets the background color of the top panel,
+	 * and initializes the graphs with data from the selected plant.
 	 * 
 	 * @param plant
 	 *            The plant to retrieve data from.
@@ -82,7 +78,7 @@ public class GraphViewController {
 		temperatureSeries.setName("Temperatur");
 
 		if (dataPointArrayList.size() > 0) {
-			showAllGraph();
+			showGraph(dataPointArrayList);;
 		}
 
 		valueChart.getData().addAll(soilMoistureSeries);
@@ -92,77 +88,142 @@ public class GraphViewController {
 
 		valueXAxis.setTickLabelRotation(0);
 		temperatureXAxis.setTickLabelRotation(0);
+
+		initializeDisabledDateCells();
+		initializeDatePickListeners();
+
 	}
 
-	@SuppressWarnings("unchecked")
-	public void showDayGraph() {
-		ArrayList<DataPoint> lastDayDataPointArrayList = new ArrayList<DataPoint>();
-		for (int i = dataPointArrayList.size() - 48; i < dataPointArrayList.size(); i++) {
-			lastDayDataPointArrayList.add(dataPointArrayList.get(i));
+	private void initializeDisabledDateCells() {
+		ArrayList<LocalDate> existingDates = new ArrayList<LocalDate>();
+		for (DataPoint dp : dataPointArrayList) {
+			String[] dateStringArray = dp.getTimeStamp().substring(0, 10).split("-");
+			existingDates.add(LocalDate.of(Integer.parseInt(dateStringArray[0]), Integer.parseInt(dateStringArray[1]),
+					Integer.parseInt(dateStringArray[2])));
 		}
-		showGraph(lastDayDataPointArrayList);
+		fromDatePicker.setDayCellFactory(new Callback<DatePicker, DateCell>() {
+			@Override
+			public DateCell call(DatePicker param) {
+				return new DateCell() {
+					@Override
+					public void updateItem(LocalDate date, boolean empty) {
+						super.updateItem(date, empty);
+						boolean validDate = true;
+						for (LocalDate d : existingDates) {
+							if (date.isEqual(d)) {
+								validDate = false;
+							} 
+						}
+						setDisable(empty || validDate);
+					}
+				};
+			}
+		});
+		toDatePicker.setDayCellFactory(new Callback<DatePicker, DateCell>() {
+			@Override
+			public DateCell call(DatePicker param) {
+				return new DateCell() {
+					@Override
+					public void updateItem(LocalDate date, boolean empty) {
+						super.updateItem(date, empty);
+						boolean validDate = true;
+						for (LocalDate d : existingDates) {
+							if (date.isEqual(d)) {
+								validDate = false;
+							} 
+						}
+						setDisable(empty || validDate || date.isBefore(fromDatePicker.getValue()));
+					}
+				};
+			}
+		});
 	}
 
-	public void showWeekGraph() {
-		ArrayList<DataPoint> lastWeekDataPointArrayList = new ArrayList<DataPoint>();
-		for (int i = dataPointArrayList.size() - 336; i < dataPointArrayList.size(); i++) {
-			lastWeekDataPointArrayList.add(dataPointArrayList.get(i));
+	private void initializeDatePickListeners() {
+		fromDatePicker.valueProperty().addListener((ov, oldValue, newValue) -> {
+			if (toDatePicker.valueProperty().isNotNull().get()) {
+				if (fromDatePicker.getValue().isBefore(toDatePicker.getValue())) {
+					showCustomGraph();
+				} else {
+					toDatePicker.setValue(newValue);
+					showCustomGraph();
+				}
+			}
+		});
+		toDatePicker.valueProperty().addListener((ov, oldValue, newValue) -> {
+			if (fromDatePicker.valueProperty().isNotNull().get()) {
+				if (fromDatePicker.getValue().isBefore(toDatePicker.getValue())) {
+					showCustomGraph();
+				} else {
+					toDatePicker.setValue(newValue);
+					showCustomGraph();
+				}
+			}
+		});
+	}
+
+	private void showCustomGraph() {
+		int startIndex = 0;
+		int stopIndex = 0;
+		boolean firstDateNotSet = true;
+		ArrayList<DataPoint> customDataPointArrayList = new ArrayList<DataPoint>();
+		for (DataPoint dp : dataPointArrayList) {
+			String[] dateStringArray = dp.getTimeStamp().substring(0, 10).split("-");
+			LocalDate date = LocalDate.of(Integer.parseInt(dateStringArray[0]), Integer.parseInt(dateStringArray[1]),
+					Integer.parseInt(dateStringArray[2]));
+			if (fromDatePicker.getValue().isEqual(date) && firstDateNotSet) {
+				startIndex = dataPointArrayList.indexOf(dp);
+				firstDateNotSet = false;
+			} else if (toDatePicker.getValue().isEqual(date)) {
+				stopIndex = dataPointArrayList.indexOf(dp);
+			}
 		}
-		showGraph(lastWeekDataPointArrayList);
-	}
-
-	public void showMonthGraph() {
-		ArrayList<DataPoint> lastMonthDataPointArrayList = new ArrayList<DataPoint>();
-		for (int i = dataPointArrayList.size() - 1488; i < dataPointArrayList.size(); i++) {
-			lastMonthDataPointArrayList.add(dataPointArrayList.get(i));
+		for (int i = startIndex; i <= stopIndex; i++) {
+			customDataPointArrayList.add(dataPointArrayList.get(i));
 		}
-		showGraph(lastMonthDataPointArrayList);
+		showGraph(customDataPointArrayList);
 	}
 
-	public void showAllGraph() {
-		showGraph(dataPointArrayList);
-	}
-
-	public void showGraph(ArrayList<DataPoint> graphList) {
+	private void showGraph(ArrayList<DataPoint> dataArrayList) {
 		this.resetSeries();
-		ArrayList<Integer> soilMoistureArrayListYear = new ArrayList<Integer>();
-		ArrayList<Integer> lightLevelArrayListYear = new ArrayList<Integer>();
-		ArrayList<Integer> humidityArrayListYear = new ArrayList<Integer>();
-		ArrayList<Integer> temperatureArrayListYear = new ArrayList<Integer>();
-		ArrayList<String> dateArrayListYear = new ArrayList<String>();
-		int trimmedArrayList = (graphList.size() / 48);
-		for (int i = 0; i < graphList.size() - trimmedArrayList; i += trimmedArrayList) {
+		ArrayList<Integer> soilMoistureArrayList = new ArrayList<Integer>();
+		ArrayList<Integer> lightLevelArrayList = new ArrayList<Integer>();
+		ArrayList<Integer> humidityArrayList = new ArrayList<Integer>();
+		ArrayList<Integer> temperatureArrayList = new ArrayList<Integer>();
+		ArrayList<String> dateArrayList = new ArrayList<String>();
+		int trimmedArrayList = (dataArrayList.size() / 48);
+		for (int i = 0; i < dataArrayList.size() - trimmedArrayList; i += trimmedArrayList) {
 			int soilMoistureLevelAverage = 0;
 			int lightLevelAverage = 0;
 			int humidityAverage = 0;
 			int temperatureAverage = 0;
 			for (int j = 0; j < trimmedArrayList; j++) {
-				soilMoistureLevelAverage += graphList.get(i + j).getSoilMoistureLevel();
-				lightLevelAverage += graphList.get(i + j).getLightLevel();
-				humidityAverage += graphList.get(i + j).getHumidity();
-				temperatureAverage += graphList.get(i + j).getTemperature();
+				soilMoistureLevelAverage += dataArrayList.get(i + j).getSoilMoistureLevel();
+				lightLevelAverage += dataArrayList.get(i + j).getLightLevel();
+				humidityAverage += dataArrayList.get(i + j).getHumidity();
+				temperatureAverage += dataArrayList.get(i + j).getTemperature();
 			}
 			soilMoistureLevelAverage = soilMoistureLevelAverage / trimmedArrayList;
 			lightLevelAverage = lightLevelAverage / trimmedArrayList;
 			humidityAverage = humidityAverage / trimmedArrayList;
 			temperatureAverage = temperatureAverage / trimmedArrayList;
 
-			soilMoistureArrayListYear.add(soilMoistureLevelAverage);
-			lightLevelArrayListYear.add(lightLevelAverage);
-			humidityArrayListYear.add(humidityAverage);
-			temperatureArrayListYear.add(temperatureAverage);
-			dateArrayListYear.add(graphList.get(i).getTimeStamp());
+			soilMoistureArrayList.add(soilMoistureLevelAverage);
+			lightLevelArrayList.add(lightLevelAverage);
+			humidityArrayList.add(humidityAverage);
+			temperatureArrayList.add(temperatureAverage);
+			dateArrayList.add(dataArrayList.get(i).getTimeStamp());
 		}
 
 		for (int i = 0; i < 47; i++) {
 			soilMoistureSeries.getData()
-					.add(new XYChart.Data<>(dateFormat(dateArrayListYear.get(i)), soilMoistureArrayListYear.get(i)));
+					.add(new XYChart.Data<>(dateFormat(dateArrayList.get(i)), soilMoistureArrayList.get(i)));
 			lightLevelSeries.getData()
-					.add(new XYChart.Data<>(dateFormat(dateArrayListYear.get(i)), lightLevelArrayListYear.get(i)));
+					.add(new XYChart.Data<>(dateFormat(dateArrayList.get(i)), lightLevelArrayList.get(i)));
 			humiditySeries.getData()
-					.add(new XYChart.Data<>(dateFormat(dateArrayListYear.get(i)), humidityArrayListYear.get(i)));
+					.add(new XYChart.Data<>(dateFormat(dateArrayList.get(i)), humidityArrayList.get(i)));
 			temperatureSeries.getData()
-					.add(new XYChart.Data<>(dateFormat(dateArrayListYear.get(i)), temperatureArrayListYear.get(i)));
+					.add(new XYChart.Data<>(dateFormat(dateArrayList.get(i)), temperatureArrayList.get(i)));
 		}
 	}
 
