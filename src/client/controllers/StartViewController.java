@@ -10,15 +10,16 @@ import java.util.ResourceBundle;
 
 /**
  * The view the user is presented with when they have logged in.
+ * @author David, Anton.
  */
 public class StartViewController implements Initializable {
 
     @FXML
-    Label startViewText;
+    private Label startViewText;
     @FXML
-    Label startViewHeader;
+    private Label startViewHeader;
     @FXML
-    HBox topPanelHBox;
+    private HBox topPanelHBox;
 
     /**
      * Initializes the start view.

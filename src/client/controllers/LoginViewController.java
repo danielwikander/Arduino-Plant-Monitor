@@ -25,6 +25,7 @@ import models.User;
 /**
  * The login view that the user is presented with when they start the
  * application.
+ * @author David, Daniel.
  */
 public class LoginViewController implements Initializable {
 
@@ -83,6 +84,9 @@ public class LoginViewController implements Initializable {
 		}
 	}
 
+	/**
+	 * Retrieves the last logged in user and populates its values in the emailTextField and passwordPasswordTextField.
+	 */
 	private void readUserData() {
 		try (BufferedReader br = new BufferedReader(new FileReader("files/userdata.txt"))) {
 			if (br.readLine().equals("1")) {
@@ -97,6 +101,9 @@ public class LoginViewController implements Initializable {
 		}
 	}
 	
+	/**
+	 * Writes the current logged in user to the userdata.txt file.
+	 */
 	private void writeUserData(){
 		try (BufferedWriter bw = new BufferedWriter(new FileWriter("files/userdata.txt"))){
 			if (rememberUserCheckBox.isSelected()) {

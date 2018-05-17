@@ -5,6 +5,7 @@ import java.io.Serializable;
 /**
  * This class holds log in information.
  * It holds the users email, password and current login status.
+ * @author Eric.
  */
 public class User implements Serializable {
 

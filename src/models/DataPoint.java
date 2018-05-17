@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 /**
  * Represents a collection of plant data at a specific point in time.
+ * @author Daniel.
  */
 public class DataPoint implements Serializable {
 

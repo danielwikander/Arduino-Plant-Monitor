@@ -17,25 +17,26 @@ import java.io.IOException;
  * The controller for the Change View.
  * This controller handles the logic for the view that the user is
  * presented with then they wish to change their settings for a plant.
+ * @author Eric, Daniel.
  */
 public class ChangeViewController {
 
     @FXML
-    TextField macAddressTextField;
+    private TextField macAddressTextField;
     @FXML
-    TextField plantAliasTextField;
+    private TextField plantAliasTextField;
     @FXML
-    CheckBox plantNotifierCheckBox;
+    private CheckBox plantNotifierCheckBox;
     @FXML
-    Button saveButton;
+    private Button saveButton;
     @FXML
-    Button cancelButton;
+    private Button cancelButton;
     @FXML
-    Button removeButton;
+    private Button removeButton;
     @FXML
-    Label settingsForLabel;
+    private Label settingsForLabel;
     @FXML
-    HBox topPanelHBox;
+    private HBox topPanelHBox;
     private Plant plant;
 
     /**
@@ -69,6 +70,10 @@ public class ChangeViewController {
         }
     }
 
+    /**
+     * Removes the plant.
+     * The method removes the current plant from the database.
+     */
     public void removePlant() {
         try {
             Main.showConfirmRemoveDialog(plant);
@@ -76,7 +81,6 @@ public class ChangeViewController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //TODO: Show dialogue : "Plant successfully removed." ?
     }
 
     /**

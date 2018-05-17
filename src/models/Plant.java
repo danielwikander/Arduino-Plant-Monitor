@@ -6,6 +6,7 @@ import java.util.ArrayList;
 /**
  * This class represents a plant. The object contains the plants information,
  * such as name, icon etc.
+ * @author Anton.
  */
 public class Plant implements Serializable {
 

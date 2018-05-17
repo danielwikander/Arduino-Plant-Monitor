@@ -21,6 +21,7 @@ import java.io.IOException;
 
 /**
  * Sets all JavaFX views and starts the application.
+ * @author Eric, David, Anton, Daniel.
  */
 public class Main extends Application {
 

@@ -1,10 +1,6 @@
 package server.controllers;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.DataInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
@@ -24,6 +20,7 @@ import javax.mail.internet.MimeMessage;
 /**
  * Handles arduinos connecting to the server by setting up a serversocket and
  * starting an {@link ArduinoHandler}.
+ * @author Anton, David, Daniel, Eric.
  */
 public class ArduinoController implements Runnable {
 	private ServerSocket serverSocket;
@@ -159,7 +156,6 @@ public class ArduinoController implements Runnable {
 		/**
 		 * Method that checks if the soil moisture level is too low and takes action depending on each condition
 		 */
-		// TODO: Förfina den här metoden
 		private void checkValues() {
 			boolean notifyUser = false;
 			try {
@@ -225,7 +221,7 @@ public class ArduinoController implements Runnable {
 		}
 
 		/**
-		 * 
+		 * Method which notifies the user if a plant needs water.
 		 */
 		private void notifyUserEmail() {
 			final String username = "noreply.arduinoplantmonitor@gmail.com";
@@ -234,6 +230,7 @@ public class ArduinoController implements Runnable {
 			String plantName = null;
 			String plantAlias = null;
 			String firstName = null;
+			@SuppressWarnings("unused")
 			String lastName = null;
 			
 			Statement stmt;

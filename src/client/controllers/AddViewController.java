@@ -26,25 +26,27 @@ import java.util.ResourceBundle;
  * The controller for the Add View.
  * This controller handles the logic for the view the user is presented
  * with when they wish to add a new plant to the system.
+ * @author Anton, David.
  */
 public class AddViewController implements Initializable {
 
 	@FXML
-	WebView wikiWebView;
-	WebEngine webEngine;
+	private WebView wikiWebView;
 	@FXML
-	ChoiceBox<String> speciesChoiceBox;
-	ObservableList<String> speciesListData = FXCollections.observableArrayList();
+	private WebEngine webEngine;
 	@FXML
-	TextField macAddressTextField;
+	private ChoiceBox<String> speciesChoiceBox;
+	private ObservableList<String> speciesListData = FXCollections.observableArrayList();
 	@FXML
-	TextField plantAliasTextField;
+	private TextField macAddressTextField;
 	@FXML
-	CheckBox plantNotifierCheckBox;
+	private TextField plantAliasTextField;
 	@FXML
-	Button saveButton;
+	private CheckBox plantNotifierCheckBox;
 	@FXML
-	Button cancelButton;
+	private Button saveButton;
+	@FXML
+	private Button cancelButton;
 	@FXML
 	private HBox topPanelHBox;
 

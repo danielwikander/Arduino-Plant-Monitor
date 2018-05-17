@@ -24,29 +24,30 @@ import java.time.LocalDate;
  * view that the user is presented with then they select a plant from the menu.
  * The view presents the user with graphs showing the history of that plants
  * data.
+ * @author Anton, Daniel.
  */
 public class GraphViewController {
 
 	@FXML
-	public CategoryAxis valueXAxis;
+	private CategoryAxis valueXAxis;
 	@FXML
-	public NumberAxis valueYAxis;
+	private NumberAxis valueYAxis;
 	@FXML
-	public CategoryAxis temperatureXAxis;
+	private CategoryAxis temperatureXAxis;
 	@FXML
-	public NumberAxis temperatureYAxis;
+	private NumberAxis temperatureYAxis;
 	@FXML
-	public Label plantAliasLabel;
+	private Label plantAliasLabel;
 	@FXML
-	public LineChart<String, Integer> valueChart;
+	private LineChart<String, Integer> valueChart;
 	@FXML
-	public LineChart<String, Integer> temperatureChart;
+	private LineChart<String, Integer> temperatureChart;
 	@FXML
-	public DatePicker fromDatePicker;
+	private DatePicker fromDatePicker;
 	@FXML
-	public DatePicker toDatePicker;
+	private DatePicker toDatePicker;
 	@FXML
-	HBox topPanelHBox;
+	private HBox topPanelHBox;
 	private ArrayList<DataPoint> dataPointArrayList;
 	private Series<String, Integer> soilMoistureSeries;
 	private Series<String, Integer> lightLevelSeries;
@@ -77,8 +78,10 @@ public class GraphViewController {
 		humiditySeries.setName("Luftfuktighet");
 		temperatureSeries.setName("Temperatur");
 
-		if (dataPointArrayList.size() > 0) {
-			showGraph(dataPointArrayList);;
+		if (dataPointArrayList != null && dataPointArrayList.size() > 0) {
+			showGraph(dataPointArrayList);
+			initializeDisabledDateCells();
+			initializeDatePickListeners();
 		}
 
 		valueChart.getData().addAll(soilMoistureSeries);
@@ -88,12 +91,11 @@ public class GraphViewController {
 
 		valueXAxis.setTickLabelRotation(0);
 		temperatureXAxis.setTickLabelRotation(0);
-
-		initializeDisabledDateCells();
-		initializeDatePickListeners();
-
 	}
-
+	
+	/**
+	 * Disables date cells with no datapoints from the date picker.
+	 */
 	private void initializeDisabledDateCells() {
 		ArrayList<LocalDate> existingDates = new ArrayList<LocalDate>();
 		for (DataPoint dp : dataPointArrayList) {
@@ -139,6 +141,9 @@ public class GraphViewController {
 		});
 	}
 
+	/**
+	 * Adds a change listener to the date pickers.
+	 */
 	private void initializeDatePickListeners() {
 		fromDatePicker.valueProperty().addListener((ov, oldValue, newValue) -> {
 			if (toDatePicker.valueProperty().isNotNull().get()) {
@@ -162,6 +167,10 @@ public class GraphViewController {
 		});
 	}
 
+	/**
+	 * Extracts the datapoints from the selected dates in the date pickers.
+	 * Sends the datapoints to the showGraph method.
+	 */
 	private void showCustomGraph() {
 		int startIndex = 0;
 		int stopIndex = 0;
@@ -184,6 +193,11 @@ public class GraphViewController {
 		showGraph(customDataPointArrayList);
 	}
 
+	/**
+	 * Generates average values from the datapoint array list.
+	 * Presents the average values in the graph.
+	 * @param dataArrayList Array List to trim and show.
+	 */
 	private void showGraph(ArrayList<DataPoint> dataArrayList) {
 		this.resetSeries();
 		ArrayList<Integer> soilMoistureArrayList = new ArrayList<Integer>();
@@ -227,6 +241,9 @@ public class GraphViewController {
 		}
 	}
 
+	/**
+	 * Resets the series in the graph.
+	 */
 	private void resetSeries() {
 		soilMoistureSeries.getData().clear();
 		lightLevelSeries.getData().clear();
@@ -244,5 +261,4 @@ public class GraphViewController {
 	public String dateFormat(String dateToFormat) {
 		return dateToFormat.substring(2, 10) + "\n   " + dateToFormat.substring(11, 16);
 	}
-
 }

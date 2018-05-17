@@ -19,10 +19,10 @@ import java.util.ResourceBundle;
 /**
  * Controller which handles the logic for the new user view that is presented
  * when a user wishes to create a new user.
+ * @author Daniel, Eric.
  */
 public class NewUserViewController implements Initializable {
 
-	/* FXML */
 	@FXML
 	private TextField emailTextField;
 	@FXML
@@ -39,7 +39,6 @@ public class NewUserViewController implements Initializable {
 	private Button backButton;
 	@FXML
 	private VBox topPanelVBox;
-	
 	private ConnectionController connectionController;
 
 	/**

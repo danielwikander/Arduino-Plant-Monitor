@@ -6,6 +6,7 @@ import java.io.Serializable;
  * Represents a data request to the server.
  * Intended to tell the server that it wishes to retrieve
  * plant information for a user.
+ * @author Eric.
  */
 public class DataRequest implements Serializable {
 

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 /**
  * Handles the initial connection to the server. Sets up a socket and input /
  * output streams.
+ * @author Eric, David.
  */
 public class ConnectionController {
 	private Socket socket;
@@ -153,6 +154,10 @@ public class ConnectionController {
 		}
 	}
 
+	/**
+	 * Sends a request to delete the plant in the database.
+	 * @param plant
+	 */
 	void removePlant(Plant plant) {
 		try {
 			RemovePlantRequest plantToRemove = new RemovePlantRequest(plant);
@@ -163,6 +168,10 @@ public class ConnectionController {
 		}
 	}
 
+	/**
+	 * Returns the current user.
+	 * @return
+	 */
 	User getUser() {
 	    return currentUser;
     }

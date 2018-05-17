@@ -5,6 +5,7 @@ import java.io.Serializable;
 /**
  * Holds information about a new user.
  * Information such as email, password, name and user
+ * @author David.
  */
 public class NewUserRequest implements Serializable {
 

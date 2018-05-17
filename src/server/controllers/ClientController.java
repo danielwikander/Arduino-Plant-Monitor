@@ -13,6 +13,7 @@ import java.util.ArrayList;
 /**
  * Handles clients connecting to the server by setting up a serversocket and
  * starting a {@link ClientHandler}.
+ * @author Anton, David, Daniel, Eric.
  */
 public class ClientController implements Runnable {
 	private ServerSocket serverSocket;
@@ -226,6 +227,11 @@ public class ClientController implements Runnable {
 			return false;
 		}
 
+		/**
+		 * Retrieves first and last name from the database.
+		 * @param user The user to retrieve first and last name from.
+		 * @return Returns the user object including the first and last name.
+		 */
 		private User getUserInfo(User user) {
             try {
                 Statement stmt = conn.createStatement();

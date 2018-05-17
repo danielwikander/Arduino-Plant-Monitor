@@ -6,6 +6,7 @@ import server.controllers.ClientController;
 /**
  * The main class that starts the server.
  * Creates a new {@link ArduinoController} and a {@link ClientController}.
+ * @author Anton.
  */
 public class MainServer {
 

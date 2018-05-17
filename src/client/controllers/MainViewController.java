@@ -15,7 +15,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
 import models.Plant;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -23,6 +22,7 @@ import java.util.ResourceBundle;
 
 /**
  * The start view that the user is presented with after they have logged in.
+ * @author Eric, Anton.
  */
 public class MainViewController implements Initializable {
 
@@ -44,9 +44,6 @@ public class MainViewController implements Initializable {
 	private ListView<Plant> plantList;
 	private static ObservableList<Plant> plantListData = FXCollections.observableArrayList();
 	private ConnectionController connectionController;
-	private AddViewController addViewController;
-	private ChangeViewController changeViewController;
-
 
 	/**
 	 * Initializes the main view.
@@ -103,7 +100,6 @@ public class MainViewController implements Initializable {
 	 * Presents the change view, where users can change plant values and information.
 	 * @throws IOException	Throws exception if the change view cannot be found.
 	 */
-	@FXML
 	private void goChange(Plant plant) throws IOException {
 		Main.showChangeView(plant);
 		disableSettingsButton();
@@ -202,5 +198,4 @@ public class MainViewController implements Initializable {
 		addButtonIcon.setOpacity(1);
 		addButtonIcon.setCursor(Cursor.OPEN_HAND);
 	}
-
 }
