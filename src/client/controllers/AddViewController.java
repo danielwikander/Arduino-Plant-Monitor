@@ -60,6 +60,7 @@ public class AddViewController implements Initializable {
 	public void initialize(URL url, ResourceBundle resourceBundle) {
 		topPanelHBox.setStyle("-fx-background-color: #a8cb9c;");
 		populateSpeciesList();
+		speciesChoiceBox.getSelectionModel().selectFirst();
 		initializeChoiceBoxListener();
 		webEngine = wikiWebView.getEngine();
 		webEngine.load("https://sv.m.wikipedia.org/wiki/Växt");
@@ -69,6 +70,7 @@ public class AddViewController implements Initializable {
 	 * Populates the list of species in the choicebox.
 	 */
 	private void populateSpeciesList() {
+		speciesListData.add("Egen");
 		speciesListData.add("Broccoli");
 		speciesListData.add("Chili");
 		speciesListData.add("Gurka");
@@ -76,7 +78,6 @@ public class AddViewController implements Initializable {
 		speciesListData.add("Morot");
 		speciesListData.add("Potatis");
 		speciesListData.add("Tomat");
-		speciesListData.add("Egen");
 		speciesChoiceBox.setItems(speciesListData);
 	}
 

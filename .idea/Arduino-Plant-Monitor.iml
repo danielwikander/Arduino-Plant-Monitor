@@ -7,7 +7,8 @@
       <sourceFolder url="file://$MODULE_DIR$/ArduinoPlantMonitor" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/ArduinoPlantMonitor/ArduinoPlantMonitorDemo/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/test" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/test" isTestSource="true" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
@@ -21,7 +22,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module-library" scope="TEST">
+    <orderEntry type="module-library" exported="" scope="TEST">
       <library name="JUnit4">
         <CLASSES>
           <root url="jar://$APPLICATION_HOME_DIR$/lib/junit-4.12.jar!/" />
@@ -31,5 +32,24 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="module-library" scope="TEST">
+      <library name="JUnit5.0">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/junit-jupiter-api-5.0.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/apiguardian-api-1.0.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/opentest4j-1.0.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/junit-platform-commons-1.0.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="library" name="javax.mail" level="project" />
+    <orderEntry type="library" name="org.testfx:testfx-junit:4.0.6-alpha" level="project" />
+    <orderEntry type="library" name="org.testfx:testfx-core:4.0.6-alpha" level="project" />
+    <orderEntry type="library" name="org.loadui:testFx:3.1.2" level="project" />
+    <orderEntry type="library" name="org.hamcrest:hamcrest-junit:2.0.0.0" level="project" />
+    <orderEntry type="library" name="junit:junit:4.12" level="project" />
+    <orderEntry type="library" name="com.google.guava:guava:14.0.1" level="project" />
   </component>
 </module>
