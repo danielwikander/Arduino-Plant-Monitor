@@ -47,6 +47,7 @@ public class JavaFXids {
     public final static String CHANGEVIEW_CANCEL_BUTTON = "#cancelButton";
     public final static String CHANGEVIEW_REMOVE_BUTTON = "#removeButton";
     public final static String CHANGEVIEW_SETTINGS_FOR_LABEL = "#settingsForLabel";
+    public final static String CHANGEVIEW_NOTIFY_CHECKBOX = "#plantNotifierCheckBox";
 
     // AddView
     public final static String ADDVIEW_SAVE_BUTTON = "#saveButton";

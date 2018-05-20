@@ -1,6 +1,7 @@
 package client.interactionInterfaces;
 
 import client.TestFXBase;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
@@ -83,4 +84,31 @@ public class ChangeViewInterface {
         return driver.find(CHANGEVIEW_MAC_FIELD);
     }
 
+    public CheckBox getNotifierCheckBox() {
+        return driver.find(CHANGEVIEW_NOTIFY_CHECKBOX);
+    }
+
+    /**
+     * Checks the 'Notifiera mig' checkbox.
+     * @return          The action.
+     */
+    public ChangeViewInterface checkNofitierCheckbox() {
+        CheckBox notifierCheckbox = driver.find(CHANGEVIEW_NOTIFY_CHECKBOX);
+        if (!notifierCheckbox.isSelected()) {
+            notifierCheckbox.setSelected(true);
+        }
+        return this;
+    }
+
+    /**
+     * Unchecks the 'Notifiera mig' checkbox.
+     * @return          The action.
+     */
+    public ChangeViewInterface unCheckNofitierCheckbox() {
+        CheckBox notifierCheckbox = driver.find(CHANGEVIEW_NOTIFY_CHECKBOX);
+        if (notifierCheckbox.isSelected()) {
+            notifierCheckbox.setSelected(false);
+        }
+        return this;
+    }
 }
