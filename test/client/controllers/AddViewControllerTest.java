@@ -5,6 +5,9 @@ import client.interactionInterfaces.*;
 import org.junit.Test;
 import server.MainServer;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
 import static client.JavaFXids.*;
 import static org.junit.Assert.*;
 
@@ -21,6 +24,8 @@ public class AddViewControllerTest extends TestFXBase {
     private GraphViewInterface gvi = new GraphViewInterface(this);
     private ChangeViewInterface cvi = new ChangeViewInterface(this);
     private AddViewInterface avi = new AddViewInterface(this);
+    // For asserting that sysout outputs are correct.
+    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 
     /**
      * Constructor that starts a server in preparation for the tests.
@@ -53,5 +58,31 @@ public class AddViewControllerTest extends TestFXBase {
         assertEquals("The names are not equal.", "Inställningar för: " + newPlantName, changeViewNameLabelText);
         assertEquals("The MAC-addresses are not equal.", newMacAddress, changeViewMacLabelText);
     }
+
+    /**
+     * Attempts to add the same plant twice.
+     * Asserts that the system prints an error.
+     */
+    @Test
+    public void attemptToAddAlreadyExistingPlant() {
+        // To monitor sysout output.
+        System.setOut(new PrintStream(outContent));
+        lvi.login(VALID_USERNAME,VALID_PASSWORD);
+        sleep(2000);
+        mvi.clickAddPlant();
+        sleep(500);
+        String plantName = RANDOM_NEW_PLANTNAME;
+        String macAddress = RANDOM_NEW_MAC_ADDRESS;
+        avi.addNewPlant(plantName, macAddress);
+        sleep(3000);
+        mvi.clickOnFirstPlant();
+        mvi.clickAddPlant();
+        avi.addNewPlant(plantName, macAddress);
+        sleep(2000);
+        assertEquals("MAC-Address taken.\n", outContent.toString());
+        // Restores sysout output to normal mode.
+        System.setOut(System.out);
+    }
+
 
 }
