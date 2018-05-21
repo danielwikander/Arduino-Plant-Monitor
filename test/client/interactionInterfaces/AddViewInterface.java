@@ -73,12 +73,4 @@ public class AddViewInterface {
         return driver.find(ADDVIEW_PLANT_ALIAS_FIELD);
     }
 
-//    /**
-//     * Returns the wiki webview engine.
-//     * @return          The webview engine.
-//     */
-//    public WebEngine getWebEngine() {
-//        return driver.find(ADDVIEW_WIKI_WEB_VIEW);
-//    }
-
 }
