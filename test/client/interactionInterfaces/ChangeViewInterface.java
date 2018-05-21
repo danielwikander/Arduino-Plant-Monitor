@@ -111,4 +111,14 @@ public class ChangeViewInterface {
         }
         return this;
     }
+
+    /**
+     * Clisk the return button.
+     * @return          The action.
+     */
+    public ChangeViewInterface clickCancel() {
+        driver.clickOn(CHANGEVIEW_CANCEL_BUTTON);
+        return this;
+    }
+
 }

@@ -17,6 +17,7 @@ public class JavaFXids {
     public final static String NEW_USER_BUTTON_ID = "#newUserButton";
     public final static String REMEMBER_USER_CHECKBOX_ID = "#rememberUserCheckBox";
     public final static String LOGIN_ERROR_LABEL = "#loginErrorLabel";
+    public final static String LOGIN_TITLE_LABEL = "#titleLabel";
 
     // NewUserView
     public final static String NEW_USER_EMAIL_FIELD = "#emailTextField";
@@ -54,6 +55,8 @@ public class JavaFXids {
     public final static String ADDVIEW_MAC_ADDRESS_FIELD = "#macAddressTextField";
     public final static String ADDVIEW_PLANT_ALIAS_FIELD = "#plantAliasTextField";
     public final static String ADDVIEW_PLANTSPECIES_CHOICEBOX = "#speciesChoiceBox";
+    public final static String ADDVIEW_WEB_ENGINE = "#webEngine";
+    public final static String ADDVIEW_WIKI_WEB_VIEW = "#wikiWebView";
 
     // Confirm remove dialog
     public final static String CONFIRM_REMOVE_BUTTON = "#removeButton";

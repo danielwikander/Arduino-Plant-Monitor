@@ -1,6 +1,11 @@
 package client.interactionInterfaces;
 
 import client.TestFXBase;
+import javafx.scene.Node;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 
 import static client.JavaFXids.*;
 
@@ -63,5 +68,17 @@ public class AddViewInterface {
         saveNewPlant();
         return this;
     }
+
+    public TextField getAliasTextField() {
+        return driver.find(ADDVIEW_PLANT_ALIAS_FIELD);
+    }
+
+//    /**
+//     * Returns the wiki webview engine.
+//     * @return          The webview engine.
+//     */
+//    public WebEngine getWebEngine() {
+//        return driver.find(ADDVIEW_WIKI_WEB_VIEW);
+//    }
 
 }

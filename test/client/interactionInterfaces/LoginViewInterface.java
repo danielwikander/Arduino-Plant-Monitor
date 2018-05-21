@@ -145,4 +145,9 @@ public class LoginViewInterface {
         return this;
     }
 
+    public Label getLoginLabel() {
+        Label loginLabel = driver.find(LOGIN_TITLE_LABEL);
+        return loginLabel;
+    }
+
 }

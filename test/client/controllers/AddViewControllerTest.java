@@ -2,6 +2,8 @@ package client.controllers;
 
 import client.TestFXBase;
 import client.interactionInterfaces.*;
+import javafx.scene.Node;
+import javafx.scene.web.WebEngine;
 import org.junit.Test;
 import server.MainServer;
 
@@ -83,6 +85,21 @@ public class AddViewControllerTest extends TestFXBase {
         // Restores sysout output to normal mode.
         System.setOut(System.out);
     }
+
+//    /**
+//     * Verifies that the wiki web-view works as intended.
+//     * Chooses a plant specie from the list and verifies that
+//     * the webview presents the correct plant.
+//     */
+//    @Test
+//    public void verifyWikiWebViewFunctionality() {
+//        lvi.login(VALID_USERNAME, VALID_PASSWORD);
+//        sleep(2000);
+//        mvi.clickAddPlant();
+//        // Select species
+//
+//        WebEngine webEngine = (WebEngine)avi.getWebEngine();
+//    }
 
 
 }

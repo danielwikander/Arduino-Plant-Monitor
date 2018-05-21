@@ -10,25 +10,24 @@ import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.ApplicationTest;
 import org.testfx.util.WaitForAsyncUtils;
 
-import java.util.ResourceBundle;
-
 /**
- * Parent class for testclass.
- * Provides basic functionality
+ * Parent class for all test classes.
+ * Provides basic functionality like finding FX elements.
+ * Also has a parent setUp() and tearDown() method which
+ * is run before and after each test in a test class.
+ * These classes start up the application in preparation
+ * for the tests.
  *
  * @author Daniel Wikander
  * */
 public abstract class TestFXBase extends ApplicationTest {
-
-    private Stage primaryStage;
-    protected static ResourceBundle bundle;
 
     /**
      * Setup before each test.
      * */
     @Before
     public void setUp() throws Exception {
-        sleep(1000);
+        sleep(500);
         ApplicationTest.launch(Main.class);
     }
 
@@ -44,7 +43,7 @@ public abstract class TestFXBase extends ApplicationTest {
     }
 
     /**
-     * Shows stage and inti
+     * Shows stage and places it in front.
      * @param stage
      * @throws Exception
      */

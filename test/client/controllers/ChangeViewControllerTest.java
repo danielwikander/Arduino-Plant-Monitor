@@ -42,7 +42,7 @@ public class ChangeViewControllerTest extends TestFXBase {
      * Logs in and attempts to enter a plants settings view.
      */
     @Test
-    public void enterSettingsView() {
+    public void enterChangeView() {
         lvi.login(VALID_USERNAME,VALID_PASSWORD);
         sleep(2000);
         mvi.clickOnFirstPlant();
@@ -115,7 +115,7 @@ public class ChangeViewControllerTest extends TestFXBase {
         assertEquals("The notification hasn't changed.", !notify, cvi.getNotifierCheckBox().isSelected() );
     }
 
-    ////////////////////////////////////////////// MISC TESTS //////////////////////////////////////////////////////////
+    ////////////////////////////////////////////// REMOVE TESTS ////////////////////////////////////////////////////////
 
     /**
      * Selects the first plant in the list and removes it.
@@ -160,6 +160,24 @@ public class ChangeViewControllerTest extends TestFXBase {
         crdi.confirmRemove();
         sleep(500);
         mvi.clickOnSpecificPlant(newPlantName);
+        assertNotNull(svi.getStartViewLabel());
+    }
+
+    ////////////////////////////////////////////// EXIT TEST ///////////////////////////////////////////////////////////
+
+
+    /**
+     * Enters the ChangeView on a plant and attempts to exit.
+     * Validates the test if the system exited the changeview and
+     * presented the StartView.
+     */
+    @Test
+    public void exitOutOfChangeView() {
+        lvi.login(VALID_USERNAME,VALID_PASSWORD);
+        sleep(1500);
+        mvi.clickOnFirstPlant();
+        mvi.clickModifyPlant();
+        cvi.clickCancel();
         assertNotNull(svi.getStartViewLabel());
     }
 

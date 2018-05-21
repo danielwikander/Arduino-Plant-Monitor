@@ -53,4 +53,16 @@ public class NewUserViewControllerTest extends TestFXBase {
         sleep(1000); // Sleep to allow network communication to finish
         assertTrue("The login was valid.", nuvi.getEmailAvailabilityStatus().isVisible());
     }
+
+    /**
+     * Enters the NewUserView and attempts to exit.
+     * The test is validated if the user returns to the
+     * login window.
+     */
+    @Test
+    public void exitOutOfNewUserView() {
+        lvi.pressNewUser();
+        nuvi.back();
+        assertNotNull("Label is null", lvi.getLoginLabel());
+    }
 }
