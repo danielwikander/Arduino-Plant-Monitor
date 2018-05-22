@@ -45,14 +45,14 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label text="Email" />
-            <Label text="Lösenord" GridPane.rowIndex="1" />
-            <Label text="Förnamn" GridPane.rowIndex="2" />
-            <Label text="Efternamn" GridPane.rowIndex="3" />
-            <TextField fx:id="emailTextField" GridPane.columnIndex="1" />
-            <TextField fx:id="firstNameTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextField fx:id="lastNameTextField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <PasswordField fx:id="passwordPasswordField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label text="Email" GridPane.rowIndex="2" />
+            <Label text="Lösenord" GridPane.rowIndex="3" />
+            <Label text="Förnamn" />
+            <Label text="Efternamn" GridPane.rowIndex="1" />
+            <TextField fx:id="firstNameTextField" GridPane.columnIndex="1" />
+            <TextField fx:id="lastNameTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="emailTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <PasswordField fx:id="passwordPasswordField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
          </children>
          <opaqueInsets>
             <Insets />

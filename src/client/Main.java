@@ -157,6 +157,13 @@ public class Main extends Application {
 		gvc.initialize(plant);
 	}
 
+	/**
+	 * Presents the confirm remove dialog.
+	 * It's a popup-window where users need to confirm if
+	 * they wish to remove a plant.
+	 * @param plant			The plant they wish to remove.
+	 * @throws IOException	Thrown if the loader can't load the confirmRemoveDialog.
+	 */
 	public static void showConfirmRemoveDialog(Plant plant) throws IOException {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(Main.class.getResource("views/ConfirmRemoveDialog.fxml"));
