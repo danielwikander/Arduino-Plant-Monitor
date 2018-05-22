@@ -40,6 +40,10 @@ public class ConnectionController {
 		new ConnectionHandler().start();
 	}
 
+	/**
+	 * Sets newly logged in user.
+	 * @param user	The newly logged in user.
+	 */
 	public void setUser(User user) {
 		this.currentUser = user;
 	}
