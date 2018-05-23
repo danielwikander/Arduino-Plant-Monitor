@@ -51,5 +51,6 @@
     <orderEntry type="library" name="org.hamcrest:hamcrest-junit:2.0.0.0" level="project" />
     <orderEntry type="library" name="junit:junit:4.12" level="project" />
     <orderEntry type="library" name="com.google.guava:guava:14.0.1" level="project" />
+    <orderEntry type="library" name="apiguardian-api-1.0.0" level="project" />
   </component>
 </module>
