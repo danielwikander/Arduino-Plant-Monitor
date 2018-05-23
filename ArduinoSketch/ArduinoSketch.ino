@@ -16,9 +16,10 @@
 //  - Variables -
 
 //  - Wifi  -
-const char ssid[] = "Hotspot";      // Name of the wifi to connect to.
+// Network1: Hotspot  hotspotpass1
+const char ssid[] = "Hotspot";          // Name of the wifi to connect to.
 const char password[] = "hotspotpass1"; // Password of above wifi.
-const char* host = "192.168.43.207";
+const char* host = "192.168.43.207";    // Server to connect to
 const int port = 5482;  
 WiFiEspClient client;       
 int status = WL_IDLE_STATUS;            // Status of wifi connection.
@@ -53,7 +54,7 @@ void setup() {
   // Checks if there is a shield
   while (WiFi.status() == WL_NO_SHIELD) {
     Serial.println("WiFi shield not present");
-    delay(1000);
+    delay(2000);
   }
   
   // Attempts to connect to WiFi network

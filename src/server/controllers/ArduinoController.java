@@ -3,8 +3,9 @@ package server.controllers;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.ObjectInputStream;
+import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -52,7 +53,7 @@ public class ArduinoController implements Runnable {
 	 * starts an {@link ArduinoHandler}.
 	 */
 	public void run() {
-		while (!serverSocket.isClosed()) {
+		while (true) {
 			try {
 				Socket socket = serverSocket.accept();
 				ArduinoHandler arduinoHandler = new ArduinoHandler(socket);
@@ -91,17 +92,17 @@ public class ArduinoController implements Runnable {
 		 * database and closes the socket.
 		 */
 		public void run() {
-			try (ObjectInputStream ois = new ObjectInputStream(socket.getInputStream())) {
+			try (BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
 
-				macAddress = ois.readUTF();
+				macAddress = br.readLine();
 				System.out.println(macAddress);
-				soilMoistureLevel = Integer.parseInt(ois.readUTF());
+				soilMoistureLevel = Integer.parseInt(br.readLine());
 				System.out.println(soilMoistureLevel);
-				lightLevel = Integer.parseInt(ois.readUTF());
+				lightLevel = Integer.parseInt(br.readLine());
 				System.out.println(lightLevel);
-				airHumidityLevel = Integer.parseInt(ois.readUTF());
+				airHumidityLevel = Integer.parseInt(br.readLine());
 				System.out.println(airHumidityLevel);
-				airTemperature = Integer.parseInt(ois.readUTF());
+				airTemperature = Integer.parseInt(br.readLine());
 				System.out.println(airTemperature);
 				timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 				System.out.println(timestamp);
@@ -110,7 +111,7 @@ public class ArduinoController implements Runnable {
 					insertValues();
 					checkValues();
 				}
-				ois.close();
+				br.close();
 				socket.close();
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -210,7 +211,6 @@ public class ArduinoController implements Runnable {
 					}
 				}
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -246,7 +246,6 @@ public class ArduinoController implements Runnable {
 					lastName = rs2.getString(4);
 				}
 			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 
