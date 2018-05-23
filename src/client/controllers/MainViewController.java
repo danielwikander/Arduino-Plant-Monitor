@@ -44,7 +44,7 @@ public class MainViewController implements Initializable {
 	@FXML
 	private Image addIconGrey = new Image("client/images/addGrey.png");
 	@FXML
-	private Image refreshIcon = new Image("client/images/add.png");
+	private Image refreshIcon = new Image("client/images/refresh.png");
 	@FXML
 	private ListView<Plant> plantList;
 	private static ObservableList<Plant> plantListData = FXCollections.observableArrayList();
