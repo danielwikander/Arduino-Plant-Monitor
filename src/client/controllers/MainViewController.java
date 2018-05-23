@@ -23,6 +23,7 @@ import java.util.ResourceBundle;
 
 /**
  * The start view that the user is presented with after they have logged in.
+ * 
  * @author Eric, Anton.
  */
 public class MainViewController implements Initializable {
@@ -52,8 +53,11 @@ public class MainViewController implements Initializable {
 
 	/**
 	 * Initializes the main view.
-	 * @param url 	The location of the FXML document to use.
-	 * @param rb 	Resources for the JavaFX view.
+	 * 
+	 * @param url
+	 *            The location of the FXML document to use.
+	 * @param rb
+	 *            Resources for the JavaFX view.
 	 */
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
@@ -63,10 +67,10 @@ public class MainViewController implements Initializable {
 		initializeListViewListener();
 		enableAddButton();
 		disableSettingsButton();
-		
+
 		plantListData.clear();
-		
-		this.plantList.setCellFactory(new Callback<ListView<Plant>,ListCell<Plant>>() {
+
+		this.plantList.setCellFactory(new Callback<ListView<Plant>, ListCell<Plant>>() {
 
 			@Override
 			public ListCell<Plant> call(ListView<Plant> arg0) {
@@ -74,11 +78,13 @@ public class MainViewController implements Initializable {
 					@Override
 					protected void updateItem(Plant c, boolean empty) {
 						super.updateItem(c, empty);
-						if(empty){
+						if (empty) {
 							setGraphic(null);
 							setText(null);
 						} else {
-							Image image = new Image(getClass().getClassLoader().getResource(c.getPlantIconFile()).toExternalForm(), 30, 30, false, true);
+							Image image = new Image(
+									getClass().getClassLoader().getResource(c.getPlantIconFile()).toExternalForm(), 30,
+									30, false, true);
 							ImageView imageView = new ImageView(image);
 							setGraphic(imageView);
 							setText(c.getAlias());
@@ -86,13 +92,15 @@ public class MainViewController implements Initializable {
 					}
 				};
 				return cell;
-			}		
+			}
 		});
 	}
 
 	/**
 	 * Presents the add view, where users can add a new plant.
-	 * @throws IOException Throws exception if the add view cannot be found.
+	 * 
+	 * @throws IOException
+	 *             Throws exception if the add view cannot be found.
 	 */
 	@FXML
 	private void goAdd() throws IOException {
@@ -102,46 +110,53 @@ public class MainViewController implements Initializable {
 	}
 
 	/**
-	 * Presents the change view, where users can change plant values and information.
-	 * @throws IOException	Throws exception if the change view cannot be found.
+	 * Presents the change view, where users can change plant values and
+	 * information.
+	 * 
+	 * @throws IOException
+	 *             Throws exception if the change view cannot be found.
 	 */
 	private void goChange(Plant plant) throws IOException {
 		Main.showChangeView(plant);
 		disableSettingsButton();
 		enableAddButton();
 	}
-	
+
+	/**
+	 * Sends a new DataRequest to the server so the client can get an updated
+	 * list of its plants.
+	 */
 	@FXML
-	private void goRefresh(){
+	private void goRefresh() {
 		connectionController.requestUsersPlantInfo(new DataRequest(connectionController.getUser()));
 		disableSettingsButton();
 	}
 
 	/**
-	 * Initializes the list so that when users click on a plant,
-	 * they are presented with the graph view for that plant.
+	 * Initializes the list so that when users click on a plant, they are
+	 * presented with the graph view for that plant.
 	 */
 	private void initializeListViewListener() {
 		plantList.getSelectionModel().selectedItemProperty().addListener((v) -> {
 			enableAddButton();
 			enableSettingsButton();
 			try {
-				if(plantList.getSelectionModel().getSelectedItem() != null) {
-				Main.showGraphView(plantList.getSelectionModel().getSelectedItem());
+				if (plantList.getSelectionModel().getSelectedItem() != null) {
+					Main.showGraphView(plantList.getSelectionModel().getSelectedItem());
 				}
-			} catch (IOException e ) {
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		});
 	}
 
 	/**
-	 * Sets the list of plants available to the user.
-	 * The list is presented on the left at all times when the
-	 * user is logged in.
-	 * Platform.runLater() is used to make sure that only the JavaFX
-	 * thread handles the operation.
-	 * @param plantList The list of plants to set.
+	 * Sets the list of plants available to the user. The list is presented on
+	 * the left at all times when the user is logged in. Platform.runLater() is
+	 * used to make sure that only the JavaFX thread handles the operation.
+	 * 
+	 * @param plantList
+	 *            The list of plants to set.
 	 */
 	public void setPlantList(ArrayList<Plant> plantList) {
 		Platform.runLater(() -> {
@@ -151,9 +166,8 @@ public class MainViewController implements Initializable {
 	}
 
 	/**
-	 * Disables the settings button.
-	 * This method should be invoked when the user enters the
-	 * settings view for a selected plant.
+	 * Disables the settings button. This method should be invoked when the user
+	 * enters the settings view for a selected plant.
 	 */
 	public void disableSettingsButton() {
 		settingsButtonIcon.setImage(settingsIconGrey);
@@ -171,11 +185,11 @@ public class MainViewController implements Initializable {
 		settingsButtonIcon.setOnMouseClicked(new EventHandler<javafx.scene.input.MouseEvent>() {
 			@Override
 			public void handle(javafx.scene.input.MouseEvent mouseEvent) {
-			try {
-				goChange(plantList.getSelectionModel().getSelectedItem());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+				try {
+					goChange(plantList.getSelectionModel().getSelectedItem());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		});
 		settingsButtonIcon.setCursor(Cursor.OPEN_HAND);
