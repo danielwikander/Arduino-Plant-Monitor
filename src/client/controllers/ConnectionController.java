@@ -46,6 +46,14 @@ public class ConnectionController {
 	}
 
 	/**
+	 * Sets newly logged in user.
+	 * @param user	The newly logged in user.
+	 */
+	public void setUser(User user) {
+		this.currentUser = user;
+	}
+
+	/**
 	 * Keeps track of the server status.
 	 * @return	Returns true if the server is available.
 	 */
@@ -175,9 +183,9 @@ public class ConnectionController {
 
 	/**
 	 * Returns the current user.
-	 * @return
+	 * @return	The user to return.
 	 */
-	User getUser() {
+	public User getUser() {
 	    return currentUser;
     }
 

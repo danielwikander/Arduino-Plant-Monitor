@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import models.NewUserRequest;
 
@@ -63,8 +64,8 @@ public class NewUserViewController implements Initializable {
 	public void goNewUser() {
 		NewUserRequest newUserRequest = new NewUserRequest(emailTextField.getText(), passwordPasswordField.getText(), firstNameTextField.getText(), lastNameTextField.getText());
 		Main.setLoggedInUser(newUserRequest.getUser().getEmail());
+		connectionController.setUser(newUserRequest.getUser());
 		connectionController.newUser(newUserRequest);
-		
 	}
 
 	/**
@@ -95,6 +96,15 @@ public class NewUserViewController implements Initializable {
 					newUserButton.setDisable(true);
 				} else if (!passwordPasswordField.getText().isEmpty() && !firstNameTextField.getText().isEmpty() && !lastNameTextField.getText().isEmpty()) {
 					newUserButton.setDisable(false);
+					// Enables using the enter key to continue.
+					emailTextField.setOnKeyPressed(ke -> {
+						if (ke.getCode().equals(KeyCode.ENTER))
+						{
+							if(!newUserButton.isDisabled()) {
+								goNewUser();
+							}
+						}
+					});
 				}
 			}
 		});
@@ -105,6 +115,16 @@ public class NewUserViewController implements Initializable {
 					newUserButton.setDisable(true);
 				} else if (!emailTextField.getText().isEmpty() && !firstNameTextField.getText().isEmpty() && !lastNameTextField.getText().isEmpty()) {
 					newUserButton.setDisable(false);
+					// Enables using the enter key to continue.
+					passwordPasswordField.setOnKeyPressed(ke -> {
+						if (ke.getCode().equals(KeyCode.ENTER))
+						{
+							if(!newUserButton.isDisabled()) {
+								goNewUser();
+
+							}
+						}
+					});
 				}
 			}
 		});
@@ -115,6 +135,15 @@ public class NewUserViewController implements Initializable {
 					newUserButton.setDisable(true);
 				} else if (!emailTextField.getText().isEmpty() && !passwordPasswordField.getText().isEmpty() && !lastNameTextField.getText().isEmpty()) {
 					newUserButton.setDisable(false);
+					// Enables using the enter key to continue.
+					firstNameTextField.setOnKeyPressed(ke -> {
+						if (ke.getCode().equals(KeyCode.ENTER))
+						{
+							if(!newUserButton.isDisabled()) {
+								goNewUser();
+							}
+						}
+					});
 				}
 			}
 		});
@@ -125,6 +154,16 @@ public class NewUserViewController implements Initializable {
 					newUserButton.setDisable(true);
 				} else if (!emailTextField.getText().isEmpty() && !passwordPasswordField.getText().isEmpty() && !firstNameTextField.getText().isEmpty()) {
 					newUserButton.setDisable(false);
+					// Enables using the enter key to continue.
+					lastNameTextField.setOnKeyPressed(ke -> {
+						if (ke.getCode().equals(KeyCode.ENTER))
+						{
+							if(!newUserButton.isDisabled()) {
+								goNewUser();
+
+							}
+						}
+					});
 				}
 			}
 		});

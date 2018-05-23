@@ -15,11 +15,11 @@ import java.util.ResourceBundle;
 public class StartViewController implements Initializable {
 
     @FXML
-    private Label startViewText;
+    public Label startViewText;
     @FXML
-    private Label startViewHeader;
+    public Label startViewHeader;
     @FXML
-    private HBox topPanelHBox;
+    public HBox topPanelHBox;
 
     /**
      * Initializes the start view.
