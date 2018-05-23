@@ -78,8 +78,12 @@ public class GraphViewController {
 		humiditySeries.setName("Luftfuktighet");
 		temperatureSeries.setName("Temperatur");
 
-		if (dataPointArrayList != null && dataPointArrayList.size() > 0) {
+		if (dataPointArrayList != null && dataPointArrayList.size() > 47) {
 			showGraph(dataPointArrayList);
+			initializeDisabledDateCells();
+			initializeDatePickListeners();
+		} else if (dataPointArrayList != null && dataPointArrayList.size() > 0){
+			showSmallGraph(dataPointArrayList);
 			initializeDisabledDateCells();
 			initializeDatePickListeners();
 		}
@@ -190,8 +194,27 @@ public class GraphViewController {
 		for (int i = startIndex; i <= stopIndex; i++) {
 			customDataPointArrayList.add(dataPointArrayList.get(i));
 		}
-		showGraph(customDataPointArrayList);
+		if (customDataPointArrayList.size() < 48) {
+			showSmallGraph(customDataPointArrayList);
+		} else {
+			showGraph(customDataPointArrayList);
+		}
 	}
+
+	private void showSmallGraph(ArrayList<DataPoint> customDataPointArrayList) {
+		this.resetSeries();
+			for (DataPoint point: customDataPointArrayList) {
+			soilMoistureSeries.getData()
+					.add(new XYChart.Data<>(dateFormat(point.getTimeStamp()), point.getSoilMoistureLevel()));
+			lightLevelSeries.getData()
+					.add(new XYChart.Data<>(dateFormat(point.getTimeStamp()), point.getLightLevel()));
+			humiditySeries.getData()
+					.add(new XYChart.Data<>(dateFormat(point.getTimeStamp()), point.getHumidity()));
+			temperatureSeries.getData()
+					.add(new XYChart.Data<>(dateFormat(point.getTimeStamp()), point.getTemperature()));
+		}
+	}
+
 
 	/**
 	 * Generates average values from the datapoint array list.

@@ -20,9 +20,9 @@
 
 <BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.controllers.AddViewController">
    <top>
-      <HBox fx:id="topPanelHBox" alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="200.0" BorderPane.alignment="CENTER_LEFT">
+      <HBox fx:id="topPanelHBox" alignment="CENTER_LEFT" maxHeight="50.0" prefHeight="50.0" prefWidth="200.0" BorderPane.alignment="CENTER_LEFT">
          <children>
-            <Label contentDisplay="CENTER" text="Lägg till växt" textFill="WHITE">
+            <Label contentDisplay="CENTER" maxHeight="50.0" text="Lägg till växt" textFill="WHITE">
                <font>
                   <Font size="25.0" />
                </font>
