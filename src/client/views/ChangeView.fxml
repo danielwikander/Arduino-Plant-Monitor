@@ -12,9 +12,9 @@
 
 <BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.controllers.ChangeViewController">
    <top>
-      <HBox fx:id="topPanelHBox" alignment="BOTTOM_LEFT" prefHeight="50.0" prefWidth="200.0" BorderPane.alignment="CENTER_LEFT">
+      <HBox fx:id="topPanelHBox" alignment="BOTTOM_LEFT" maxHeight="50.0" prefHeight="50.0" prefWidth="200.0" BorderPane.alignment="CENTER_LEFT">
          <children>
-            <Label fx:id="settingsForLabel" contentDisplay="CENTER" text="Inställningar för: " textFill="WHITE">
+            <Label fx:id="settingsForLabel" contentDisplay="CENTER" maxHeight="50.0" text="Inställningar för: " textFill="WHITE">
                <font>
                   <Font size="24.0" />
                </font>
