@@ -1,8 +1,13 @@
 package server.controllers;
 
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -76,6 +81,7 @@ public class ArduinoController implements Runnable {
 		private int airHumidityLevel;
 		private int airTemperature;
 		private String timestamp;
+		private final int TIMES_SOILMOISTURE_HAS_BEEN_LOW = 2;
 
 		/**
 		 * Establishes the socket for the arduino connection.
@@ -159,10 +165,14 @@ public class ArduinoController implements Runnable {
 				Statement stmt = conn.createStatement();
 				ResultSet allowEmailResultSet = stmt.executeQuery("select allowemail from apm_arduino where mac = '" + macAddress + "'");
 				if(allowEmailResultSet.next()) {
+					System.out.println("allow email1");
 					// Checks if email has already been sent to user regarding low soil moisture level
-					if(allowEmailResultSet.getBoolean(1)) {
+					//TODO fix if statement
+//					if(allowEmailResultSet.getBoolean(1)) {
+						System.out.println("allow email2");
 						// Checks current soil moisture level
 						if (soilMoistureLevel < 15) {
+							System.out.println("allow email3");
 							try {
 								// Checks if user has set soil moisture monitor to true
 								Statement stmt2 = conn.createStatement();
@@ -177,7 +187,7 @@ public class ArduinoController implements Runnable {
 									ResultSet countSoilMoistureRecordsResultSet = stmt3.executeQuery("select count(soil_moisture) from apm_value where mac = '" + macAddress + "';");
 									if(countSoilMoistureRecordsResultSet.next()) {
 										int rows = countSoilMoistureRecordsResultSet.getInt(1);
-										if(rows >= 24) {
+										if(rows >= TIMES_SOILMOISTURE_HAS_BEEN_LOW) {
 											// Checks last 24 soil moisture level records
 											Statement stmt4 = conn.createStatement();
 											ResultSet soilMoistureResultSet = stmt4.executeQuery("select soil_moisture from apm_value where mac = '"
@@ -198,10 +208,9 @@ public class ArduinoController implements Runnable {
 									notifyUserEmail();
 								}
 							} catch (SQLException e) {
-								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
-						}
+//						}
 					// If soil moisture monitoring is true and level is more than 15 -> allowemail is true
 					} else if (soilMoistureLevel>15) {
 						Statement stmt5 = conn.createStatement();
@@ -262,17 +271,32 @@ public class ArduinoController implements Runnable {
 			});
 
 			try {
-
+				// Creates a message & sets recipient etc.
 				Message message = new MimeMessage(session);
 				message.setFrom(new InternetAddress("noreply.arduinoplantmonitor@gmail.com"));
 				message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(emailAddress));
 				message.setSubject(plantAlias + " är törstig");
-				message.setText("Hej " + firstName + "!" + "\n\nDin växt " + plantAlias + " (" + plantName + ") behöver vattnas." );
-
+				// Creates html for the message.
+				BodyPart messageBodyPart = new MimeBodyPart();
+				MimeMultipart multipart = new MimeMultipart("Content");
+				String htmlText = "<img src=\"cid:image\"><br><H1>Hej " + firstName + "! </H1>" +
+						"<p>Din växt " + plantAlias + "(" + plantName + ") är törstig! :)</p><br><p>Mvh. Arduino Plant Monitor team</p>";
+				messageBodyPart.setContent(htmlText, "text/html");
+				// Adds HTML to message
+				multipart.addBodyPart(messageBodyPart);
+				// Adds image as a reference for HTML.
+				messageBodyPart = new MimeBodyPart();
+				// TODO: Filepath has to be absolute for FileDataSource?
+				DataSource fds = new FileDataSource("C:/Users/danie/IdeaProjects/Arduino-Plant-Monitor/src/server/images/apmBanner.png");
+				messageBodyPart.setDataHandler(new DataHandler(fds));
+				messageBodyPart.setHeader("Content-ID", "<image>");
+				// Adds text part of message
+				multipart.addBodyPart(messageBodyPart);
+				// Adds all the content to the message.
+				message.setContent(multipart);
+				// Sends email.
 				Transport.send(message);
-
 				System.out.println("Sent email");
-				
 				try {
 					Statement stmt2 = conn.createStatement();
 					stmt2.executeUpdate(
@@ -280,7 +304,6 @@ public class ArduinoController implements Runnable {
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
-
 			} catch (MessagingException e) {
 				throw new RuntimeException(e);
 			}

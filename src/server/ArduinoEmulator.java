@@ -1,7 +1,8 @@
 package server;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.util.Random;
 
@@ -10,7 +11,7 @@ import java.util.Random;
  * The class emulates values sent from an arduino for testing purposes.
  */
 public class ArduinoEmulator {
-	private final String MAC_ADDRESS = "2C:3A:E8:43:59:F0";
+	private final String MAC_ADDRESS = "2C:3A:E8:43:59:F5";
 	private int port;
 	private String ip;
 
@@ -35,23 +36,65 @@ public class ArduinoEmulator {
 		 * The thread starts a connection and sends out random values emulating an arduino.
 		 */
 		public void run() {
-			System.out.println("Test");
-			try {			
+			try {
+				int soilMoisture = 70;
+				int lightLevel = 60;
+				int airTemp = 22;
+				int airHumidity = 60;
+				boolean day = false;
 				while(true) {
 					socket = new Socket(ip, port);
-					ObjectOutputStream dos = new ObjectOutputStream(socket.getOutputStream());
-					dos.writeUTF(MAC_ADDRESS);
-					dos.writeUTF("" + 5);	//soilMoistureLevel
-					dos.writeUTF("" + random(0, 100));	//LightLevel
-					dos.writeUTF("" + random(15, 80));	//airHumidityLevel
-					dos.writeUTF("" + random(5, 35));	//airTemperature
-					dos.flush();
-					Thread.sleep(5000);
-					dos.close();
+					BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+					// Sends MAC
+					bw.write(MAC_ADDRESS);
+					bw.newLine();
+					// Calculates and sends soilMoisture
+					soilMoisture = random(soilMoisture -2, soilMoisture);
+					if (soilMoisture < 10 ) {
+						soilMoisture = 90;
+					}
+					bw.write("" + soilMoisture);
+					bw.newLine();
+					// Calculates and sends lightLevel
+					if(day) {
+						lightLevel += 4;
+					} else {
+						lightLevel -= 4;
+					}
+					if (lightLevel < 30) {
+						day = true;
+					} else if (lightLevel > 80) {
+						day = false;
+					}
+					bw.write("" + lightLevel);
+					bw.newLine();
+					// Calculates and sends AirHumidity
+					if(lightLevel > 50 && airHumidity < 80) {
+						airHumidity++;
+					} else if (lightLevel < 50 && airHumidity > 30) {
+						airHumidity--;
+					}
+					bw.write("" + airHumidity);
+					bw.newLine();
+					// Calculates and sends airtemperature
+					if(lightLevel > 50 && airTemp < 25) {
+						airTemp += 1;
+					} else if (lightLevel <50 && airTemp > 18) {
+						airTemp -=1;
+					}
+					bw.write("" + airTemp);
+					bw.newLine();
+					bw.flush();
+					System.out.println("Values sent.");
+					System.out.println(soilMoisture + "\n" + lightLevel + "\n" +airHumidity + "\n" + airTemp);
+					Thread.sleep(4000);
+					bw.close();
 					socket.close();
 				}
-			} catch (InterruptedException | IOException e) {
+			} catch (InterruptedException e ) {
 				e.printStackTrace();
+			} catch (IOException e) {
+				System.out.println("Server disconnected.");
 			}
 		}
 
@@ -63,7 +106,7 @@ public class ArduinoEmulator {
 		 */
 		private int random(int min, int max) {
 			Random rand = new Random();
-			return min + rand.nextInt(max + min +1);
+			return min + rand.nextInt(max-min);
 		}
 	}
 	
