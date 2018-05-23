@@ -1,17 +1,16 @@
 package client.controllers;
 
+import client.Main;
+import javafx.application.Platform;
 import models.*;
+
+import javax.swing.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
-
-import javax.swing.JOptionPane;
-
-import client.Main;
-import javafx.application.Platform;
 
 /**
  * Handles the initial connection to the server. Sets up a socket and input /
@@ -234,7 +233,14 @@ public class ConnectionController {
 					@SuppressWarnings("unchecked")
 					ArrayList<Plant> newList = (ArrayList<Plant>) obj;
 					mainViewController.setPlantList(newList);
-				} 
+					Platform.runLater(() -> {
+					try {
+						Main.showStartView();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					});
+				}
 				else if (obj instanceof AddPlantRequest){
 					AddPlantRequest request = (AddPlantRequest)obj;
 					if (request.isMacAvailable()){

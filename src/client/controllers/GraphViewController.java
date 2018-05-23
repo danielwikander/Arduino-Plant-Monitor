@@ -14,10 +14,8 @@ import javafx.util.Callback;
 import models.DataPoint;
 import models.Plant;
 
-import java.util.ArrayList;
-
-
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 /**
  * The controller for the Graph View. This controller handles the logic for the
@@ -77,6 +75,10 @@ public class GraphViewController {
 		lightLevelSeries.setName("Ljusnivå");
 		humiditySeries.setName("Luftfuktighet");
 		temperatureSeries.setName("Temperatur");
+
+		// Makes data node point circles invisible.
+		valueChart.setCreateSymbols(false);
+		temperatureChart.setCreateSymbols(false);
 
 		if (dataPointArrayList != null && dataPointArrayList.size() > 47) {
 			showGraph(dataPointArrayList);

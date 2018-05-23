@@ -16,6 +16,7 @@ import javafx.scene.layout.HBox;
 import javafx.util.Callback;
 import models.DataRequest;
 import models.Plant;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -63,9 +64,7 @@ public class MainViewController implements Initializable {
 		initializeListViewListener();
 		enableAddButton();
 		disableSettingsButton();
-		
 		plantListData.clear();
-		
 		this.plantList.setCellFactory(new Callback<ListView<Plant>,ListCell<Plant>>() {
 
 			@Override
