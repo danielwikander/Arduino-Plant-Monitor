@@ -113,7 +113,7 @@ public class MainViewController implements Initializable {
 	
 	@FXML
 	private void goRefresh(){
-		connectionController.requestUsersPlantInfo(new DataRequest(connectionController.getUser()));
+        connectionController.requestUsersPlantInfo(new DataRequest(connectionController.getUser()));
 		disableSettingsButton();
 	}
 
@@ -148,6 +148,7 @@ public class MainViewController implements Initializable {
 			plantListData = FXCollections.observableArrayList(plantList);
 			this.plantList.setItems(plantListData);
 		});
+		disableSettingsButton();
 	}
 
 	/**
