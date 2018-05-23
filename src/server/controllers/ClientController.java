@@ -110,10 +110,9 @@ public class ClientController implements Runnable {
 						Plant plantToAdd = plantAddRequest.getPlantToAdd();
 						if(!macAddressTaken(plantToAdd)) {
 							addPlant(plantToAdd);
-						} else {
-							System.out.println("MAC-Address taken.");
+							plantAddRequest.setMacAvailable(true);
 						}
-
+						oos.writeObject(plantAddRequest);
 					} else if (obj instanceof ChangePlantRequest) {
 						ChangePlantRequest changePlantRequest = (ChangePlantRequest) obj;
 						Plant plantToChange = changePlantRequest.getPlantToChange();

@@ -101,11 +101,11 @@ public class AddViewController implements Initializable {
         Plant newPlant = new Plant(macAddressTextField.getText(), Main.getLoggedInUser(), speciesChoiceBox.getValue(), plantAliasTextField.getText(), plantNotifierCheckBox.isSelected());
         ConnectionController.getInstance().addPlant(newPlant);
         ConnectionController.getInstance().requestUsersPlantInfo(new DataRequest(new User(Main.getLoggedInUser(), "")));
-        try {
-			Main.showGraphView(newPlant);
-		} catch (IOException e) {
-        	e.printStackTrace();
-		}
+//        try {
+//			Main.showGraphView(newPlant);
+//		} catch (IOException e) {
+//        	e.printStackTrace();
+//		}
     }
 
 	/**

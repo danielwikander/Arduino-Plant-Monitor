@@ -14,6 +14,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
+import models.DataRequest;
 import models.Plant;
 import java.io.IOException;
 import java.net.URL;
@@ -33,6 +34,8 @@ public class MainViewController implements Initializable {
 	@FXML
 	private ImageView settingsButtonIcon;
 	@FXML
+	private ImageView refreshButtonIcon;
+	@FXML
 	private Image settingsIcon = new Image("client/images/settings.png");
 	@FXML
 	private Image settingsIconGrey = new Image("client/images/settingsGrey.png");
@@ -40,6 +43,8 @@ public class MainViewController implements Initializable {
 	private Image addIcon = new Image("client/images/add.png");
 	@FXML
 	private Image addIconGrey = new Image("client/images/addGrey.png");
+	@FXML
+	private Image refreshIcon = new Image("client/images/add.png");
 	@FXML
 	private ListView<Plant> plantList;
 	private static ObservableList<Plant> plantListData = FXCollections.observableArrayList();
@@ -104,6 +109,12 @@ public class MainViewController implements Initializable {
 		Main.showChangeView(plant);
 		disableSettingsButton();
 		enableAddButton();
+	}
+	
+	@FXML
+	private void goRefresh(){
+		connectionController.requestUsersPlantInfo(new DataRequest(connectionController.getUser()));
+		disableSettingsButton();
 	}
 
 	/**

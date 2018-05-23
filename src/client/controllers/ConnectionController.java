@@ -8,6 +8,11 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
+import client.Main;
+import javafx.application.Platform;
+
 /**
  * Handles the initial connection to the server. Sets up a socket and input /
  * output streams.
@@ -221,7 +226,22 @@ public class ConnectionController {
 					@SuppressWarnings("unchecked")
 					ArrayList<Plant> newList = (ArrayList<Plant>) obj;
 					mainViewController.setPlantList(newList);
+				} 
+				else if (obj instanceof AddPlantRequest){
+					AddPlantRequest request = (AddPlantRequest)obj;
+					if (request.isMacAvailable()){
+						Platform.runLater(() -> {
+							try {
+								Main.showGraphView(request.getPlantToAdd());
+							} catch (IOException e) {
+								e.printStackTrace();
+							}	
+						});
+					} else {
+						JOptionPane.showMessageDialog(null, "MAC-adress är upptagen.");
+					}
 				}
+				
 			}
 		}
 	}
