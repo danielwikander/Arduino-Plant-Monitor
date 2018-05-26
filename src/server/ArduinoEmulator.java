@@ -87,7 +87,7 @@ public class ArduinoEmulator {
 					bw.flush();
 					System.out.println("Values sent.");
 					System.out.println(soilMoisture + "\n" + lightLevel + "\n" +airHumidity + "\n" + airTemp);
-					Thread.sleep(4000);
+					Thread.sleep(61000);
 					bw.close();
 					socket.close();
 				}

@@ -165,11 +165,9 @@ public class ArduinoController implements Runnable {
 				Statement stmt = conn.createStatement();
 				ResultSet allowEmailResultSet = stmt.executeQuery("select allowemail from apm_arduino where mac = '" + macAddress + "'");
 				if(allowEmailResultSet.next()) {
-					System.out.println("allow email1");
 					// Checks if email has already been sent to user regarding low soil moisture level
 					//TODO fix if statement
 //					if(allowEmailResultSet.getBoolean(1)) {
-						System.out.println("allow email2");
 						// Checks current soil moisture level
 						if (soilMoistureLevel < 15) {
 							System.out.println("allow email3");

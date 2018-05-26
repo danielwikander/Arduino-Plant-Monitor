@@ -252,6 +252,7 @@ public class ConnectionController {
 							}	
 						});
 					} else {
+						System.out.print("MAC-Address taken.\n");
 						JOptionPane.showMessageDialog(null, "MAC-adress är upptagen.");
 					}
 				}

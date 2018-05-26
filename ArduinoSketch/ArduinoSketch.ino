@@ -127,7 +127,7 @@ void loop() {
   Serial.println(rssi);
 
   // Pause before the next read/write cycle.
-  delay(20000);
+  delay(60000);
 }
 
 // Prints the ssid of the network, Arduinos IPv4-address and MAC-Address.
