@@ -12,5 +12,5 @@ Necessary preparations:
     The IP-address of the server must be added to the whitelist of the database that is used.
 
 Starting the system:
-    The server should be started first, using the MainServer class.
-    After a server is started, the client can be started using the MainClient class.
+    The server should be started first, using the MainServer class in the server package.
+    After a server is started, the client can be started using the Main class in the client package.
