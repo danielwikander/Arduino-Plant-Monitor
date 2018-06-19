@@ -27,6 +27,8 @@ public class ConnectionController {
 	private MainViewController mainViewController;
 	private boolean serverAvailable;
 	private User currentUser;
+	private String serverIp = "localhost";
+	private int port = 5483;
 
 	/**
 	 * Sets up input / output streams and starts a new {@link ConnectionHandler}
@@ -34,7 +36,7 @@ public class ConnectionController {
 	 */
 	private ConnectionController() {
 		try {
-			this.socket = new Socket("localhost", 5483);
+			this.socket = new Socket(serverIp, port);
 			oos = new ObjectOutputStream(socket.getOutputStream());
 			ois = new ObjectInputStream(socket.getInputStream());
 			serverAvailable = true;

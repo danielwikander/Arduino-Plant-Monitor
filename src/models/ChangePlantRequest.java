@@ -12,7 +12,7 @@ public class ChangePlantRequest implements Serializable {
 
     /**
      * Constructor whichs sets the plant object to be changed.
-     * @param plantToAdd The plant to be changed.
+     * @param plantToChange The plant to be changed.
      */
     public ChangePlantRequest(Plant plantToChange) {
         this.plantToChange = plantToChange;

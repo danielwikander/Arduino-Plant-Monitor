@@ -17,9 +17,9 @@
 
 //  - Wifi  -
 // Network1: Hotspot  hotspotpass1
-const char ssid[] = "Hotspot";          // Name of the wifi to connect to.
-const char password[] = "hotspotpass1"; // Password of above wifi.
-const char* host = "192.168.43.207";    // Server to connect to
+const char ssid[] = "REPLACE WITH SSID";     // Name of the wifi to connect to.
+const char password[] = "REPLACE WITH PASS"; // Password of above wifi.
+const char* host = "REPLACE WITH SERVER IP"; // Server to connect to
 const int port = 5482;  
 WiFiEspClient client;       
 int status = WL_IDLE_STATUS;            // Status of wifi connection.

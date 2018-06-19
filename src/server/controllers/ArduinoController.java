@@ -27,6 +27,9 @@ import java.util.Properties;
 public class ArduinoController implements Runnable {
 	private ServerSocket serverSocket;
 	private Connection conn;
+	private String databaseURL = "REPLACE WITH DATABASE URL";
+	private String databaseUser = "REPLACE WITH DATABASE USERNAME";
+	private String databasePassword = "REPLACE WITH DATABASE PASSWOWRD";
 
 	/**
 	 * Sets up a connection with the database. Sets up a serversocket for arduinos.
@@ -37,8 +40,8 @@ public class ArduinoController implements Runnable {
 	 */
 	public ArduinoController(int port) {
 		try {
-			this.conn = DriverManager.getConnection("jdbc:postgresql://35.230.133.109:5432/apmdb1", "postgres",
-					"Passw0rd1234!");
+			this.conn = DriverManager.getConnection(databaseURL, databaseUser,
+					databasePassword);
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 			System.out.println("Unable to connect to database");
@@ -227,8 +230,9 @@ public class ArduinoController implements Runnable {
 		 * Method which notifies the user if a plant needs water.
 		 */
 		private void notifyUserEmail() {
-			final String username = "noreply.arduinoplantmonitor@gmail.com";
-			final String password = "Passw0rd1234!";
+			final String username = "REPLACE WITH NOTIFICATION EMAIL";
+			final String password = "REPLACE WITH PASSWORD FOR NOTIFICATION EMAIL";
+			final String bannerLocation = "REPLACE WITH FULL PATH FOR BANNER PIC";
 			String emailAddress = null;
 			String plantName = null;
 			String plantAlias = null;
@@ -271,7 +275,7 @@ public class ArduinoController implements Runnable {
 			try {
 				// Creates a message & sets recipient etc.
 				Message message = new MimeMessage(session);
-				message.setFrom(new InternetAddress("noreply.arduinoplantmonitor@gmail.com"));
+				message.setFrom(new InternetAddress(username));
 				message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(emailAddress));
 				message.setSubject(plantAlias + " är törstig");
 				// Creates html for the message.
@@ -285,7 +289,7 @@ public class ArduinoController implements Runnable {
 				// Adds image as a reference for HTML.
 				messageBodyPart = new MimeBodyPart();
 				// TODO: Filepath has to be absolute for FileDataSource?
-				DataSource fds = new FileDataSource("C:/Users/danie/IdeaProjects/Arduino-Plant-Monitor/src/server/images/apmBanner.png");
+				DataSource fds = new FileDataSource(bannerLocation);
 				messageBodyPart.setDataHandler(new DataHandler(fds));
 				messageBodyPart.setHeader("Content-ID", "<image>");
 				// Adds text part of message

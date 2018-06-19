@@ -63,6 +63,9 @@ public class ClientController implements Runnable {
 		private User user;
 		private NewUserRequest newUserRequest;
 		private Connection conn;
+		private String databaseURL = "REPLACE WITH DATABASE URL";
+		private String databaseUser = "REPLACE WITH DATABASE USERNAME";
+		private String databasePassword = "REPLACE WITH DATABASE PASSWOWRD";
 
 		/**
 		 * Sets the clients socket.
@@ -255,8 +258,8 @@ public class ClientController implements Runnable {
 		private boolean validateLogin(User user) {
 			ResultSet rs;
 			try {
-				conn = DriverManager.getConnection("jdbc:postgresql://35.230.133.109:5432/apmdb1", "postgres",
-						"Passw0rd1234!");
+				conn = DriverManager.getConnection(databaseURL, databaseUser,
+						databasePassword);
 			} catch (SQLException e) {
 				System.out.println("Unable to connect to database");
 				e.printStackTrace();
@@ -287,8 +290,8 @@ public class ClientController implements Runnable {
 		private boolean validateNewUser(NewUserRequest newUserRequest) {
 			Statement statement;
 			try {
-				this.conn = DriverManager.getConnection("jdbc:postgresql://35.230.133.109:5432/apmdb1", "postgres",
-						"Passw0rd1234!");
+				this.conn = DriverManager.getConnection(databaseURL,databaseUser,
+						databasePassword);
 				statement = conn.createStatement();
 				statement.executeUpdate("insert into apm_user(email, password, first_name, last_name) values\n" + "	('"
 						+ newUserRequest.getUser().getEmail() + "', '" + newUserRequest.getUser().getPassword() + "', '" + newUserRequest.getUser().getFirstName() + "', '"
@@ -313,8 +316,8 @@ public class ClientController implements Runnable {
 			ResultSet rs;
 			ArrayList<Plant> plantList = new ArrayList<Plant>();
 			try {
-				conn = DriverManager.getConnection("jdbc:postgresql://35.230.133.109:5432/apmdb1", "postgres",
-						"Passw0rd1234!");
+				conn = DriverManager.getConnection(databaseURL,databaseUser,
+						databasePassword);
 			} catch (SQLException e) {
 				System.out.println("Unable to connect to database");
 				e.printStackTrace();

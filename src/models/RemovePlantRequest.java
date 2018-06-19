@@ -12,7 +12,7 @@ public class RemovePlantRequest implements Serializable {
 
     /**
      * Constructor whichs sets the plant object to be removed.
-     * @param plantToAdd The plant to be removed.
+     * @param plantToRemove The plant to be removed.
      */
     public RemovePlantRequest(Plant plantToRemove) {
         this.plantToRemove = plantToRemove;
