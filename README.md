@@ -6,3 +6,7 @@ The project uses an arduino equipped with soilmoisture, humidity, light and temp
 This way, users will have a digital representation of the plants enviroment. The plants needs can be easily observed and the user can adjust its water and light exposure accordingly.
 
 ![The login view](screenshots/login.png?raw=true "The login view")
+
+![The graph view](screenshots/graph.png?raw=true "The graph view")
+
+![The new plant view](screenshots/new.png?raw=true "The new plant view")
