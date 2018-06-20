@@ -1,3 +1,4 @@
+![The new plant view](screenshots/banner.png?raw=true "Banner")
 Arduino Plant Monitor
 
 The Arduino Plant Monitor system is a group project from four computer science students at Malmö University.
